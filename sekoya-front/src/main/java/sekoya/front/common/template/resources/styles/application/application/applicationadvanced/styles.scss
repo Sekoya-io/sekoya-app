@@ -1,0 +1,42 @@
+@import "../../common/fontawesome/fontawesome";
+
+@import "../../common/bootstrap/bootstrap-functions";
+@import "../../common/bootstrap/bootstrap-variables";
+@import "../../common/bootstrap/bootstrap-variables-dark";
+@import "../../common/bootstrap/bootstrap-maps";
+@import "../../common/bootstrap/bootstrap-mixins";
+@import "../../common/bootstrap/bootstrap-utilities";
+@import "../../common/bootstrap/bootstrap-root";
+@import "../../common/bootstrap/bootstrap-reboot";
+@import "../../common/bootstrap/bootstrap-core";
+
+@import "variables";
+@import "../common/variables";
+
+@import "../common/common";
+@import "../common/layout";
+@import "../common/announcement";
+@import "../common/historylog";
+
+@import "common";
+@import "layout";
+@import "navbar";
+@import "sidenav";
+
+
+$dashborard-iframe-heights: (
+	xs: 10000px,
+	sm: 9000px,
+	md: 8000px,
+	lg: 7000px,
+	xl: 6000px,
+	2xl: 5000px
+) !default;
+
+@each $breakpoint, $height in $dashborard-iframe-heights {
+	@include media-breakpoint-up($breakpoint) {
+		> .dashboard-iframe {
+			height: $height;
+		}
+	}
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <suppress>
+    <notes><![CDATA[
+        file name: bootstrap4-4.6.0.jar: bootstrap.bundle.js
+
+        same than CVE-2024-6484 : we don't use bootstrap carousel component on Igloo
+    ]]></notes>
+    <packageUrl regex="true">^pkg:javascript/bootstrap@.*$</packageUrl>
+    <vulnerabilityName>CVE-2024-6531</vulnerabilityName>
+  </suppress>
+  <suppress>
+    <notes><![CDATA[
+          file name: tomcat-embed-core-*.jar
+    
+          We don't integrate the jar into the product deliverable (optional=true, spring repackage skipped)
+      ]]></notes>
+    <packageUrl regex="true">
+      ^pkg:maven/org\.apache\.tomcat.*/(tomcat-embed-|tomcat-util|tomcat-coyote).*$
+    </packageUrl>
+    <vulnerabilityName regex="true">.*</vulnerabilityName>
+  </suppress>
+</suppressions>

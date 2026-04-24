@@ -1,0 +1,44 @@
+package sekoya.front.navigation.page;
+
+import igloo.wicket.condition.Condition;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
+import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
+import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
+import sekoya.front.common.template.MainTemplate;
+import sekoya.front.profile.page.ProfilePage;
+import sekoya.front.referencedata.page.ReferenceDataPage;
+import sekoya.front.user.page.BasicUserListPage;
+
+public class HomePage extends MainTemplate {
+
+  private static final long serialVersionUID = -6767518941118385548L;
+
+  public static final IPageLinkDescriptor linkDescriptor() {
+    return LinkDescriptorBuilder.start().page(HomePage.class);
+  }
+
+  public HomePage(PageParameters parameters) {
+    super(parameters);
+
+    addBreadCrumbElement(
+        new BreadCrumbElement(new ResourceModel("navigation.home"), HomePage.linkDescriptor()));
+
+    add(
+        BasicUserListPage.linkDescriptor().link("users").hideIfInvalid(),
+        ReferenceDataPage.linkDescriptor().link("referenceData").hideIfInvalid(),
+        ProfilePage.linkDescriptor().link("profile").hideIfInvalid());
+  }
+
+  @Override
+  protected Condition displayBreadcrumb() {
+    return Condition.alwaysFalse();
+  }
+
+  @Override
+  protected Class<? extends WebPage> getFirstMenuPage() {
+    return HomePage.class;
+  }
+}

@@ -1,0 +1,169 @@
+package sekoya.front.common.validator;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import igloo.wicket.model.Detachables;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import org.apache.wicket.injection.Injector;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.apache.wicket.util.lang.Classes;
+import org.apache.wicket.validation.ValidationError;
+import org.iglooproject.spring.property.service.IPropertyService;
+import org.iglooproject.spring.util.StringUtils;
+import org.iglooproject.wicket.more.markup.html.form.validation.IFormModelValidator;
+import org.passay.DefaultPasswordValidator;
+import org.passay.PasswordData;
+import org.passay.PasswordValidator;
+import org.passay.RuleResultDetail;
+import org.passay.ValidationResult;
+import org.passay.rule.LengthRule;
+import org.passay.rule.Rule;
+import org.passay.rule.UsernameRule;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import sekoya.back.business.user.model.User;
+import sekoya.back.business.user.model.atomic.UserType;
+import sekoya.back.property.SekoyaBackPropertyIds;
+import sekoya.back.security.service.controller.ISecurityManagementControllerService;
+import sekoya.back.util.binding.Bindings;
+
+public class UserPasswordValidator implements IFormModelValidator {
+
+  private static final long serialVersionUID = 5619802188558408589L;
+
+  private static final List<String> RULES_CUSTOM_ERROR =
+      List.of(LengthRule.ERROR_CODE_MIN, LengthRule.ERROR_CODE_MAX);
+
+  private static final String HISTORY_VIOLATION = "HISTORY_VIOLATION";
+
+  private static final String COMMON_ERROR = "COMMON_ERROR";
+
+  private final IModel<UserType> userTypeModel;
+
+  private IModel<? extends User> userModel;
+
+  private final FormComponent<String> passwordFormComponent;
+
+  @SpringBean private ISecurityManagementControllerService securityManagementController;
+
+  @SpringBean private PasswordEncoder passwordEncoder;
+
+  @SpringBean private IPropertyService propertyService;
+
+  public UserPasswordValidator(
+      IModel<UserType> userTypeModel, FormComponent<String> passwordFormComponent) {
+    super();
+    Injector.get().inject(this);
+    this.userTypeModel = checkNotNull(userTypeModel);
+    this.passwordFormComponent = checkNotNull(passwordFormComponent);
+  }
+
+  @Override
+  public FormComponent<?>[] getDependentFormComponents() {
+    return new FormComponent<?>[] {passwordFormComponent};
+  }
+
+  @Override
+  public void validate(Form<?> form) {
+    String password = passwordFormComponent.getValue();
+
+    if (Boolean.FALSE.equals(
+            propertyService.get(SekoyaBackPropertyIds.SECURITY_PASSWORD_VALIDATOR_ENABLED))
+        || !StringUtils.hasText(password)) {
+      return;
+    }
+
+    checkPasswordLength(password);
+
+    User user = userModel != null ? userModel.getObject() : null;
+    String username = Bindings.user().username().apply(user);
+
+    PasswordData passwordData =
+        StringUtils.hasText(username)
+            ? new PasswordData(username, password)
+            : new PasswordData(password);
+
+    List<Rule> passwordRules =
+        Lists.newArrayList(
+            securityManagementController
+                .getSecurityOptions(userTypeModel.getObject())
+                .getPasswordRules());
+
+    if (!StringUtils.hasText(username)) {
+      passwordRules.removeAll(
+          Lists.newArrayList(Iterables.filter(passwordRules, UsernameRule.class)));
+    }
+
+    PasswordValidator validator = new DefaultPasswordValidator(passwordRules);
+    ValidationResult result = validator.validate(passwordData);
+
+    boolean valid = true;
+    if (!result.isValid()) {
+      valid = false;
+      for (RuleResultDetail detail : result.getDetails()) {
+        if (RULES_CUSTOM_ERROR.contains(detail.getErrorCode())) {
+          passwordFormComponent.error(
+              new ValidationError()
+                  .addKey(errorCodeKey(detail.getErrorCode()))
+                  .setVariables(detail.getParameters()));
+        }
+      }
+    }
+
+    if (user != null
+        && securityManagementController.getSecurityOptions(user).isPasswordHistoryEnabled()
+        && user.getPasswordInformation().getHistory() != null
+        && !user.getPasswordInformation().getHistory().isEmpty()) {
+      for (String historyPasswordHash : user.getPasswordInformation().getHistory()) {
+        if (passwordEncoder.matches(password, historyPasswordHash)) {
+          valid = false;
+          passwordFormComponent.error(
+              new ValidationError().addKey(errorCodeKey(HISTORY_VIOLATION)));
+          break;
+        }
+      }
+    }
+
+    if (!valid) {
+      passwordFormComponent.error(new ValidationError().addKey(errorCodeKey(COMMON_ERROR)));
+    }
+  }
+
+  public UserPasswordValidator userModel(IModel<? extends User> userModel) {
+    this.userModel = checkNotNull(userModel);
+    return this;
+  }
+
+  protected String errorCodeKey(String errorCode) {
+    if (!StringUtils.hasText(errorCode)) {
+      throw new IllegalStateException();
+    }
+    return errorCodeKeyPrefix() + "." + errorCode;
+  }
+
+  protected String errorCodeKeyPrefix() {
+    return Classes.simpleName(UserPasswordValidator.class);
+  }
+
+  /**
+   * check that Password cannot be more than 72 bytes.
+   *
+   * @see <a href="https://spring.io/security/cve-2025-22228">CVE-2025-22228</a>
+   */
+  protected void checkPasswordLength(String password) {
+    if (password.getBytes(StandardCharsets.UTF_8).length > 72) {
+      passwordFormComponent.error(
+          new ValidationError().addKey("UserPasswordValidator.bytes.tooLong"));
+    }
+  }
+
+  @Override
+  public void detach() {
+    Detachables.detach(userModel);
+  }
+}

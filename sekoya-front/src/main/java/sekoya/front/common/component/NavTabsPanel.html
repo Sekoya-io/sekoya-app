@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div class="col-lg-3">
+		<ul class="nav nav-pills-outline vstack gap-2" role="tablist">
+			<li wicket:id="tabs" class="nav-item" role="presentation">
+				<button wicket:id="tab" class="nav-link" type="button">
+					<span wicket:id="label" />
+				</button>
+			</li>
+		</ul>
+	</div>
+	<div class="col-lg-9">
+		<div class="tab-content">
+			<div wicket:id="panels" class="tab-pane fade" />
+		</div>
+	</div>
+</wicket:panel>
+</html>

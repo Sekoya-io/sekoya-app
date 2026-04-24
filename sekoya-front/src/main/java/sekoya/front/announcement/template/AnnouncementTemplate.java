@@ -1,0 +1,37 @@
+package sekoya.front.announcement.template;
+
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_READ;
+
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
+import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
+import sekoya.front.announcement.page.AnnouncementListPage;
+import sekoya.front.common.template.MainTemplate;
+
+@AuthorizeInstantiationIfPermission(permissions = GLOBAL_ANNOUNCEMENT_READ)
+public abstract class AnnouncementTemplate extends MainTemplate {
+
+  private static final long serialVersionUID = 1L;
+
+  protected AnnouncementTemplate(PageParameters parameters) {
+    super(parameters);
+
+    addBreadCrumbElement(new BreadCrumbElement(new ResourceModel("navigation.administration")));
+    addBreadCrumbElement(
+        new BreadCrumbElement(
+            new ResourceModel("navigation.administration.announcement"),
+            AnnouncementListPage.linkDescriptor()));
+  }
+
+  @Override
+  protected Class<? extends WebPage> getFirstMenuPage() {
+    return AnnouncementListPage.class;
+  }
+
+  @Override
+  protected Class<? extends WebPage> getSecondMenuPage() {
+    return AnnouncementListPage.class;
+  }
+}

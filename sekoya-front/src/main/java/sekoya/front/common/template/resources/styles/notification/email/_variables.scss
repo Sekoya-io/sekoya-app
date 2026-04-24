@@ -1,0 +1,7 @@
+$environment-colors: (
+	"development":		$success,
+	"integration":		$dark,
+	"qualification":	$info,
+	"preproduction":	$warning,
+	"production":		$danger
+) !default;

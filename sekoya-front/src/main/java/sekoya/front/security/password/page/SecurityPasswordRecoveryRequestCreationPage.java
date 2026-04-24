@@ -1,0 +1,44 @@
+package sekoya.front.security.password.page;
+
+import igloo.wicket.condition.Condition;
+import org.apache.wicket.Component;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
+import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
+import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
+import sekoya.front.security.password.component.SecurityPasswordRecoveryRequestCreationContentPanel;
+import sekoya.front.security.password.template.SecurityPasswordTemplate;
+
+public class SecurityPasswordRecoveryRequestCreationPage extends SecurityPasswordTemplate {
+
+  private static final long serialVersionUID = 8849956364562663727L;
+
+  public static final IPageLinkDescriptor linkDescriptor() {
+    return LinkDescriptorBuilder.start().page(SecurityPasswordRecoveryRequestCreationPage.class);
+  }
+
+  public SecurityPasswordRecoveryRequestCreationPage(PageParameters parameters) {
+    super(parameters);
+
+    addHeadPageTitlePrependedElement(
+        new BreadCrumbElement(
+            new ResourceModel("security.password.recovery.request.creation.title")));
+  }
+
+  @Override
+  protected IModel<String> getTitleModel() {
+    return new ResourceModel("security.password.recovery.request.creation.title");
+  }
+
+  @Override
+  protected Component getContentComponent(String wicketId) {
+    return new SecurityPasswordRecoveryRequestCreationContentPanel(wicketId);
+  }
+
+  @Override
+  public Condition keepSignedIn() {
+    return Condition.alwaysFalse();
+  }
+}

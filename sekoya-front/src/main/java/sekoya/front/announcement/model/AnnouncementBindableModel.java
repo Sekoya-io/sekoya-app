@@ -1,0 +1,43 @@
+package sekoya.front.announcement.model;
+
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.iglooproject.wicket.more.bindable.model.BindableModel;
+import org.iglooproject.wicket.more.model.GenericEntityModel;
+import sekoya.back.business.announcement.model.Announcement;
+import sekoya.back.business.announcement.model.atomic.AnnouncementType;
+import sekoya.back.util.binding.Bindings;
+
+public class AnnouncementBindableModel extends BindableModel<Announcement> {
+
+  private static final long serialVersionUID = 1L;
+
+  public AnnouncementBindableModel() {
+    this(new GenericEntityModel<>(new Announcement()));
+  }
+
+  public AnnouncementBindableModel(IModel<Announcement> mainModel) {
+    super(mainModel);
+
+    bindWithCache(Bindings.announcement().type(), new Model<>());
+    bindWithCache(Bindings.announcement().content(), new Model<>());
+    bindWithCache(Bindings.announcement().unavailability().startDateTime(), new Model<>());
+    bindWithCache(Bindings.announcement().unavailability().endDateTime(), new Model<>());
+    bindWithCache(Bindings.announcement().publication().startDateTime(), new Model<>());
+    bindWithCache(Bindings.announcement().publication().endDateTime(), new Model<>());
+    bindWithCache(Bindings.announcement().enabled(), new Model<>());
+  }
+
+  @Override
+  public void setObject(Announcement announcement) {
+    if (announcement == null) {
+      announcement = new Announcement();
+    }
+
+    if (announcement.getType() == null) {
+      announcement.setType(AnnouncementType.NOTIFICATION);
+    }
+
+    super.setObject(announcement);
+  }
+}

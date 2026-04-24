@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" wicket:id="htmlElement">
+	<head>
+		<title wicket:id="headPageTitle" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="Sekoya">
+		
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/site.webmanifest">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#1b0fa4">
+		<meta name="msapplication-TileColor" content="#1b0fa4">
+		<meta name="theme-color" content="#1b0fa4">
+		
+		<wicket:header-items />
+	</head>
+	<body wicket:id="bodyElement" class="application-access">
+		<div class="body-container">
+			<header class="header-section">
+				<div wicket:id="environment" class="header-alert-section header-alert-dismissible environment-section" />
+			</header>
+			
+			<main class="main-section">
+				<div class="main-body">
+					<div class="container-page">
+						<div class="card card-main-title-cascade">
+							<div class="card-body">
+								<img src="static/application/images/logo.png" class="img-fluid" width="114" alt="" wicket:message="alt:common.application.name" />
+							</div>
+							<div wicket:id="title" class="card-header card-main-title" role="heading" aria-level="1" />
+							<div wicket:id="content" />
+							<wicket:child />
+							<div class="card-footer" wicket:id="footer" />
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		
+		<div wicket:id="feedback" data-placement="bottom" />
+	</body>
+</html>

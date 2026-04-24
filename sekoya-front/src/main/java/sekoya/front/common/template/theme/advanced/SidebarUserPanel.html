@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div wicket:id="userContainer" class="sidebar-section-content">
+		<div class="text-center">
+			<div wicket:id="originalAuthenticationContainer">
+				<div class="text-secondary">
+					<span class="fa fa-fw fa-user-lock" />
+					<span wicket:id="originalAuthentication" />
+				</div>
+				
+				<div class="mt-1">
+					<button wicket:id="signInAsUndo" class="btn btn-outline-success btn-sm" type="button">
+						<span class="fa fa-fw fa-undo" />
+						<wicket:message key="authentication.signInAs.action.undo" />
+					</button>
+				</div>
+				
+				<hr class="w-75 mx-auto my-2" />
+			</div>
+			
+			<div>
+				<div>
+					<span class="fa fa-fw fa-user-circle text-secondary" />
+					<a wicket:id="profileLink" class="text-decoration-none fw-bold">
+						<wicket:container wicket:id="fullName" />
+					</a>
+				</div>
+				
+				<div>
+					<span wicket:id="username" class="text-secondary" />
+				</div>
+				
+				<div class="mt-2">
+					<a wicket:id="logout" class="btn btn-outline-danger btn-sm">
+						<span class="fa fa-fw fa-power-off" />
+						<wicket:message key="common.logout" />
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="sidebar-divider" />
+</wicket:panel>
+</html>

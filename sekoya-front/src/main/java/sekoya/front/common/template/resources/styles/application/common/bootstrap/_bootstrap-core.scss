@@ -1,0 +1,192 @@
+@import "META-INF/resources/webjars/bootstrap/scss/type";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/type";
+@import "override/type";
+
+@import "META-INF/resources/webjars/bootstrap/scss/images";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/images";
+@import "override/images";
+
+@import "META-INF/resources/webjars/bootstrap/scss/containers";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/containers";
+@import "override/containers";
+
+@import "META-INF/resources/webjars/bootstrap/scss/grid";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/grid";
+@import "override/grid";
+
+@import "META-INF/resources/webjars/bootstrap/scss/tables";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/tables";
+@import "override/tables";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/labels";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/labels";
+@import "override/forms/labels";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/form-text";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/form-text";
+@import "override/forms/form-text";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/form-control";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/form-control";
+@import "override/forms/form-control";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/form-select";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/form-select";
+@import "override/forms/form-select";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/form-check";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/form-check";
+@import "override/forms/form-check";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/form-range";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/form-range";
+@import "override/forms/form-range";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/floating-labels";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/floating-labels";
+@import "override/forms/floating-labels";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/input-group";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/input-group";
+@import "override/forms/input-group";
+
+@import "META-INF/resources/webjars/bootstrap/scss/forms/validation";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/forms/validation";
+@import "override/forms/validation";
+
+@import "META-INF/resources/webjars/bootstrap/scss/buttons";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/buttons";
+@import "override/buttons";
+
+@import "META-INF/resources/webjars/bootstrap/scss/transitions";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/transitions";
+@import "override/transitions";
+
+@import "META-INF/resources/webjars/bootstrap/scss/dropdown";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/dropdown";
+@import "override/dropdown";
+
+@import "META-INF/resources/webjars/bootstrap/scss/button-group";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/button-group";
+@import "override/button-group";
+
+@import "META-INF/resources/webjars/bootstrap/scss/nav";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/nav";
+@import "override/nav";
+
+@import "META-INF/resources/webjars/bootstrap/scss/navbar";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/navbar";
+@import "override/navbar";
+
+@import "META-INF/resources/webjars/bootstrap/scss/card";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/card";
+@import "override/card";
+
+@import "META-INF/resources/webjars/bootstrap/scss/accordion";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/accordion";
+@import "override/accordion";
+
+@import "META-INF/resources/webjars/bootstrap/scss/breadcrumb";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/breadcrumb";
+@import "override/breadcrumb";
+
+@import "META-INF/resources/webjars/bootstrap/scss/pagination";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/pagination";
+@import "override/pagination";
+
+@import "META-INF/resources/webjars/bootstrap/scss/badge";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/badge";
+@import "override/badge";
+
+@import "META-INF/resources/webjars/bootstrap/scss/alert";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/alert";
+@import "override/alert";
+
+@import "META-INF/resources/webjars/bootstrap/scss/progress";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/progress";
+@import "override/progress";
+
+@import "META-INF/resources/webjars/bootstrap/scss/list-group";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/list-group";
+@import "override/list-group";
+
+@import "META-INF/resources/webjars/bootstrap/scss/close";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/close";
+@import "override/close";
+
+@import "META-INF/resources/webjars/bootstrap/scss/toasts";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/toasts";
+@import "override/toasts";
+
+@import "META-INF/resources/webjars/bootstrap/scss/modal";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/modal";
+@import "override/modal";
+
+@import "META-INF/resources/webjars/bootstrap/scss/tooltip";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/tooltip";
+@import "override/tooltip";
+
+@import "META-INF/resources/webjars/bootstrap/scss/popover";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/popover";
+@import "override/popover";
+
+@import "META-INF/resources/webjars/bootstrap/scss/carousel";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/carousel";
+@import "override/carousel";
+
+@import "META-INF/resources/webjars/bootstrap/scss/spinners";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/spinners";
+@import "override/spinners";
+
+@import "META-INF/resources/webjars/bootstrap/scss/offcanvas";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/offcanvas";
+@import "override/offcanvas";
+
+@import "META-INF/resources/webjars/bootstrap/scss/placeholders";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/placeholders";
+@import "override/placeholders";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/clearfix";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/clearfix";
+@import "override/helpers/clearfix";
+
+//@import "META-INF/resources/webjars/bootstrap/scss/helpers/color-bg";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/color-bg";
+@import "override/helpers/color-bg";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/colored-links";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/colored-links";
+@import "override/helpers/colored-links";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/ratio";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/ratio";
+@import "override/helpers/ratio";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/position";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/position";
+@import "override/helpers/position";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/stacks";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/stacks";
+@import "override/helpers/stacks";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/visually-hidden";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/visually-hidden";
+@import "override/helpers/visually-hidden";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/stretched-link";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/stretched-link";
+@import "override/helpers/stretched-link";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/text-truncation";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/text-truncation";
+@import "override/helpers/text-truncation";
+
+@import "META-INF/resources/webjars/bootstrap/scss/helpers/vr";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/helpers/vr";
+@import "override/helpers/vr";
+
+@import "META-INF/resources/webjars/bootstrap/scss/utilities/api";
+
+@import "META-INF/resources/webjars/bootstrap5-override/scss/extend/content";
+@import "META-INF/resources/webjars/bootstrap5-override/scss/extend/beautiful-scrollbar";
