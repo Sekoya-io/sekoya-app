@@ -82,7 +82,6 @@ import sekoya.front.role.page.RoleListPage;
 import sekoya.front.security.login.page.SignInPage;
 import sekoya.front.security.password.page.SecurityPasswordCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
-import sekoya.front.security.password.page.SecurityPasswordRecoveryRequestCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordRecoveryRequestResetPage;
 import sekoya.front.security.password.page.SecurityPasswordResetPage;
 import sekoya.front.user.page.BasicUserDetailPage;
@@ -174,9 +173,6 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     mountPage("/login/failure/", LoginFailurePage.class);
     mountPage("/login/success/", LoginSuccessPage.class);
 
-    mountPage(
-        "/security/password/recovery/request/creation/",
-        SecurityPasswordRecoveryRequestCreationPage.class);
     mountPage(
         "/security/password/recovery/request/reset/",
         SecurityPasswordRecoveryRequestResetPage.class);
