@@ -54,6 +54,7 @@ import sekoya.front.common.renderer.RoleRenderer;
 import sekoya.front.common.template.favicon.ApplicationFaviconPackage;
 import sekoya.front.common.template.resources.SekoyaResourcesPackage;
 import sekoya.front.common.template.resources.styles.application.application.applicationaccess.ApplicationAccessScssResourceReference;
+import sekoya.front.common.template.resources.styles.application.application.applicationadvanced.StylesScssResourceReference;
 import sekoya.front.common.template.resources.styles.application.console.console.ConsoleScssResourceReference;
 import sekoya.front.common.template.resources.styles.application.console.consoleaccess.ConsoleAccessScssResourceReference;
 import sekoya.front.common.template.resources.styles.notification.email.NotificationEmailScssResourceReference;
@@ -119,10 +120,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
           NotificationEmailScssResourceReference.get(),
           NotificationHeadScssResourceReference.get(),
           ApplicationAccessScssResourceReference.get(),
-          sekoya.front.common.template.resources.styles.application.application.applicationbasic
-              .StylesScssResourceReference.get(),
-          sekoya.front.common.template.resources.styles.application.application.applicationadvanced
-              .StylesScssResourceReference.get());
+          StylesScssResourceReference.get());
     }
 
     getResourceSettings()

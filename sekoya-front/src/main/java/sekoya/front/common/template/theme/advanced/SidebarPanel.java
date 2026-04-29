@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.WebPage;
 import org.iglooproject.wicket.more.markup.html.template.model.NavigationMenuItem;
 import sekoya.front.common.component.ApplicationEnvironmentPanel;
 import sekoya.front.common.template.theme.common.AbstractNavbarPanel;
-import sekoya.front.common.template.theme.common.ChangeApplicationThemeAjaxLink;
 
 public class SidebarPanel extends AbstractNavbarPanel {
 
@@ -27,8 +26,7 @@ public class SidebarPanel extends AbstractNavbarPanel {
         new SidebarUserPanel("user"),
         new SidebarQuickSearchPanel("quickSearch"),
         new SidebarMenuPanel(
-            "menu", mainNavSupplier, firstMenuPageSupplier, secondMenuPageSupplier),
-        new ChangeApplicationThemeAjaxLink("changeTheme"));
+            "menu", mainNavSupplier, firstMenuPageSupplier, secondMenuPageSupplier));
 
     add(new SidebarFooterPanel("footer"));
   }

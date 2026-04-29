@@ -1,7 +1,6 @@
 package sekoya.front.common.template;
 
 import static org.iglooproject.jpa.more.property.JpaMorePropertyIds.MAINTENANCE;
-import static sekoya.front.property.SekoyaFrontPropertyIds.APPLICATION_THEME;
 import static sekoya.front.property.SekoyaFrontPropertyIds.MAINTENANCE_URL;
 
 import igloo.bootstrap.BootstrapRequestCycle;
@@ -13,6 +12,7 @@ import igloo.wicket.condition.Condition;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
@@ -30,7 +30,6 @@ import org.iglooproject.wicket.more.markup.html.template.AbstractWebPageTemplate
 import org.iglooproject.wicket.more.markup.html.template.component.BodyBreadCrumbPanel;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.iglooproject.wicket.more.markup.html.template.model.NavigationMenuItem;
-import org.iglooproject.wicket.more.model.ApplicationPropertyModel;
 import sekoya.back.security.model.SekoyaAuthorityConstants;
 import sekoya.back.security.service.ISekoyaAuthenticationService;
 import sekoya.back.security.service.controller.ISecurityManagementControllerService;
@@ -38,7 +37,9 @@ import sekoya.front.SekoyaApplication;
 import sekoya.front.SekoyaSession;
 import sekoya.front.announcement.page.AnnouncementListPage;
 import sekoya.front.common.component.AnnouncementsPanel;
-import sekoya.front.common.template.theme.SekoyaApplicationTheme;
+import sekoya.front.common.template.resources.styles.application.application.applicationadvanced.StylesScssResourceReference;
+import sekoya.front.common.template.theme.advanced.NavbarPanel;
+import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.role.page.RoleListPage;
@@ -55,9 +56,6 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
   @SpringBean private ISecurityManagementControllerService securityManagementController;
 
   @SpringBean private ISekoyaAuthenticationService authenticationService;
-
-  private final IModel<SekoyaApplicationTheme> applicationThemeModel =
-      ApplicationPropertyModel.of(APPLICATION_THEME);
 
   protected MainTemplate(PageParameters parameters) {
     super(parameters);
@@ -94,12 +92,14 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
 
     add(new BootstrapTooltipBehavior(getBootstrapTooltipOptionsModel()));
 
-    getApplicationTheme()
-        .specificContent(
-            this,
+    add(
+        new NavbarPanel(
+            "navbar", (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage),
+        new SidebarPanel(
+            "sidebar",
             (SerializableSupplier2<List<NavigationMenuItem>>) this::getMainNav,
             (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage,
-            (SerializableSupplier2<Class<? extends WebPage>>) this::getSecondMenuPage);
+            (SerializableSupplier2<Class<? extends WebPage>>) this::getSecondMenuPage));
   }
 
   protected List<NavigationMenuItem> getMainNav() {
@@ -157,19 +157,10 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
     return BootstrapTooltipOptions::get;
   }
 
-  protected SekoyaApplicationTheme getApplicationTheme() {
-    return applicationThemeModel.getObject();
-  }
-
   @Override
   public void renderHead(IHeaderResponse response) {
     super.renderHead(response);
-    getApplicationTheme().renderHead(response);
+    response.render(CssHeaderItem.forReference(StylesScssResourceReference.get()));
     BootstrapRequestCycle.getSettings().renderHead(getPage(), response);
-  }
-
-  @Override
-  public String getVariation() {
-    return getApplicationTheme().getMarkupVariation();
   }
 }
