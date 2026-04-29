@@ -4,8 +4,6 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUN
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_WRITE;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_READ;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_WRITE;
 
@@ -24,8 +22,6 @@ public class SekoyaPermissionUtils {
           .put(
               SekoyaPermissionCategoryEnum.ADMINISTRATION,
               List.of(
-                  GLOBAL_ROLE_READ,
-                  GLOBAL_ROLE_WRITE,
                   GLOBAL_ANNOUNCEMENT_READ,
                   GLOBAL_ANNOUNCEMENT_WRITE,
                   GLOBAL_USER_READ,

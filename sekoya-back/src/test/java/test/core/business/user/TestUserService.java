@@ -1,9 +1,9 @@
 package test.core.business.user;
 
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_WRITE;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_READ;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_EDIT_PASSWORD;
 
 import com.google.common.collect.ImmutableSortedSet;
@@ -163,7 +163,9 @@ class TestUserService extends AbstractSekoyaTestCase {
 
     Role role2 =
         entityDatabaseHelper.createRole(
-            r -> r.setPermissions(ImmutableSortedSet.of(GLOBAL_ROLE_WRITE, GLOBAL_ROLE_READ)),
+            r ->
+                r.setPermissions(
+                    ImmutableSortedSet.of(GLOBAL_ANNOUNCEMENT_READ, GLOBAL_ANNOUNCEMENT_WRITE)),
             true);
 
     User user =

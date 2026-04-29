@@ -3,10 +3,10 @@ package test.core.security;
 import static org.iglooproject.jpa.security.business.authority.util.CoreAuthorityConstants.ROLE_ADMIN;
 import static org.iglooproject.jpa.security.business.authority.util.CoreAuthorityConstants.ROLE_ANONYMOUS;
 import static org.iglooproject.jpa.security.business.authority.util.CoreAuthorityConstants.ROLE_AUTHENTICATED;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_REFERENCE_DATA_WRITE;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_READ;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ROLE_WRITE;
 
 import com.google.common.collect.ImmutableSortedSet;
 import igloo.security.ICoreUserDetailsService;
@@ -71,8 +71,8 @@ public class TestUserDetailsService extends AbstractSekoyaTestCase {
               u.setType(UserType.BASIC);
             },
             true),
-        GLOBAL_ROLE_READ,
-        GLOBAL_ROLE_WRITE);
+        GLOBAL_ANNOUNCEMENT_READ,
+        GLOBAL_ANNOUNCEMENT_WRITE);
 
     entityManagerReset();
     UserDetails userDetails = userDetailsService.loadUserByUsername("username");
@@ -89,6 +89,6 @@ public class TestUserDetailsService extends AbstractSekoyaTestCase {
             .toList();
 
     Assertions.assertThat(permissions)
-        .containsExactlyInAnyOrder(GLOBAL_ROLE_WRITE, GLOBAL_ROLE_READ);
+        .containsExactlyInAnyOrder(GLOBAL_ANNOUNCEMENT_READ, GLOBAL_ANNOUNCEMENT_WRITE);
   }
 }

@@ -42,7 +42,6 @@ import sekoya.front.common.template.theme.advanced.NavbarPanel;
 import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
 import sekoya.front.referencedata.page.ReferenceDataPage;
-import sekoya.front.role.page.RoleListPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.user.page.BasicUserListPage;
 import sekoya.front.user.page.TechnicalUserListPage;
@@ -120,8 +119,6 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
                 TechnicalUserListPage.linkDescriptor()
                     .navigationMenuItem(
                         new ResourceModel("navigation.administration.technicalUser")),
-                RoleListPage.linkDescriptor()
-                    .navigationMenuItem(new ResourceModel("navigation.administration.role")),
                 AnnouncementListPage.linkDescriptor()
                     .navigationMenuItem(
                         new ResourceModel("navigation.administration.announcement"))),

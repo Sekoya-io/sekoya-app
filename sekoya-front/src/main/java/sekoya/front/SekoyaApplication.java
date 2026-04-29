@@ -75,10 +75,6 @@ import sekoya.front.resources.console.SekoyaConsoleResources;
 import sekoya.front.resources.enums.SekoyaEnumsResources;
 import sekoya.front.resources.navigation.SekoyaNavigationResources;
 import sekoya.front.resources.notification.SekoyaNotificationResources;
-import sekoya.front.role.page.RoleAddPage;
-import sekoya.front.role.page.RoleDetailPage;
-import sekoya.front.role.page.RoleEditPage;
-import sekoya.front.role.page.RoleListPage;
 import sekoya.front.security.login.page.SignInPage;
 import sekoya.front.security.password.page.SecurityPasswordCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
@@ -198,12 +194,6 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
         "/administration/technical-user/${" + CommonParameters.ID + "}/",
         TechnicalUserDetailPage.class);
     mountPage("/administration/announcement/", AnnouncementListPage.class);
-    mountPage("/administration/role", RoleListPage.class);
-    mountPage("/administration/role/creation", RoleAddPage.class);
-    mountParameterizedPage(
-        "/administration/role/${" + CommonParameters.ID + "}", RoleDetailPage.class);
-    mountParameterizedPage(
-        "/administration/role/${" + CommonParameters.ID + "}/modification", RoleEditPage.class);
 
     // Console sign in
     mountPage("/console/login/", ConsoleSignInPage.class);

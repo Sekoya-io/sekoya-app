@@ -2,9 +2,7 @@ insert into role (id, title)
 values (-1, 'Default');
 
 insert into role_permissions (role_id, permissions)
-values (-1, 'GLOBAL_ROLE_READ'),
-       (-1, 'GLOBAL_ANNOUNCEMENT_WRITE'),
-       (-1, 'GLOBAL_ROLE_WRITE'),
+values (-1, 'GLOBAL_ANNOUNCEMENT_WRITE'),
        (-1, 'GLOBAL_REFERENCE_DATA_WRITE'),
        (-1, 'GLOBAL_ANNOUNCEMENT_READ'),
        (-1, 'GLOBAL_USER_READ'),

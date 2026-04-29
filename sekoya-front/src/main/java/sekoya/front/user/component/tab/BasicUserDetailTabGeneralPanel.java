@@ -4,7 +4,6 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import sekoya.back.business.user.model.User;
 import sekoya.front.user.component.BasicUserDetailGeneralDescriptionPanel;
-import sekoya.front.user.component.UserDetailRolesPanel;
 
 public class BasicUserDetailTabGeneralPanel extends GenericPanel<User> {
 
@@ -13,8 +12,6 @@ public class BasicUserDetailTabGeneralPanel extends GenericPanel<User> {
   public BasicUserDetailTabGeneralPanel(String id, IModel<User> userModel) {
     super(id, userModel);
 
-    add(
-        new BasicUserDetailGeneralDescriptionPanel("description", userModel),
-        new UserDetailRolesPanel("roles", userModel));
+    add(new BasicUserDetailGeneralDescriptionPanel("description", userModel));
   }
 }

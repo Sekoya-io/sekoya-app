@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.model.Permission;
 import sekoya.back.business.announcement.model.Announcement;
 import sekoya.back.business.referencedata.model.ReferenceData;
-import sekoya.back.business.role.model.Role;
 import sekoya.back.business.user.model.User;
 
 public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<User> {
@@ -16,8 +15,6 @@ public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<U
   @Autowired private IReferenceDataPermissionEvaluator referenceDataPermissionEvaluator;
 
   @Autowired private IAnnouncementPermissionEvaluator announcementPermissionEvaluator;
-
-  @Autowired private IRolePermissionEvaluator rolePermissionEvaluator;
 
   @Override
   protected boolean hasPermission(User user, Object targetDomainObject, Permission permission) {
@@ -35,7 +32,6 @@ public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<U
           referenceDataPermissionEvaluator.hasPermission(user, referenceData, permission);
       case Announcement announcement ->
           announcementPermissionEvaluator.hasPermission(user, announcement, permission);
-      case Role role -> rolePermissionEvaluator.hasPermission(user, role, permission);
       case null, default -> false;
     };
   }

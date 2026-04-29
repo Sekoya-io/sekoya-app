@@ -12,7 +12,6 @@ import sekoya.back.business.referencedata.model.IReferenceDataBindingInterfaceBi
 import sekoya.back.business.referencedata.search.CitySearchQueryDataBinding;
 import sekoya.back.business.referencedata.search.IBasicReferenceDataSearchQueryDataBindingInterfaceBinding;
 import sekoya.back.business.role.model.RoleBinding;
-import sekoya.back.business.role.search.RoleSearchQueryDataBinding;
 import sekoya.back.business.user.model.UserBinding;
 import sekoya.back.business.user.search.UserSearchQueryDataBinding;
 
@@ -43,9 +42,6 @@ public final class Bindings {
   private static final HistoryLogSearchQueryDataBinding HISTORY_LOG_SEARCH_QUERY_DATA =
       new HistoryLogSearchQueryDataBinding();
   private static final HistoryDifferenceBinding HISTORY_DIFFERENCE = new HistoryDifferenceBinding();
-
-  private static final RoleSearchQueryDataBinding ROLE_SEARCH_QUERY_DATA =
-      new RoleSearchQueryDataBinding();
 
   public static EmailAddressBinding emailAddress() {
     return EMAIL_ADDRESS;
@@ -102,10 +98,6 @@ public final class Bindings {
 
   public static HistoryDifferenceBinding historyDifference() {
     return HISTORY_DIFFERENCE;
-  }
-
-  public static RoleSearchQueryDataBinding roleSearchQueryData() {
-    return ROLE_SEARCH_QUERY_DATA;
   }
 
   private Bindings() {}

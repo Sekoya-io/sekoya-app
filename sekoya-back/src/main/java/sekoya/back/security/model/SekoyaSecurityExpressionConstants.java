@@ -81,13 +81,6 @@ public final class SekoyaSecurityExpressionConstants {
           + SekoyaPermissionConstants.USER_CLOSE_ANNONCEMENT
           + "')";
 
-  public static final String ROLE_WRITE =
-      "hasPermission(#"
-          + DEFAULT_PERMISSION_OBJECT_NAME
-          + ", '"
-          + SekoyaPermissionConstants.ROLE_WRITE
-          + "')";
-
   public static final String ANNOUNCEMENT_WRITE =
       "hasPermission(#"
           + DEFAULT_PERMISSION_OBJECT_NAME
