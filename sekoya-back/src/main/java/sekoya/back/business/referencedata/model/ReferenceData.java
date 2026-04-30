@@ -1,51 +1,52 @@
 package sekoya.back.business.referencedata.model;
 
-import com.querydsl.core.annotations.QueryInit;
-import jakarta.persistence.Embedded;
+import igloo.hibernateconfig.api.HibernateSearchAnalyzer;
+import igloo.hibernateconfig.api.HibernateSearchNormalizer;
+import jakarta.persistence.Basic;
+import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import org.bindgen.Bindable;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.Length;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.iglooproject.jpa.more.business.referencedata.model.GenericReferenceData;
-import sekoya.back.business.common.model.embeddable.LocalizedText;
 
 @MappedSuperclass
 @Bindable
-public class ReferenceData<E extends ReferenceData<?>>
-    extends GenericReferenceData<E, LocalizedText> implements IReferenceDataBindingInterface {
+public class ReferenceData<E extends ReferenceData<?>> extends GenericReferenceData<E, String>
+    implements IReferenceDataBindingInterface {
 
   private static final long serialVersionUID = -1779439527249543663L;
 
-  public static final String LABEL = "label";
-  public static final String LABEL_PREFIX = LABEL + ".";
-  public static final String LABEL_FR_AUTOCOMPLETE = LABEL_PREFIX + LocalizedText.FR_AUTOCOMPLETE;
-  public static final String LABEL_FR_SORT = LABEL_PREFIX + LocalizedText.FR_SORT;
-  public static final String LABEL_EN_AUTOCOMPLETE = LABEL_PREFIX + LocalizedText.EN_AUTOCOMPLETE;
-  public static final String LABEL_EN_SORT = LABEL_PREFIX + LocalizedText.EN_SORT;
+  public static final String LABEL_AUTOCOMPLETE = "labelAutocomplete";
 
-  @Embedded
-  @IndexedEmbedded(name = LABEL)
-  @QueryInit("*")
-  @SuppressWarnings("squid:S1845") // attribute name differs only by case on purpose
-  private LocalizedText label;
+  public static final String LABEL_SORT = "labelSort";
+
+  @Basic(optional = false)
+  @Column(unique = true, length = Length.LONG)
+  @FullTextField(name = LABEL_AUTOCOMPLETE, analyzer = HibernateSearchAnalyzer.TEXT)
+  @KeywordField(
+      name = LABEL_SORT,
+      normalizer = HibernateSearchNormalizer.TEXT,
+      sortable = Sortable.YES)
+  private String label;
 
   public ReferenceData() {
-    this(new LocalizedText());
+    this("");
   }
 
-  public ReferenceData(LocalizedText label) {
+  public ReferenceData(String label) {
     setLabel(label);
   }
 
   @Override
-  public LocalizedText getLabel() {
-    if (label == null) {
-      label = new LocalizedText();
-    }
+  public String getLabel() {
     return label;
   }
 
   @Override
-  public void setLabel(LocalizedText label) {
-    this.label = (label == null ? null : new LocalizedText(label));
+  public void setLabel(String label) {
+    this.label = label;
   }
 }

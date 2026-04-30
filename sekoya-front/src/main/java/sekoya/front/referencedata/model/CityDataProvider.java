@@ -27,8 +27,7 @@ public class CityDataProvider
           CompositingStrategy.LAST_ONLY,
           ImmutableMap.of(
               CitySort.POSITION, CitySort.POSITION.getDefaultOrder(),
-              CitySort.LABEL_FR, CitySort.LABEL_FR.getDefaultOrder(),
-              CitySort.LABEL_EN, CitySort.LABEL_EN.getDefaultOrder()),
+              CitySort.LABEL, CitySort.LABEL.getDefaultOrder()),
           ImmutableMap.of(CitySort.ID, CitySort.ID.getDefaultOrder()));
 
   public CityDataProvider() {

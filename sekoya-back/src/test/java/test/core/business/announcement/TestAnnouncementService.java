@@ -37,7 +37,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
       Announcement announcement =
           entityDatabaseHelper.createAnnouncement(
               a -> {
-                a.getContent().setFr("testContent");
+                a.setContent("testContent");
               },
               false);
 
@@ -46,7 +46,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
       Announcement announcementBdd = announcementService.getById(announcement.getId());
       Assertions.assertThat(announcementBdd).isNotNull();
       Assertions.assertThat(announcementBdd.getType()).isEqualTo(AnnouncementType.UNAVAILABILITY);
-      Assertions.assertThat(announcementBdd.getContent().getFr()).isNull();
+      Assertions.assertThat(announcementBdd.getContent()).isNull();
       Assertions.assertThat(announcementBdd.getUnavailability().getStartDateTime())
           .isEqualTo(LocalDateTime.of(2024, 1, 1, 10, 0));
       Assertions.assertThat(announcementBdd.getUnavailability().getEndDateTime())
@@ -71,7 +71,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
       Announcement announcementBdd = announcementService.getById(announcement.getId());
       Assertions.assertThat(announcementBdd).isNotNull();
       Assertions.assertThat(announcementBdd.getType()).isEqualTo(AnnouncementType.NOTIFICATION);
-      Assertions.assertThat(announcementBdd.getContent().getFr()).isEqualTo("testContent");
+      Assertions.assertThat(announcementBdd.getContent()).isEqualTo("testContent");
       Assertions.assertThat(announcementBdd.getUnavailability().getStartDateTime()).isNull();
       Assertions.assertThat(announcementBdd.getUnavailability().getEndDateTime()).isNull();
       Assertions.assertThat(announcementBdd.getPublication().getStartDateTime())

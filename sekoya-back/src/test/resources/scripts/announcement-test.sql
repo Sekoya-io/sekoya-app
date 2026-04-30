@@ -1,5 +1,5 @@
 insert into announcement (id, creation_date, creation_subject_label, creation_subject_reference_id,
-                          creation_subject_reference_type, content_fr, enabled,
+                          creation_subject_reference_type, content, enabled,
                           unavailability_enddatetime, unavailability_startdatetime, modification_date,
                           modification_subject_label, modification_subject_reference_id,
                           modification_subject_reference_type, publication_enddatetime,

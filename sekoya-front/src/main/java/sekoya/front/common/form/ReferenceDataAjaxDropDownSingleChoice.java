@@ -56,8 +56,7 @@ public class ReferenceDataAjaxDropDownSingleChoice<T extends ReferenceData<? sup
       Map<BasicReferenceDataSort, SortOrder> sorts =
           ImmutableMap.of(
               BasicReferenceDataSort.POSITION, BasicReferenceDataSort.POSITION.getDefaultOrder(),
-              BasicReferenceDataSort.LABEL_FR, BasicReferenceDataSort.LABEL_FR.getDefaultOrder(),
-              BasicReferenceDataSort.LABEL_EN, BasicReferenceDataSort.LABEL_EN.getDefaultOrder(),
+              BasicReferenceDataSort.LABEL, BasicReferenceDataSort.LABEL.getDefaultOrder(),
               BasicReferenceDataSort.ID, BasicReferenceDataSort.ID.getDefaultOrder());
       response.addAll(referenceDataSearchQueryLookupCache.get().list(data, sorts, offset, limit));
     }

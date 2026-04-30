@@ -18,7 +18,6 @@ import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import sekoya.back.business.announcement.model.atomic.AnnouncementType;
 import sekoya.back.business.announcement.model.embeddable.AnnouncementDate;
-import sekoya.back.business.common.model.embeddable.LocalizedText;
 
 @Entity
 @Bindable
@@ -34,10 +33,9 @@ public class Announcement extends GenericEntity<Long, Announcement> {
   @Enumerated(EnumType.STRING)
   private AnnouncementType type;
 
-  @Embedded
-  @AttributeOverride(name = "fr", column = @Column(length = Length.LONG32))
-  @AttributeOverride(name = "en", column = @Column(length = Length.LONG32))
-  private LocalizedText content;
+  @Basic
+  @Column(length = Length.LONG32)
+  private String content;
 
   @Embedded private AnnouncementDate unavailability;
 
@@ -71,15 +69,12 @@ public class Announcement extends GenericEntity<Long, Announcement> {
     this.type = type;
   }
 
-  public LocalizedText getContent() {
-    if (content == null) {
-      content = new LocalizedText();
-    }
+  public String getContent() {
     return content;
   }
 
-  public void setContent(LocalizedText content) {
-    this.content = (content == null ? null : new LocalizedText(content));
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public AnnouncementDate getUnavailability() {

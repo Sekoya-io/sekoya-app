@@ -11,19 +11,15 @@ import org.iglooproject.commons.util.ordering.SerializableCollator;
 
 public final class SekoyaLocale {
 
-  public static final Locale ENGLISH = Locale.ENGLISH;
   public static final Locale FRENCH = Locale.FRENCH;
 
   public static final Locale DEFAULT = FRENCH;
 
   public static final Map<Locale, Ordering<String>> COMPARATORS =
-      ImmutableMap.<Locale, Ordering<String>>builder()
-          .put(ENGLISH, initCollator(ENGLISH))
-          .put(FRENCH, initCollator(FRENCH))
-          .build();
+      ImmutableMap.<Locale, Ordering<String>>builder().put(FRENCH, initCollator(FRENCH)).build();
 
   /** Every possible locale used in this application, sorted by descending order of priority. */
-  public static final Collection<Locale> ALL = List.of(FRENCH, ENGLISH);
+  public static final Collection<Locale> ALL = List.of(FRENCH);
 
   public static final Ordering<String> initCollator(Locale locale) {
     return new SerializableCollator(locale).nullsFirst();

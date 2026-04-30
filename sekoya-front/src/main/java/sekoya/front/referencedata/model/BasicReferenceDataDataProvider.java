@@ -33,8 +33,7 @@ public class BasicReferenceDataDataProvider<T extends ReferenceData<? super T>>
           CompositingStrategy.LAST_ONLY,
           ImmutableMap.of(
               BasicReferenceDataSort.POSITION, BasicReferenceDataSort.POSITION.getDefaultOrder(),
-              BasicReferenceDataSort.LABEL_FR, BasicReferenceDataSort.LABEL_FR.getDefaultOrder(),
-              BasicReferenceDataSort.LABEL_EN, BasicReferenceDataSort.LABEL_EN.getDefaultOrder()),
+              BasicReferenceDataSort.LABEL, BasicReferenceDataSort.LABEL.getDefaultOrder()),
           ImmutableMap.of(BasicReferenceDataSort.ID, BasicReferenceDataSort.ID.getDefaultOrder()));
 
   public BasicReferenceDataDataProvider(Class<T> clazz) {

@@ -43,21 +43,10 @@ public enum BasicReferenceDataSort implements ISort<Function<SearchSortFactory, 
       return SortOrder.ASC;
     }
   },
-  LABEL_FR {
+  LABEL {
     @Override
     public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
-      return List.of(f -> f.field(ReferenceData.LABEL_FR_SORT).order(toSortOrder(this, sortOrder)));
-    }
-
-    @Override
-    public SortOrder getDefaultOrder() {
-      return SortOrder.ASC;
-    }
-  },
-  LABEL_EN {
-    @Override
-    public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
-      return List.of(f -> f.field(ReferenceData.LABEL_EN_SORT).order(toSortOrder(this, sortOrder)));
+      return List.of(f -> f.field(ReferenceData.LABEL_SORT).order(toSortOrder(this, sortOrder)));
     }
 
     @Override

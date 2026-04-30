@@ -43,21 +43,10 @@ public enum CitySort implements ISort<Function<SearchSortFactory, SortFinalStep>
       return SortOrder.ASC;
     }
   },
-  LABEL_FR {
+  LABEL {
     @Override
     public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
-      return List.of(f -> f.field(City.LABEL_FR_SORT).order(toSortOrder(this, sortOrder)));
-    }
-
-    @Override
-    public SortOrder getDefaultOrder() {
-      return SortOrder.ASC;
-    }
-  },
-  LABEL_EN {
-    @Override
-    public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
-      return List.of(f -> f.field(City.LABEL_EN_SORT).order(toSortOrder(this, sortOrder)));
+      return List.of(f -> f.field(City.LABEL_SORT).order(toSortOrder(this, sortOrder)));
     }
 
     @Override

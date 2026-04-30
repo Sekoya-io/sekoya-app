@@ -106,14 +106,8 @@ public class AnnouncementSavePopup extends AbstractAjaxModalPopupPanel<Announcem
                 Condition.predicate(
                     getModel(), AnnouncementPredicates.type(AnnouncementType.NOTIFICATION)))
             .add(
-                new TextArea<>(
-                        "contentFr", bindableModel.bind(Bindings.announcement().content().fr()))
-                    .setLabel(new ResourceModel("business.announcement.content.fr"))
-                    .setRequired(true)
-                    .add(new UpdateOnChangeAjaxEventBehavior()),
-                new TextArea<>(
-                        "contentEn", bindableModel.bind(Bindings.announcement().content().en()))
-                    .setLabel(new ResourceModel("business.announcement.content.en"))
+                new TextArea<>("content", bindableModel.bind(Bindings.announcement().content()))
+                    .setLabel(new ResourceModel("business.announcement.content"))
                     .setRequired(true)
                     .add(new UpdateOnChangeAjaxEventBehavior())),
         new EnclosureContainer("unavailabilityContainer")

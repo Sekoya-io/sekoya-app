@@ -15,7 +15,7 @@ public class CityDaoImpl extends GenericEntityDaoImpl<Long, City> implements ICi
     return new JPAQuery<>(getEntityManager())
         .select(QCity.city)
         .from(QCity.city)
-        .where(QCity.city.label.fr.eq(label))
+        .where(QCity.city.label.eq(label))
         .where(QCity.city.postalCode.eq(postalCode))
         .fetchOne();
   }

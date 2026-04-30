@@ -17,8 +17,7 @@ public class BasicReferenceDataPopup<T extends ReferenceData<? super T>>
 
   private static final long serialVersionUID = -729754666642757497L;
 
-  private TextField<String> labelFr;
-  private TextField<String> labelEn;
+  private TextField<String> label;
   private CheckBox enabled;
 
   public BasicReferenceDataPopup(String id) {
@@ -32,22 +31,14 @@ public class BasicReferenceDataPopup<T extends ReferenceData<? super T>>
     form = new Form<>("form", getModel());
     body.add(form);
 
-    this.labelFr =
+    this.label =
         new TextField<>(
-            "labelFr",
-            BindingModel.of(getModel(), Bindings.referenceData().label().fr()),
-            String.class);
-    this.labelEn =
-        new TextField<>(
-            "labelEn",
-            BindingModel.of(getModel(), Bindings.referenceData().label().en()),
-            String.class);
+            "label", BindingModel.of(getModel(), Bindings.referenceData().label()), String.class);
     this.enabled =
         new CheckBox("enabled", BindingModel.of(getModel(), Bindings.referenceData().enabled()));
 
     form.add(
-        labelFr.setLabel(new ResourceModel("business.referenceData.label.fr")).setRequired(true),
-        labelEn.setLabel(new ResourceModel("business.referenceData.label.en")).setRequired(true),
+        label.setLabel(new ResourceModel("business.referenceData.label")).setRequired(true),
         enabled
             .setLabel(new ResourceModel("business.referenceData.enabled"))
             .add(
@@ -59,12 +50,8 @@ public class BasicReferenceDataPopup<T extends ReferenceData<? super T>>
     return body;
   }
 
-  protected final TextField<String> getLabelFr() {
-    return labelFr;
-  }
-
-  protected final TextField<String> getLabelEn() {
-    return labelEn;
+  protected final TextField<String> getLabel() {
+    return label;
   }
 
   protected final CheckBox getEnabled() {

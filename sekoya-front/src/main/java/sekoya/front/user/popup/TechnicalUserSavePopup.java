@@ -32,7 +32,6 @@ import org.iglooproject.spring.property.SpringPropertyIds;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.spring.util.StringUtils;
 import org.iglooproject.wicket.more.markup.html.form.FormMode;
-import org.iglooproject.wicket.more.markup.html.form.LocaleDropDownChoice;
 import org.iglooproject.wicket.more.markup.html.form.ModelValidatingForm;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.model.ApplicationPropertyModel;
@@ -129,9 +128,6 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
                 "emailAddress", BindingModel.of(getModel(), Bindings.user().emailAddress()))
             .setLabel(new ResourceModel("business.user.emailAddress"))
             .add(new EmailAddressUnicityValidator(getModel())),
-        new LocaleDropDownChoice("locale", BindingModel.of(getModel(), Bindings.user().locale()))
-            .setLabel(new ResourceModel("business.user.locale"))
-            .setRequired(true),
         new EnclosureContainer("addContainer")
             .condition(addModeCondition())
             .add(

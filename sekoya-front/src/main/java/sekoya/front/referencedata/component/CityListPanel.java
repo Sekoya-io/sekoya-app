@@ -28,13 +28,8 @@ public class CityListPanel
   @Override
   protected IColumnState<City, CitySort> addColumns(DataTableBuilder<City, CitySort> builder) {
     return super.addColumns(builder)
-        .addLabelColumn(
-            new ResourceModel("business.referenceData.label.fr"), Bindings.city().label().fr())
-        .withSort(CitySort.LABEL_FR, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
-        .withClass("cell-w-300")
-        .addLabelColumn(
-            new ResourceModel("business.referenceData.label.en"), Bindings.city().label().en())
-        .withSort(CitySort.LABEL_EN, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
+        .addLabelColumn(new ResourceModel("business.referenceData.label"), Bindings.city().label())
+        .withSort(CitySort.LABEL, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
         .withClass("cell-w-300")
         .withClass(CELL_DISPLAY_LG)
         .addLabelColumn(

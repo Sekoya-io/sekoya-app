@@ -1,10 +1,10 @@
 package sekoya.back.business.referencedata.model.comparator;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 import java.util.Objects;
 import org.hibernate.Hibernate;
 import org.iglooproject.jpa.business.generic.util.AbstractGenericEntityComparator;
-import sekoya.back.business.common.model.comparator.LocalizedTextComparator;
 import sekoya.back.business.common.util.SekoyaLocale;
 import sekoya.back.business.referencedata.model.ReferenceData;
 
@@ -30,7 +30,7 @@ public class ReferenceDataComparator
     int order =
         comparaisonChain
             .compare(left.getPosition(), right.getPosition())
-            .compare(left.getLabel(), right.getLabel(), LocalizedTextComparator.get())
+            .compare(left.getLabel(), right.getLabel(), Ordering.natural())
             .result();
 
     if (order == 0) {

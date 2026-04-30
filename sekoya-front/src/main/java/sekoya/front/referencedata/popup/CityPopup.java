@@ -30,22 +30,15 @@ public abstract class CityPopup extends AbstractReferenceDataPopup<City> {
 
     form = new Form<City>("form", model);
 
-    TextField<String> labelFr =
-        new TextField<>("labelFr", BindingModel.of(model, Bindings.city().label().fr()));
-    TextField<String> labelEn =
-        new TextField<>("labelEn", BindingModel.of(model, Bindings.city().label().en()));
+    TextField<String> label =
+        new TextField<>("label", BindingModel.of(model, Bindings.city().label()));
     TextField<PostalCode> postalCode =
         new TextField<>(
             "postalCode", BindingModel.of(model, Bindings.city().postalCode()), PostalCode.class);
 
     body.add(
         form.add(
-                labelFr
-                    .setLabel(new ResourceModel("business.referenceData.label.fr"))
-                    .setRequired(true),
-                labelEn
-                    .setLabel(new ResourceModel("business.referenceData.label.en"))
-                    .setRequired(true),
+                label.setLabel(new ResourceModel("business.referenceData.label")).setRequired(true),
                 postalCode
                     .setLabel(new ResourceModel("business.city.postalCode"))
                     .setRequired(true),
@@ -55,7 +48,7 @@ public abstract class CityPopup extends AbstractReferenceDataPopup<City> {
                         Condition.isTrue(BindingModel.of(model, Bindings.city().disableable()))
                             .thenEnable())
                     .setOutputMarkupId(true))
-            .add(new CityUnicityFormValidator(getModel(), labelFr, postalCode)));
+            .add(new CityUnicityFormValidator(getModel(), label, postalCode)));
 
     return body;
   }

@@ -50,16 +50,9 @@ public class BasicReferenceDataListPanel<T extends ReferenceData<? super T>>
       DataTableBuilder<T, BasicReferenceDataSort> builder) {
     return super.addColumns(builder)
         .addLabelColumn(
-            new ResourceModel("business.referenceData.label.fr"),
-            Bindings.referenceData().label().fr())
+            new ResourceModel("business.referenceData.label"), Bindings.referenceData().label())
         .withSort(
-            BasicReferenceDataSort.LABEL_FR, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
-        .withClass("cell-w-300")
-        .addLabelColumn(
-            new ResourceModel("business.referenceData.label.en"),
-            Bindings.referenceData().label().en())
-        .withSort(
-            BasicReferenceDataSort.LABEL_EN, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
+            BasicReferenceDataSort.LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
         .withClass("cell-w-300")
         .withClass(CELL_DISPLAY_MD);
   }

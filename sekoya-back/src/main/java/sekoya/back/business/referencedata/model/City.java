@@ -12,7 +12,6 @@ import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import sekoya.back.business.common.model.PostalCode;
-import sekoya.back.business.common.model.embeddable.LocalizedText;
 import sekoya.back.hibernate.search.bridge.PostalCodeValueBridge;
 import sekoya.back.hibernate.type.PostalCodeType;
 
@@ -20,7 +19,7 @@ import sekoya.back.hibernate.type.PostalCodeType;
 @Bindable
 @Indexed
 @Cacheable
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"label_fr", "postalcode"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"label", "postalcode"})})
 public class City extends ReferenceData<City> {
 
   private static final long serialVersionUID = -5714475132350205234L;
@@ -37,7 +36,7 @@ public class City extends ReferenceData<City> {
 
   public City() {}
 
-  public City(LocalizedText label) {
+  public City(String label) {
     super(label);
   }
 

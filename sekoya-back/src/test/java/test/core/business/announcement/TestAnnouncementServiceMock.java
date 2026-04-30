@@ -116,12 +116,12 @@ public class TestAnnouncementServiceMock {
     void cleanAnnouncement_typeServiceInterruption_cleanTitleAndDescription() {
       Announcement announcement = new Announcement();
       announcement.setType(AnnouncementType.UNAVAILABILITY);
-      announcement.getContent().setFr("content");
+      announcement.setContent("content");
       announcement.getUnavailability().setStartDateTime(LocalDateTime.of(2024, 1, 1, 10, 0));
       announcement.getUnavailability().setEndDateTime(LocalDateTime.of(2024, 1, 2, 10, 0));
       announcementService.cleanAnnouncement(announcement);
 
-      Assertions.assertThat(announcement.getContent().getFr()).isNull();
+      Assertions.assertThat(announcement.getContent()).isNull();
       Assertions.assertThat(announcement.getUnavailability().getStartDateTime())
           .isEqualTo(LocalDateTime.of(2024, 1, 1, 10, 0));
       Assertions.assertThat(announcement.getUnavailability().getEndDateTime())
@@ -132,12 +132,12 @@ public class TestAnnouncementServiceMock {
     void cleanAnnouncement_typeOther_cleanDates() {
       Announcement announcement = new Announcement();
       announcement.setType(AnnouncementType.NOTIFICATION);
-      announcement.getContent().setFr("content");
+      announcement.setContent("content");
       announcement.getUnavailability().setStartDateTime(LocalDateTime.of(2024, 1, 1, 10, 0));
       announcement.getUnavailability().setEndDateTime(LocalDateTime.of(2024, 1, 2, 10, 0));
       announcementService.cleanAnnouncement(announcement);
 
-      Assertions.assertThat(announcement.getContent().getFr()).isEqualTo("content");
+      Assertions.assertThat(announcement.getContent()).isEqualTo("content");
       Assertions.assertThat(announcement.getUnavailability().getStartDateTime()).isNull();
       Assertions.assertThat(announcement.getUnavailability().getEndDateTime()).isNull();
     }

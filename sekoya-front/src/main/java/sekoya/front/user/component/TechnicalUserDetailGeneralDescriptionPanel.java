@@ -39,8 +39,6 @@ public class TechnicalUserDetailGeneralDescriptionPanel extends GenericPanel<Use
         new EmailLink("emailAddress", emailAddressValueModel),
         new DefaultPlaceholderPanel("emailAddressPlaceholder")
             .condition(Condition.modelNotNull(emailAddressValueModel)),
-        new CoreLabel("locale", BindingModel.of(userModel, Bindings.user().locale()))
-            .showPlaceholder(),
         new CoreLabel("creationDate", BindingModel.of(userModel, Bindings.user().creation().date()))
             .showPlaceholder(),
         new CoreLabel(

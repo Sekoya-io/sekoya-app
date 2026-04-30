@@ -2,7 +2,6 @@ package sekoya.front.referencedata.renderer;
 
 import igloo.wicket.renderer.Renderer;
 import java.util.Locale;
-import org.iglooproject.wicket.more.rendering.LocalizedTextRenderer;
 import sekoya.back.business.referencedata.model.ReferenceData;
 
 public abstract class ReferenceDataRenderer extends Renderer<ReferenceData<?>> {
@@ -15,7 +14,7 @@ public abstract class ReferenceDataRenderer extends Renderer<ReferenceData<?>> {
 
         @Override
         public String render(ReferenceData<?> value, Locale locale) {
-          return LocalizedTextRenderer.get().render(value.getLabel(), locale);
+          return value.getLabel();
         }
       }.nullsAsNull();
 

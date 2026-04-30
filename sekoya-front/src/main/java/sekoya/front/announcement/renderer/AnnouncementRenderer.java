@@ -27,7 +27,7 @@ public abstract class AnnouncementRenderer extends Renderer<Announcement> {
 
           switch (value.getType()) {
             case NOTIFICATION:
-              return value.getContent().get(locale);
+              return value.getContent();
             case UNAVAILABILITY:
               return getUnavailabilityContent(value, locale);
           }

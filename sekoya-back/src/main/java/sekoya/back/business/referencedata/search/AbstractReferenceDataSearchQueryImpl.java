@@ -63,8 +63,7 @@ public abstract class AbstractReferenceDataSearchQueryImpl<
       if (data.getLabel() != null) {
         root.add(
             f.simpleQueryString()
-                .field(ReferenceData.LABEL_FR_AUTOCOMPLETE)
-                .field(ReferenceData.LABEL_EN_AUTOCOMPLETE)
+                .field(ReferenceData.LABEL_AUTOCOMPLETE)
                 .matching(wildcardTokensOr(data.getLabel())));
       }
       if (data.getEnabledFilter() != null
