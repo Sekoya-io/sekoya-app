@@ -164,7 +164,7 @@ public class BasicUserListPage extends UserTemplate {
             .count("user.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
-    add(new BasicUserListSearchPanel("search", results, dataProvider.getDataModel()), results);
+    add(new BasicUserListSearchPanel("search", dataProvider, results), results);
   }
 
   @Override

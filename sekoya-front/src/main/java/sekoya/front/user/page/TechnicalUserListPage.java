@@ -162,7 +162,7 @@ public class TechnicalUserListPage extends UserTemplate {
             .count("user.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
-    add(new TechnicalUserListSearchPanel("search", results, dataProvider.getDataModel()), results);
+    add(new TechnicalUserListSearchPanel("search", dataProvider, results), results);
   }
 
   @Override

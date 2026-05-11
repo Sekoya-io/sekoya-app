@@ -1,30 +1,24 @@
 package sekoya.front.user.component;
 
+import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.markup.html.form.PageableSearchForm;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Detachables;
-import java.util.Map;
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.navigation.paging.IPageable;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
-import org.iglooproject.wicket.more.ajax.SerializableListener;
-import org.iglooproject.wicket.more.common.behavior.UpdateOnChangeAjaxEventBehavior;
-import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
-import org.iglooproject.wicket.more.link.model.ComponentPageModel;
 import org.iglooproject.wicket.more.markup.html.form.EnumDropDownSingleChoice;
 import org.iglooproject.wicket.more.markup.html.form.LabelPlaceholderBehavior;
+import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
+import org.wicketstuff.wiquery.core.events.StateEvent;
 import sekoya.back.business.user.model.User;
-import sekoya.back.business.user.model.atomic.UserType;
-import sekoya.back.business.user.search.UserSearchQueryData;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.form.UserAjaxDropDownSingleChoice;
-import sekoya.front.user.page.TechnicalUserDetailPage;
+import sekoya.front.user.model.UserDataProvider;
 
 public class TechnicalUserListSearchPanel extends Panel {
 
@@ -33,52 +27,38 @@ public class TechnicalUserListSearchPanel extends Panel {
   private final IModel<User> quickAccessModel = new GenericEntityModel<>();
 
   public TechnicalUserListSearchPanel(
-      String id, IPageable pageable, IModel<UserSearchQueryData> dataModel) {
+      String id, UserDataProvider dataProvider, DecoratedCoreDataTablePanel<User, ?> table) {
     super(id);
 
-    add(
-        new PageableSearchForm<>("form", pageable)
-            .add(
-                new TextField<>(
-                        "name", BindingModel.of(dataModel, Bindings.userSearchQueryData().term()))
-                    .setLabel(new ResourceModel("business.user.name"))
-                    .add(new LabelPlaceholderBehavior()),
-                new EnumDropDownSingleChoice<>(
-                        "enabledFilter",
-                        BindingModel.of(dataModel, Bindings.userSearchQueryData().active()),
-                        EnabledFilter.class)
-                    .setLabel(new ResourceModel("business.user.enabled.state"))
-                    .add(new LabelPlaceholderBehavior()),
-                new UserAjaxDropDownSingleChoice(
-                        "quickAccess", quickAccessModel, UserType.TECHNICAL)
-                    .setLabel(new ResourceModel("common.quickAccess"))
-                    .add(new LabelPlaceholderBehavior())
-                    .add(
-                        new UpdateOnChangeAjaxEventBehavior()
-                            .onChange(
-                                new SerializableListener() {
-                                  private static final long serialVersionUID = 1L;
+    PageableSearchForm<Void> form = new PageableSearchForm<>("form", table);
+    add(form);
 
-                                  @Override
-                                  public void onBeforeRespond(
-                                      Map<String, Component> map, AjaxRequestTarget target) {
-                                    IPageLinkDescriptor linkDescriptor =
-                                        TechnicalUserDetailPage.MAPPER
-                                            .setParameter2(
-                                                new ComponentPageModel(
-                                                    TechnicalUserListSearchPanel.this))
-                                            .map(
-                                                new GenericEntityModel<>(
-                                                    quickAccessModel.getObject()));
+    form.add(
+        new AjaxFormSubmitBehavior(form, StateEvent.CHANGE.getEventLabel()) {
+          private static final long serialVersionUID = 1L;
 
-                                    quickAccessModel.setObject(null);
-                                    quickAccessModel.detach();
+          @Override
+          protected void onSubmit(AjaxRequestTarget target) {
+            // Just in case the dataProvider's content was loaded before search parameters changed
+            dataProvider.detach();
+            target.add(table);
+            FeedbackUtils.refreshFeedback(target, getPage());
+          }
+        });
 
-                                    if (linkDescriptor.isAccessible()) {
-                                      throw linkDescriptor.newRestartResponseException();
-                                    }
-                                  }
-                                }))));
+    form.add(
+        new TextField<>(
+                "name",
+                BindingModel.of(dataProvider.getDataModel(), Bindings.userSearchQueryData().term()))
+            .setLabel(new ResourceModel("business.user.name"))
+            .add(new LabelPlaceholderBehavior()),
+        new EnumDropDownSingleChoice<>(
+                "enabledFilter",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.userSearchQueryData().active()),
+                EnabledFilter.class)
+            .setLabel(new ResourceModel("business.user.enabled.state"))
+            .add(new LabelPlaceholderBehavior()));
   }
 
   @Override
