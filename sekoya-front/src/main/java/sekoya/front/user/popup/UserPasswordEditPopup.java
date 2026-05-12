@@ -56,7 +56,7 @@ public class UserPasswordEditPopup extends AbstractAjaxModalPopupPanel<User> {
 
     this.isOldPasswordRequired =
         Condition.or(
-                Condition.predicate(userModel, UserPredicates.technical()),
+                Condition.predicate(userModel, UserPredicates.administrateurTechnique()),
                 Condition.role(CoreAuthorityConstants.ROLE_ADMIN))
             .negate();
   }

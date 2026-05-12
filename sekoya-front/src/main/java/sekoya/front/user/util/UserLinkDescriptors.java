@@ -7,8 +7,8 @@ import org.iglooproject.wicket.more.link.util.LinkDescriptors;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.page.BasicUserDetailPage;
-import sekoya.front.user.page.TechnicalUserDetailPage;
+import sekoya.front.user.page.UserAdministrateurFonctionnelDetailPage;
+import sekoya.front.user.page.UserOrganisationDetailPage;
 
 public final class UserLinkDescriptors {
 
@@ -24,8 +24,8 @@ public final class UserLinkDescriptors {
     }
 
     return switch (userType) {
-      case BASIC -> BasicUserDetailPage.MAPPER;
-      case TECHNICAL -> TechnicalUserDetailPage.MAPPER;
+      case ORGANISATION -> UserOrganisationDetailPage.MAPPER;
+      case ADMINISTRATEUR_FONCTIONNEL -> UserAdministrateurFonctionnelDetailPage.MAPPER;
       default -> LinkDescriptors.invalidTwoParameterMapper();
     };
   }

@@ -6,6 +6,8 @@ import jakarta.persistence.Cacheable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,6 +34,11 @@ public class Role extends GenericEntity<Long, Role> {
   @Column(unique = true, length = Length.DEFAULT)
   private String title;
 
+  @Basic(optional = false)
+  @Column(unique = true)
+  @Enumerated(EnumType.STRING)
+  private RoleEnumKey enumKey;
+
   @ElementCollection private Set<String> permissions = Sets.newHashSet();
 
   // DO NOT USE - QueryDSL association inverse side.
@@ -56,11 +63,24 @@ public class Role extends GenericEntity<Long, Role> {
     this.title = title;
   }
 
+  public RoleEnumKey getEnumKey() {
+    return enumKey;
+  }
+
+  public void setEnumKey(RoleEnumKey enumKey) {
+    this.enumKey = enumKey;
+  }
+
   public Set<String> getPermissions() {
     return Collections.unmodifiableSet(permissions);
   }
 
   public void setPermissions(Set<String> permissions) {
     CollectionUtils.replaceAll(this.permissions, permissions);
+  }
+
+  public enum RoleEnumKey {
+    ORGANISATION,
+    ADMINISTRATEUR_FONCTIONNEL;
   }
 }

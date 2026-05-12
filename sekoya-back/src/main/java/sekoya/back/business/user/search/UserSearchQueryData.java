@@ -4,6 +4,7 @@ import org.bindgen.Bindable;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.jpa.more.search.query.ISearchQueryData;
 import sekoya.back.business.role.model.Role;
+import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 
@@ -23,6 +24,8 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
   private String email;
 
   private Role role;
+
+  private RoleEnumKey roleEnumKey;
 
   private EnabledFilter active = EnabledFilter.ENABLED_ONLY;
 
@@ -88,5 +91,13 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
 
   public void setActive(EnabledFilter active) {
     this.active = active;
+  }
+
+  public RoleEnumKey getRoleEnumKey() {
+    return roleEnumKey;
+  }
+
+  public void setRoleEnumKey(RoleEnumKey roleEnumKey) {
+    this.roleEnumKey = roleEnumKey;
   }
 }

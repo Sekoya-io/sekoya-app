@@ -1,8 +1,8 @@
 package sekoya.front.user.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
+import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_2XL;
-import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
@@ -35,47 +35,48 @@ import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
+import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.business.user.predicate.UserPredicates;
-import sekoya.back.business.user.search.IUserSearchQuery;
 import sekoya.back.business.user.search.UserSort;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.component.BasicUserListSearchPanel;
+import sekoya.front.user.component.UserAdministrateurFonctionnelListSearchPanel;
 import sekoya.front.user.export.UserExcelTableExport;
 import sekoya.front.user.model.UserDataProvider;
-import sekoya.front.user.popup.BasicUserSavePopup;
+import sekoya.front.user.popup.UserAdministrateurFonctionnelSavePopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-public class BasicUserListPage extends UserTemplate {
+@AuthorizeInstantiationIfPermission(permissions = GLOBAL_USER_READ)
+public class UserAdministrateurFonctionnelListPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;
 
   public static IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start()
         .validator(Condition.permission(GLOBAL_USER_READ))
-        .page(BasicUserListPage.class);
+        .page(UserAdministrateurFonctionnelListPage.class);
   }
-
-  @SpringBean private IUserSearchQuery userSearchQuery;
-
-  @SpringBean private IUserControllerService userControllerService;
 
   @SpringBean private IPropertyService propertyService;
 
-  public BasicUserListPage(PageParameters parameters) {
+  @SpringBean private IUserControllerService userControllerService;
+
+  public UserAdministrateurFonctionnelListPage(PageParameters parameters) {
     super(parameters);
 
     addBreadCrumbElement(
-        new BreadCrumbElement(new ResourceModel("navigation.administration.basicUser")));
+        new BreadCrumbElement(
+            new ResourceModel("navigation.administration.userAdministrateurFonctionnel")));
 
     UserDataProvider dataProvider = new UserDataProvider();
-    dataProvider.getDataModel().getObject().setType(UserType.BASIC);
+    dataProvider.getDataModel().getObject().setType(UserType.ADMINISTRATEUR_FONCTIONNEL);
 
-    BasicUserSavePopup addPopup = new BasicUserSavePopup("addPopup");
+    UserAdministrateurFonctionnelSavePopup addPopup =
+        new UserAdministrateurFonctionnelSavePopup("addPopup");
     add(addPopup);
 
     ExcelExportWorkInProgressModalPopupPanel loadingPopup =
@@ -107,8 +108,7 @@ public class BasicUserListPage extends UserTemplate {
                           protected void onShow(AjaxRequestTarget target) {
                             addPopup.setUpAdd(new User());
                           }
-                        })
-                    .add(Condition.permission(GLOBAL_USER_READ).thenShow())));
+                        })));
 
     DecoratedCoreDataTablePanel<User, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
@@ -116,7 +116,8 @@ public class BasicUserListPage extends UserTemplate {
             .badgePill()
             .withClass("cell-w-100 text-center")
             .addLabelColumn(new ResourceModel("business.user.username"), Bindings.user().username())
-            .withLink(BasicUserDetailPage.MAPPER.setParameter2(new PageModel<>(this)))
+            .withLink(
+                UserAdministrateurFonctionnelDetailPage.MAPPER.setParameter2(new PageModel<>(this)))
             .withClass("cell-w-250")
             .addLabelColumn(new ResourceModel("business.user.lastName"), Bindings.user().lastName())
             .withSort(UserSort.LAST_NAME, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
@@ -156,7 +157,7 @@ public class BasicUserListPage extends UserTemplate {
             .withClass(
                 itemModel ->
                     Condition.predicate(itemModel, UserPredicates.disabled())
-                        .then(TABLE_ROW_DISABLED)
+                        .then(BTN_TABLE_ROW_ACTION)
                         .otherwise(""))
             .end()
             .bootstrapCard()
@@ -164,11 +165,11 @@ public class BasicUserListPage extends UserTemplate {
             .count("user.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
-    add(new BasicUserListSearchPanel("search", dataProvider, results), results);
+    add(new UserAdministrateurFonctionnelListSearchPanel("search", dataProvider, results), results);
   }
 
   @Override
   protected Class<? extends WebPage> getSecondMenuPage() {
-    return BasicUserListPage.class;
+    return UserAdministrateurFonctionnelListPage.class;
   }
 }

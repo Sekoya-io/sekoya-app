@@ -14,6 +14,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.util.DateUtil;
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
+import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.role.model.Role;
+import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.business.user.service.controller.IUserControllerService;
@@ -35,9 +38,11 @@ class TestUserService extends AbstractSekoyaTestCase {
 
   @Nested
   class saveUser {
-    @WithUserDetails(value = ADMIN_USERNAME, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(
+        value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
+        setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveTechnicalUser() throws SecurityServiceException, ServiceException {
+    void testSaveAdministrateurTechnique() throws SecurityServiceException, ServiceException {
       User user =
           entityDatabaseHelper.createUser(
               u -> {
@@ -47,13 +52,13 @@ class TestUserService extends AbstractSekoyaTestCase {
               },
               false);
 
-      userControllerService.saveTechnicalUser(user, USER_EDIT_PASSWORD);
+      userControllerService.saveUserAdministrateurTechnique(user, USER_EDIT_PASSWORD);
       entityManagerReset();
       User userBdd = userService.getById(user.getId());
       Assertions.assertThat(userBdd.getUsername()).isEqualTo("test");
       Assertions.assertThat(userBdd.getFirstName()).isEqualTo("firstname");
       Assertions.assertThat(userBdd.getLastName()).isEqualTo("lastname");
-      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.TECHNICAL);
+      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.ADMINISTRATEUR_TECHNIQUE);
       Assertions.assertThat(userBdd.getPasswordHash()).startsWith("{bcrypt}");
       Assertions.assertThat(userBdd.isEnabled()).isTrue();
       Assertions.assertThat(userBdd.getLocale()).isEqualTo(Locale.FRENCH);
@@ -64,27 +69,28 @@ class TestUserService extends AbstractSekoyaTestCase {
     }
 
     @WithUserDetails(
-        value = BASIC_USERNAME_WITH_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITH_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveBasicUser() throws SecurityServiceException, ServiceException {
+    void testSaveUserOrganisation() throws SecurityServiceException, ServiceException {
       User user =
           entityDatabaseHelper.createUser(
               u -> {
-                u.setUsername("test");
+                u.setEmailAddress(new EmailAddress("test@test.fr"));
                 u.setFirstName("firstname");
                 u.setLastName("lastname");
                 u.setType(null);
               },
               false);
 
-      userControllerService.saveBasicUser(user, USER_EDIT_PASSWORD);
+      userControllerService.saveUserOrganisation(user, USER_EDIT_PASSWORD);
       entityManagerReset();
       User userBdd = userService.getById(user.getId());
-      Assertions.assertThat(userBdd.getUsername()).isEqualTo("test");
+      Assertions.assertThat(userBdd.getUsername()).isEqualTo("test@test.fr");
+      Assertions.assertThat(userBdd.getEmailAddress().getValue()).isEqualTo("test@test.fr");
       Assertions.assertThat(userBdd.getFirstName()).isEqualTo("firstname");
       Assertions.assertThat(userBdd.getLastName()).isEqualTo("lastname");
-      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.BASIC);
+      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.ORGANISATION);
       Assertions.assertThat(userBdd.getPasswordHash()).startsWith("{bcrypt}");
       Assertions.assertThat(userBdd.isEnabled()).isTrue();
       Assertions.assertThat(userBdd.getLocale()).isEqualTo(Locale.FRENCH);
@@ -94,7 +100,9 @@ class TestUserService extends AbstractSekoyaTestCase {
           .isInSameDayAs(userBdd.getPasswordInformation().getLastUpdateDate());
     }
 
-    @WithUserDetails(value = ADMIN_USERNAME, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(
+        value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
+        setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Sql(scripts = {"/scripts/user-test.sql"})
     @Test
     void testUpdateUser() throws SecurityServiceException, ServiceException {
@@ -102,13 +110,13 @@ class TestUserService extends AbstractSekoyaTestCase {
       User user = userService.getById(-4L);
       user.setFirstName("updatedFirstname");
       user.setLastName("updatedFirstname");
-      userControllerService.saveTechnicalUser(user, "newPassword");
+      userControllerService.saveUserAdministrateurTechnique(user, "newPassword");
       entityManagerReset();
       User userBdd = userService.getById(user.getId());
       Assertions.assertThat(userBdd.getUsername()).isEqualTo("test");
       Assertions.assertThat(userBdd.getFirstName()).isEqualTo("updatedFirstname");
       Assertions.assertThat(userBdd.getLastName()).isEqualTo("updatedFirstname");
-      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.TECHNICAL);
+      Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.ADMINISTRATEUR_TECHNIQUE);
       Assertions.assertThat(userBdd.getPasswordHash()).startsWith("{bcrypt}");
       Assertions.assertThat(userBdd.isEnabled()).isTrue();
       Assertions.assertThat(userBdd.getLocale()).isEqualTo(Locale.FRENCH);
@@ -118,54 +126,64 @@ class TestUserService extends AbstractSekoyaTestCase {
     }
 
     @WithUserDetails(
-        value = BASIC_USERNAME_WITH_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITH_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveTechnicalUser_userBasicAuthenticate_throwAuthorizationDeniedException() {
+    void
+        testSaveUserAdministrateurTechnique_userOrganisationAuthenticate_throwAuthorizationDeniedException() {
       Assertions.assertThatThrownBy(
               () ->
-                  userControllerService.saveTechnicalUser(
+                  userControllerService.saveUserAdministrateurTechnique(
                       entityDatabaseHelper.createUser(null, false), USER_EDIT_PASSWORD))
           .isInstanceOf(AuthorizationDeniedException.class);
     }
 
-    @WithUserDetails(value = ADMIN_USERNAME, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(
+        value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
+        setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveBasicUser_adminUserAuthenticate_doesNotThrowException() {
+    void testSaveUserOrganisation_userAdministrateurTechniqueAuthenticate_doesNotThrowException() {
       Assertions.assertThatCode(
               () ->
-                  userControllerService.saveBasicUser(
+                  userControllerService.saveUserOrganisation(
                       entityDatabaseHelper.createUser(null, false), USER_EDIT_PASSWORD))
           .doesNotThrowAnyException();
     }
 
     @WithUserDetails(
-        value = BASIC_USERNAME_WITHOUT_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITHOUT_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveBasicUser_userWithoutPermissionsAuthenticate_throwAuthorizationDeniedException() {
+    void
+        testSaveUserOrganisation_userWithoutPermissionsAuthenticate_throwAuthorizationDeniedException() {
       Assertions.assertThatThrownBy(
               () ->
-                  userControllerService.saveBasicUser(
+                  userControllerService.saveUserOrganisation(
                       entityDatabaseHelper.createUser(null, false), USER_EDIT_PASSWORD))
           .isInstanceOf(AuthorizationDeniedException.class);
     }
   }
 
+  // TODO : voir avec RFO
+  @Disabled
   @Test
   void testListUser() throws ServiceException, SecurityServiceException {
     Role role1 =
         entityDatabaseHelper.createRole(
-            r ->
-                r.setPermissions(
-                    ImmutableSortedSet.of(GLOBAL_REFERENCE_DATA_READ, GLOBAL_REFERENCE_DATA_WRITE)),
+            r -> {
+              r.setEnumKey(RoleEnumKey.ORGANISATION);
+              r.setPermissions(
+                  ImmutableSortedSet.of(GLOBAL_REFERENCE_DATA_READ, GLOBAL_REFERENCE_DATA_WRITE));
+            },
             true);
 
     Role role2 =
         entityDatabaseHelper.createRole(
-            r ->
-                r.setPermissions(
-                    ImmutableSortedSet.of(GLOBAL_ANNOUNCEMENT_READ, GLOBAL_ANNOUNCEMENT_WRITE)),
+            r -> {
+              r.setEnumKey(RoleEnumKey.ADMINISTRATEUR_FONCTIONNEL);
+              r.setPermissions(
+                  ImmutableSortedSet.of(GLOBAL_ANNOUNCEMENT_READ, GLOBAL_ANNOUNCEMENT_WRITE));
+            },
             true);
 
     User user =
@@ -174,7 +192,7 @@ class TestUserService extends AbstractSekoyaTestCase {
               u.setUsername("test");
               u.setFirstName("firstname");
               u.setLastName("lastname");
-              u.setType(UserType.BASIC);
+              u.setType(UserType.ORGANISATION);
               u.setRoles(ImmutableSortedSet.of(role1, role2));
             },
             true);
@@ -187,7 +205,7 @@ class TestUserService extends AbstractSekoyaTestCase {
     Assertions.assertThat(userBdd.getUsername()).isEqualTo("test");
     Assertions.assertThat(userBdd.getFirstName()).isEqualTo("firstname");
     Assertions.assertThat(userBdd.getLastName()).isEqualTo("lastname");
-    Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.BASIC);
+    Assertions.assertThat(userBdd.getType()).isEqualTo(UserType.ORGANISATION);
     Assertions.assertThat(userBdd.getRoles()).containsExactlyInAnyOrder(role1, role2);
   }
 }

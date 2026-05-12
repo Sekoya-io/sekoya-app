@@ -28,7 +28,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
   @Autowired protected IAnnouncementService announcementService;
 
   @WithUserDetails(
-      value = BASIC_USERNAME_WITH_PERMISSIONS,
+      value = USER_ORGANISATION_USERNAME_WITH_PERMISSIONS,
       setupBefore = TestExecutionEvent.TEST_EXECUTION)
   @Nested
   class SaveAnnouncement {
@@ -84,9 +84,11 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
       Assertions.assertThat(new Date()).isInSameDayAs(announcementBdd.getModification().getDate());
     }
 
-    @WithUserDetails(value = ADMIN_USERNAME, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(
+        value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
+        setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveAnnouncement_technicalUserAuthenticate_doesNotThrowException() {
+    void testSaveAnnouncement_userAdministrateurTechniqueAuthenticate_doesNotThrowException() {
       Assertions.assertThatCode(
               () ->
                   announcementControllerService.saveAnnouncement(
@@ -95,7 +97,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
     }
 
     @WithUserDetails(
-        value = BASIC_USERNAME_WITHOUT_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITHOUT_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     void
@@ -113,7 +115,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
 
     @Sql(scripts = {"/scripts/announcement-test.sql"})
     @WithUserDetails(
-        value = BASIC_USERNAME_WITH_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITH_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     void testDeleteAnnoucement() throws SecurityServiceException, ServiceException {
@@ -123,9 +125,11 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
       Assertions.assertThat(announcementService.list()).isEmpty();
     }
 
-    @WithUserDetails(value = ADMIN_USERNAME, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(
+        value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
+        setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void TestDeleteAnnoucement_technicalUserAuthenticate_doesNotThrowException() {
+    void TestDeleteAnnoucement_userAdministrateurTechniqueAuthenticate_doesNotThrowException() {
       Assertions.assertThatCode(
               () ->
                   announcementControllerService.deleteAnnouncement(
@@ -134,7 +138,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
     }
 
     @WithUserDetails(
-        value = BASIC_USERNAME_WITHOUT_PERMISSIONS,
+        value = USER_ORGANISATION_USERNAME_WITHOUT_PERMISSIONS,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     void
@@ -148,7 +152,7 @@ public class TestAnnouncementService extends AbstractSekoyaTestCase {
   }
 
   @WithUserDetails(
-      value = BASIC_USERNAME_WITH_PERMISSIONS,
+      value = USER_ORGANISATION_USERNAME_WITH_PERMISSIONS,
       setupBefore = TestExecutionEvent.TEST_EXECUTION)
   @Test
   void cleanWithoutSaving() throws SecurityServiceException, ServiceException {

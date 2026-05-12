@@ -1,11 +1,12 @@
 package sekoya.back.business.user.service.controller;
 
-import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_BASIC_WRITE;
+import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_ADMINISTRATEUR_FONCTIONNEL_WRITE;
+import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_ADMINISTRATEUR_TECHNIQUE_WRITE;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_CLOSE_ANNONCEMENT;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_DISABLE;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_ENABLE;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_OPEN_ANNONCEMENT;
-import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_TECHNICAL_WRITE;
+import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_ORGANISATION_WRITE;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.USER_WRITE;
 
 import org.iglooproject.commons.util.security.PermissionObject;
@@ -17,12 +18,16 @@ import sekoya.back.business.user.model.User;
 
 public interface IUserControllerService {
 
-  @PreAuthorize(USER_BASIC_WRITE)
-  void saveBasicUser(@PermissionObject User user, String password)
+  @PreAuthorize(USER_ORGANISATION_WRITE)
+  void saveUserOrganisation(@PermissionObject User user, String password)
       throws SecurityServiceException, ServiceException;
 
-  @PreAuthorize(USER_TECHNICAL_WRITE)
-  void saveTechnicalUser(@PermissionObject User user, String password)
+  @PreAuthorize(USER_ADMINISTRATEUR_FONCTIONNEL_WRITE)
+  void saveUserAdministrateurFonctionnel(@PermissionObject User user, String password)
+      throws SecurityServiceException, ServiceException;
+
+  @PreAuthorize(USER_ADMINISTRATEUR_TECHNIQUE_WRITE)
+  void saveUserAdministrateurTechnique(@PermissionObject User user, String password)
       throws SecurityServiceException, ServiceException;
 
   @PreAuthorize(USER_WRITE)

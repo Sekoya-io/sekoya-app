@@ -26,7 +26,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canReadReferenceData_withPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(true)
           .when(referenceDataPermissionEvaluator)
@@ -37,7 +37,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_noPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(false)
           .when(referenceDataPermissionEvaluator)
@@ -52,7 +52,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_updateReferenceData_noEditable_returnFalse() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setId(-1L);
@@ -65,7 +65,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_updateReferenceData_editable_withPermissions_returnTrue() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setId(-1L);
@@ -86,7 +86,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_createReferenceData_noEditable_withPermissions_returnTrue() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setEditable(false);
@@ -106,7 +106,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_updateReferenceData_editable_noPermission_returnFalse() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setId(-1L);
@@ -128,7 +128,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_updateReferenceData_editable_onlyRead_returnFalse() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setId(-1L);
@@ -149,7 +149,7 @@ public class TestReferenceDataPermissions {
     @Test
     void canWriteReferenceData_updateReferenceData_editable_onlyWrite_returnFalse() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       ReferenceData<?> referenceData = new ReferenceData<>();
       referenceData.setId(-1L);

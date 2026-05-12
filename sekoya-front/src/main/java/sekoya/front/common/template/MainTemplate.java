@@ -43,8 +43,8 @@ import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
-import sekoya.front.user.page.BasicUserListPage;
-import sekoya.front.user.page.TechnicalUserListPage;
+import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
+import sekoya.front.user.page.UserOrganisationListPage;
 
 public abstract class MainTemplate extends AbstractWebPageTemplate {
 
@@ -114,11 +114,13 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             .iconClasses(Model.of("fa fa-fw fa-cogs"))
             .subMenuForceOpen()
             .subMenuItems(
-                BasicUserListPage.linkDescriptor()
-                    .navigationMenuItem(new ResourceModel("navigation.administration.basicUser")),
-                TechnicalUserListPage.linkDescriptor()
+                UserOrganisationListPage.linkDescriptor()
                     .navigationMenuItem(
-                        new ResourceModel("navigation.administration.technicalUser")),
+                        new ResourceModel("navigation.administration.userOrganisation")),
+                UserAdministrateurFonctionnelListPage.linkDescriptor()
+                    .navigationMenuItem(
+                        new ResourceModel(
+                            "navigation.administration.userAdministrateurFonctionnel")),
                 AnnouncementListPage.linkDescriptor()
                     .navigationMenuItem(
                         new ResourceModel("navigation.administration.announcement"))),

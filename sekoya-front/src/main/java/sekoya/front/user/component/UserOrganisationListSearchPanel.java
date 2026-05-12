@@ -20,13 +20,13 @@ import sekoya.back.business.user.model.User;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.user.model.UserDataProvider;
 
-public class TechnicalUserListSearchPanel extends Panel {
+public class UserOrganisationListSearchPanel extends Panel {
 
-  private static final long serialVersionUID = -4624527265796845060L;
+  private static final long serialVersionUID = 1L;
 
   private final IModel<User> quickAccessModel = new GenericEntityModel<>();
 
-  public TechnicalUserListSearchPanel(
+  public UserOrganisationListSearchPanel(
       String id, UserDataProvider dataProvider, DecoratedCoreDataTablePanel<User, ?> table) {
     super(id);
 

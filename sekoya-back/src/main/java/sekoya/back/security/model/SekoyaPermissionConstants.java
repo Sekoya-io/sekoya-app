@@ -16,8 +16,11 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
 
   public static final String USER_READ = "USER_READ";
   public static final String USER_WRITE = "USER_WRITE";
-  public static final String USER_BASIC_WRITE = "USER_BASIC_WRITE";
-  public static final String USER_TECHNICAL_WRITE = "USER_TECHNICAL_WRITE";
+  public static final String USER_ORGANISATION_WRITE = "USER_ORGANISATION_WRITE";
+  public static final String USER_ADMINISTATEUR_FONCTIONNEL_WRITE =
+      "USER_ADMINISTATEUR_FONCTIONNEL_WRITE";
+  public static final String USER_ADMINISTATEUR_TECHNIQUE_WRITE =
+      "USER_ADMINISTATEUR_TECHNIQUE_WRITE";
   public static final String USER_ENABLE = "USER_ENABLE";
   public static final String USER_DISABLE = "USER_DISABLE";
   public static final String USER_EDIT_PASSWORD = "USER_EDIT_PASSWORD";

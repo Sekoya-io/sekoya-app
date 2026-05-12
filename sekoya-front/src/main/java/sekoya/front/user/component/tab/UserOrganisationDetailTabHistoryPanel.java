@@ -5,11 +5,11 @@ import org.apache.wicket.model.IModel;
 import sekoya.back.business.user.model.User;
 import sekoya.front.user.component.UserDetailHistoryHistoryLogsPanel;
 
-public class TechnicalUserDetailTabHistoryPanel extends GenericPanel<User> {
+public class UserOrganisationDetailTabHistoryPanel extends GenericPanel<User> {
 
   private static final long serialVersionUID = 1L;
 
-  public TechnicalUserDetailTabHistoryPanel(String id, final IModel<User> userModel) {
+  public UserOrganisationDetailTabHistoryPanel(String id, final IModel<User> userModel) {
     super(id, userModel);
 
     add(new UserDetailHistoryHistoryLogsPanel("historyLogs", userModel));

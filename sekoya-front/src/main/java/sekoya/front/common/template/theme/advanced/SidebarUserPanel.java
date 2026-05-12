@@ -86,11 +86,6 @@ public class SidebarUserPanel extends Panel {
                                 BindingModel.of(
                                     SekoyaSession.get().getUserModel(), Bindings.user().fullName()))
                             .hideIfEmpty()),
-                new CoreLabel(
-                        "username",
-                        BindingModel.of(
-                            SekoyaSession.get().getUserModel(), Bindings.user().username()))
-                    .hideIfEmpty(),
                 new BookmarkablePageLink<Void>("logout", LogoutPage.class)));
   }
 

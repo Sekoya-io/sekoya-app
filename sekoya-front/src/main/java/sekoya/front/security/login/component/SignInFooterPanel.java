@@ -25,7 +25,7 @@ public class SignInFooterPanel extends Panel {
                 Condition.isTrue(
                         () ->
                             securityManagementController
-                                .getSecurityOptions(UserType.BASIC)
+                                .getSecurityOptions(UserType.ORGANISATION)
                                 .isPasswordUserRecoveryEnabled())
                     .thenShow()));
   }

@@ -19,15 +19,21 @@ public class UserControllerServiceImpl implements IUserControllerService {
   }
 
   @Override
-  public void saveBasicUser(User user, String password)
+  public void saveUserOrganisation(User user, String password)
       throws SecurityServiceException, ServiceException {
-    userService.saveBasicUser(user, password);
+    userService.saveUserOrganisation(user, password);
   }
 
   @Override
-  public void saveTechnicalUser(User user, String password)
+  public void saveUserAdministrateurFonctionnel(User user, String password)
       throws SecurityServiceException, ServiceException {
-    userService.saveTechnicalUser(user, password);
+    userService.saveUserAdministrateurFonctionnel(user, password);
+  }
+
+  @Override
+  public void saveUserAdministrateurTechnique(User user, String password)
+      throws SecurityServiceException, ServiceException {
+    userService.saveUserAdministrateurTechnique(user, password);
   }
 
   @Override

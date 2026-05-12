@@ -46,7 +46,7 @@ public class SekoyaUserDetailsServiceImpl extends CoreJpaUserDetailsServiceImpl
 
     // Chargement des Permission Spring ACL
     Set<Role> roles =
-        UserPredicates.technical().apply(user)
+        UserPredicates.administrateurTechnique().apply(user)
             ? Sets.newHashSet(roleService.list())
             : user.getRoles();
     Set<Permission> permissions =
@@ -61,8 +61,9 @@ public class SekoyaUserDetailsServiceImpl extends CoreJpaUserDetailsServiceImpl
 
   private List<String> getAuthorities(User user) {
     return switch (user.getType()) {
-      case BASIC -> List.of(CoreAuthorityConstants.ROLE_AUTHENTICATED);
-      case TECHNICAL ->
+      case ORGANISATION, ADMINISTRATEUR_FONCTIONNEL ->
+          List.of(CoreAuthorityConstants.ROLE_AUTHENTICATED);
+      case ADMINISTRATEUR_TECHNIQUE ->
           List.of(CoreAuthorityConstants.ROLE_AUTHENTICATED, CoreAuthorityConstants.ROLE_ADMIN);
       default -> throw new IllegalSwitchValueException(user.getType());
     };

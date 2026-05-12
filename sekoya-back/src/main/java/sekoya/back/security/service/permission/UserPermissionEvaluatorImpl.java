@@ -5,19 +5,21 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_EDIT_PA
 import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_RECOVERY_PASSWORD;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_WRITE;
-import static sekoya.back.security.model.SekoyaPermissionConstants.USER_BASIC_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ADMINISTATEUR_FONCTIONNEL_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ADMINISTATEUR_TECHNIQUE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_CLOSE_ANNONCEMENT;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_DISABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_EDIT_PASSWORD;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ENABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_OPEN_ANNONCEMENT;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ORGANISATION_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_RECOVERY_PASSWORD;
-import static sekoya.back.security.model.SekoyaPermissionConstants.USER_TECHNICAL_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_WRITE;
 
 import com.google.common.annotations.VisibleForTesting;
 import java.util.Objects;
+import org.iglooproject.commons.util.exception.IllegalSwitchValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.model.Permission;
 import org.springframework.stereotype.Service;
@@ -42,10 +44,12 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
       return canReadUser(user, targetUser);
     } else if (is(permission, USER_WRITE)) {
       return canWriteUser(user, targetUser);
-    } else if (is(permission, USER_TECHNICAL_WRITE)) {
-      return canWriteTechicalUser(user);
-    } else if (is(permission, USER_BASIC_WRITE)) {
-      return canWriteBasicUser(user, targetUser);
+    } else if (is(permission, USER_ADMINISTATEUR_TECHNIQUE_WRITE)) {
+      return canWriteUserAdministrateurTechnique(user);
+    } else if (is(permission, USER_ADMINISTATEUR_FONCTIONNEL_WRITE)) {
+      return canWriteUserAdministrateurFonctionnel(user);
+    } else if (is(permission, USER_ORGANISATION_WRITE)) {
+      return canWriteUserOrganisation(user, targetUser);
     } else if (is(permission, USER_ENABLE)) {
       return canEnableUser(user, targetUser);
     } else if (is(permission, USER_DISABLE)) {
@@ -68,31 +72,45 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
 
   @VisibleForTesting
   public boolean canReadUser(User user, User targetUser) {
-    return UserPredicates.technical().apply(targetUser)
-        ? canReadTechnicalUser(user)
-        : canReadBasicUser(user, targetUser);
+    return switch (targetUser.getType()) {
+      case ADMINISTRATEUR_TECHNIQUE -> canReadUserAdministrateurTechnique(user);
+      case ADMINISTRATEUR_FONCTIONNEL -> canReadUserAdministrateurFonctionnel(user);
+      case ORGANISATION -> canReadUserOrganisation(user, targetUser);
+      default -> throw new IllegalSwitchValueException(user.getType());
+    };
   }
 
-  private boolean canReadTechnicalUser(User user) {
+  private boolean canReadUserAdministrateurTechnique(User user) {
     return hasRole(user, ROLE_ADMIN);
   }
 
-  private boolean canReadBasicUser(User user, User targetUser) {
+  private boolean canReadUserAdministrateurFonctionnel(User user) {
+    return hasPermission(user, GLOBAL_USER_READ);
+  }
+
+  private boolean canReadUserOrganisation(User user, User targetUser) {
     return Objects.equals(user, targetUser) || hasPermission(user, GLOBAL_USER_READ);
   }
 
   @VisibleForTesting
   public boolean canWriteUser(User user, User targetUser) {
-    return UserPredicates.technical().apply(targetUser)
-        ? canWriteTechicalUser(user)
-        : canWriteBasicUser(user, targetUser);
+    return switch (targetUser.getType()) {
+      case ADMINISTRATEUR_TECHNIQUE -> canWriteUserAdministrateurTechnique(user);
+      case ADMINISTRATEUR_FONCTIONNEL -> canWriteUserAdministrateurFonctionnel(user);
+      case ORGANISATION -> canWriteUserOrganisation(user, targetUser);
+      default -> throw new IllegalSwitchValueException(user.getType());
+    };
   }
 
-  private boolean canWriteTechicalUser(User user) {
+  private boolean canWriteUserAdministrateurTechnique(User user) {
     return hasRole(user, ROLE_ADMIN);
   }
 
-  private boolean canWriteBasicUser(User user, User targetUser) {
+  private boolean canWriteUserAdministrateurFonctionnel(User user) {
+    return hasPermission(user, GLOBAL_USER_WRITE);
+  }
+
+  private boolean canWriteUserOrganisation(User user, User targetUser) {
     return Objects.equals(user, targetUser) || hasPermission(user, GLOBAL_USER_WRITE);
   }
 
@@ -102,7 +120,7 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
       return false;
     }
 
-    return UserPredicates.technical().apply(targetUser)
+    return UserPredicates.administrateurTechnique().apply(targetUser)
         ? hasRole(user, ROLE_ADMIN)
         : hasPermission(user, GLOBAL_USER_WRITE);
   }
@@ -113,7 +131,7 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
       return false;
     }
 
-    return UserPredicates.technical().apply(targetUser)
+    return UserPredicates.administrateurTechnique().apply(targetUser)
         ? hasRole(user, ROLE_ADMIN)
         : hasPermission(user, GLOBAL_USER_WRITE);
   }
@@ -123,7 +141,7 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
       return false;
     }
 
-    return UserPredicates.technical().apply(targetUser)
+    return UserPredicates.administrateurTechnique().apply(targetUser)
         ? hasRole(user, ROLE_ADMIN)
         : hasPermission(user, GLOBAL_USER_WRITE);
   }
@@ -152,7 +170,7 @@ public class UserPermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
       return false;
     }
 
-    return UserPredicates.technical().apply(targetUser)
+    return UserPredicates.administrateurTechnique().apply(targetUser)
         ? hasRole(user, ROLE_ADMIN)
         : hasPermission(user, GLOBAL_USER_WRITE);
   }

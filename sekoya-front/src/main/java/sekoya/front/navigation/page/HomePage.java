@@ -10,7 +10,7 @@ import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement
 import sekoya.front.common.template.MainTemplate;
 import sekoya.front.profile.page.ProfilePage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
-import sekoya.front.user.page.BasicUserListPage;
+import sekoya.front.user.page.UserOrganisationListPage;
 
 public class HomePage extends MainTemplate {
 
@@ -27,7 +27,7 @@ public class HomePage extends MainTemplate {
         new BreadCrumbElement(new ResourceModel("navigation.home"), HomePage.linkDescriptor()));
 
     add(
-        BasicUserListPage.linkDescriptor().link("users").hideIfInvalid(),
+        UserOrganisationListPage.linkDescriptor().link("users").hideIfInvalid(),
         ReferenceDataPage.linkDescriptor().link("referenceData").hideIfInvalid(),
         ProfilePage.linkDescriptor().link("profile").hideIfInvalid());
   }

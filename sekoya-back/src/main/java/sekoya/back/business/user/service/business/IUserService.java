@@ -11,9 +11,13 @@ import sekoya.back.business.user.model.User;
 public interface IUserService
     extends ICoreUserSecurityService<User>, IGenericEntityService<Long, User> {
 
-  void saveBasicUser(User user, String password) throws SecurityServiceException, ServiceException;
+  void saveUserOrganisation(User user, String password)
+      throws SecurityServiceException, ServiceException;
 
-  void saveTechnicalUser(User user, String password)
+  void saveUserAdministrateurFonctionnel(User user, String password)
+      throws SecurityServiceException, ServiceException;
+
+  void saveUserAdministrateurTechnique(User user, String password)
       throws SecurityServiceException, ServiceException;
 
   void onSignIn(User user) throws ServiceException, SecurityServiceException;

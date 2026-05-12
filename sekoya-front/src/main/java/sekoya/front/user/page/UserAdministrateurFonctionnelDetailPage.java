@@ -1,7 +1,7 @@
 package sekoya.front.user.page;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_EDIT_PASSWORD;
 import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_RECOVERY_PASSWORD;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_DISABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ENABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_READ;
@@ -34,6 +34,7 @@ import org.iglooproject.wicket.more.link.model.PageModel;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
+import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
@@ -47,17 +48,19 @@ import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.util.BootstrapTabsUtils;
 import sekoya.front.navigation.link.LinkFactory;
-import sekoya.front.user.component.tab.BasicUserDetailTabGeneralPanel;
-import sekoya.front.user.component.tab.BasicUserDetailTabHistoryPanel;
+import sekoya.front.user.component.tab.UserAdministrateurFonctionnelDetailTabGeneralPanel;
+import sekoya.front.user.component.tab.UserAdministrateurFonctionnelDetailTabHistoryPanel;
 import sekoya.front.user.popup.UserPasswordEditPopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-public class BasicUserDetailPage extends UserTemplate {
+@AuthorizeInstantiationIfPermission(permissions = GLOBAL_USER_READ)
+public class UserAdministrateurFonctionnelDetailPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(BasicUserDetailPage.class);
+  private static final Logger LOGGER =
+      LoggerFactory.getLogger(UserAdministrateurFonctionnelDetailPage.class);
 
   public static final ITwoParameterLinkDescriptorMapper<IPageLinkDescriptor, User, Page> MAPPER =
       LinkDescriptorBuilder.start()
@@ -68,11 +71,11 @@ public class BasicUserDetailPage extends UserTemplate {
           .map(CommonParameters.ID)
           .mandatory()
           .pickFirst()
-          .validator(UserPredicates.basic())
+          .validator(UserPredicates.administrateurFonctionnel())
           .pickSecond()
           .map(CommonParameters.SOURCE_PAGE_ID)
           .optional()
-          .page(BasicUserDetailPage.class);
+          .page(UserAdministrateurFonctionnelDetailPage.class);
 
   public static final String TAB_GENERAL_PANEL_ID = "general";
   public static final String TAB_GENERAL_TAB_ID =
@@ -89,30 +92,32 @@ public class BasicUserDetailPage extends UserTemplate {
 
   protected final IModel<Page> sourcePageModel = new PageModel<>();
 
-  public BasicUserDetailPage(PageParameters parameters) {
+  public UserAdministrateurFonctionnelDetailPage(PageParameters parameters) {
     super(parameters);
 
     addBreadCrumbElement(
         new BreadCrumbElement(
-            new ResourceModel("navigation.administration.basicUser"),
-            BasicUserListPage.linkDescriptor()));
+            new ResourceModel("navigation.administration.userAdministrateurFonctionnel"),
+            UserAdministrateurFonctionnelListPage.linkDescriptor()));
     addBreadCrumbElement(
         new BreadCrumbElement(BindingModel.of(userModel, Bindings.user().fullName())));
 
     MAPPER
         .map(userModel, sourcePageModel)
         .extractSafely(
-            parameters, BasicUserListPage.linkDescriptor(), getString("common.error.unexpected"));
+            parameters,
+            UserAdministrateurFonctionnelListPage.linkDescriptor(),
+            getString("common.error.unexpected"));
 
     Component backToSourcePage =
         LinkFactory.get()
-            .linkGenerator(sourcePageModel, BasicUserListPage.class)
+            .linkGenerator(sourcePageModel, UserAdministrateurFonctionnelListPage.class)
             .link("backToSourcePage")
             .hideIfInvalid();
 
     add(
         backToSourcePage,
-        BasicUserListPage.linkDescriptor()
+        UserAdministrateurFonctionnelListPage.linkDescriptor()
             .link("backToList")
             .add(Condition.componentVisible(backToSourcePage).thenHide()),
         new CoreLabel("title", BindingModel.of(userModel, Bindings.user().fullName())));
@@ -136,7 +141,7 @@ public class BasicUserDetailPage extends UserTemplate {
             .add(
                 new BlankLink("passwordEdit")
                     .add(new AjaxModalOpenBehavior(passwordEditPopup, MouseEvent.CLICK))
-                    .add(Condition.permission(userModel, ADMIN_EDIT_PASSWORD).thenShow()),
+                    .add(Condition.permission(userModel, ADMIN_RECOVERY_PASSWORD).thenShow()),
                 AjaxConfirmLink.<User>build()
                     .title(new ResourceModel("user.password.recovery.reset.confirm.title"))
                     .content(new ResourceModel("common.action.confirm.content"))
@@ -153,8 +158,7 @@ public class BasicUserDetailPage extends UserTemplate {
                                   UserPasswordRecoveryRequestType.RESET,
                                   UserPasswordRecoveryRequestInitiator.ADMIN,
                                   SekoyaSession.get().getUser());
-                              Session.get()
-                                  .success(getString("user.password.recovery.reset.success"));
+                              Session.get().success(getString("common.success"));
                               target.add(getPage());
                             } catch (Exception e) {
                               LOGGER.error(
@@ -211,7 +215,7 @@ public class BasicUserDetailPage extends UserTemplate {
             TAB_GENERAL_TAB_ID,
             TAB_GENERAL_PANEL_ID,
             new WebMarkupContainer("generalTab"),
-            new BasicUserDetailTabGeneralPanel("general", userModel),
+            new UserAdministrateurFonctionnelDetailTabGeneralPanel("general", userModel),
             () -> true));
 
     add(
@@ -219,12 +223,12 @@ public class BasicUserDetailPage extends UserTemplate {
             TAB_HISTORY_TAB_ID,
             TAB_HISTORY_PANEL_ID,
             new WebMarkupContainer("historyTab"),
-            new BasicUserDetailTabHistoryPanel("history", userModel),
+            new UserAdministrateurFonctionnelDetailTabHistoryPanel("history", userModel),
             () -> false));
   }
 
   @Override
   protected Class<? extends WebPage> getSecondMenuPage() {
-    return BasicUserListPage.class;
+    return UserAdministrateurFonctionnelListPage.class;
   }
 }

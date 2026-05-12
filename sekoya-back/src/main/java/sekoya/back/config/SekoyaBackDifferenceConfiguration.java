@@ -44,6 +44,7 @@ public class SekoyaBackDifferenceConfiguration {
     differenceIntrospector.addIgnoredPaths(Bindings.user().creation());
     differenceIntrospector.addIgnoredPaths(Bindings.user().modification());
     differenceIntrospector.addIgnoredPaths(Bindings.user().lastLoginDate());
+    differenceIntrospector.addIgnoredPaths(Bindings.user().locale());
 
     differenceIntrospector.addBinding(Bindings.user().roles(), new RoleBinding());
     differenceIntrospector.addShallowPaths(Bindings.user().roles());

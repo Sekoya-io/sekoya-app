@@ -13,12 +13,16 @@ public final class UserPredicates {
         Predicates2.compose(Predicates2.equalTo(type), Bindings.user().type()));
   }
 
-  public static SerializablePredicate2<User> technical() {
-    return type(UserType.TECHNICAL);
+  public static SerializablePredicate2<User> administrateurTechnique() {
+    return type(UserType.ADMINISTRATEUR_TECHNIQUE);
   }
 
-  public static SerializablePredicate2<User> basic() {
-    return type(UserType.BASIC);
+  public static SerializablePredicate2<User> administrateurFonctionnel() {
+    return type(UserType.ADMINISTRATEUR_FONCTIONNEL);
+  }
+
+  public static SerializablePredicate2<User> organisation() {
+    return type(UserType.ORGANISATION);
   }
 
   public static SerializablePredicate2<User> enabled() {

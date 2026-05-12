@@ -1,6 +1,6 @@
 package sekoya.front.user.component;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.USER_TECHNICAL_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ADMINISTATEUR_FONCTIONNEL_WRITE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.wicket.component.CoreLabel;
@@ -17,16 +17,18 @@ import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.popup.TechnicalUserSavePopup;
+import sekoya.front.user.popup.UserAdministrateurFonctionnelSavePopup;
 
-public class TechnicalUserDetailGeneralDescriptionPanel extends GenericPanel<User> {
+public class UserAdministrateurFonctionnelDetailGeneralDescriptionPanel extends GenericPanel<User> {
 
   private static final long serialVersionUID = 1L;
 
-  public TechnicalUserDetailGeneralDescriptionPanel(String id, final IModel<User> userModel) {
+  public UserAdministrateurFonctionnelDetailGeneralDescriptionPanel(
+      String id, final IModel<User> userModel) {
     super(id, userModel);
 
-    TechnicalUserSavePopup editPopup = new TechnicalUserSavePopup("editPopup");
+    UserAdministrateurFonctionnelSavePopup editPopup =
+        new UserAdministrateurFonctionnelSavePopup("editPopup");
     add(editPopup);
 
     IModel<String> emailAddressValueModel =
@@ -62,6 +64,8 @@ public class TechnicalUserDetailGeneralDescriptionPanel extends GenericPanel<Use
                             editPopup.setUpEdit(getModelObject());
                           }
                         })
-                    .add(Condition.permission(userModel, USER_TECHNICAL_WRITE).thenShow())));
+                    .add(
+                        Condition.permission(userModel, USER_ADMINISTATEUR_FONCTIONNEL_WRITE)
+                            .thenShow())));
   }
 }

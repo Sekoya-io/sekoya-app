@@ -80,10 +80,10 @@ import sekoya.front.security.password.page.SecurityPasswordCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.security.password.page.SecurityPasswordRecoveryRequestResetPage;
 import sekoya.front.security.password.page.SecurityPasswordResetPage;
-import sekoya.front.user.page.BasicUserDetailPage;
-import sekoya.front.user.page.BasicUserListPage;
-import sekoya.front.user.page.TechnicalUserDetailPage;
-import sekoya.front.user.page.TechnicalUserListPage;
+import sekoya.front.user.page.UserAdministrateurFonctionnelDetailPage;
+import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
+import sekoya.front.user.page.UserOrganisationDetailPage;
+import sekoya.front.user.page.UserOrganisationListPage;
 import sekoya.front.user.renderer.UserRenderer;
 
 public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
@@ -180,20 +180,21 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     mountPage("/maintenance/", MaintenancePage.class);
 
     // Profile
-    mountPage("/profile/", ProfilePage.class);
+    mountPage("/profil/", ProfilePage.class);
 
     // Reference data
-    mountPage("/reference-data/", ReferenceDataPage.class);
+    mountPage("/referentiel/", ReferenceDataPage.class);
 
     // Administration
-    mountPage("/administration/basic-user/", BasicUserListPage.class);
+    mountPage("/administration/utilisateur-organisation/", UserOrganisationListPage.class);
     mountParameterizedPage(
-        "/administration/basic-user/${" + CommonParameters.ID + "}/", BasicUserDetailPage.class);
-    mountPage("/administration/technical-user/", TechnicalUserListPage.class);
+        "/administration/utilisateur-organisation/${" + CommonParameters.ID + "}/",
+        UserOrganisationDetailPage.class);
+    mountPage("/administration/administrateur/", UserAdministrateurFonctionnelListPage.class);
     mountParameterizedPage(
-        "/administration/technical-user/${" + CommonParameters.ID + "}/",
-        TechnicalUserDetailPage.class);
-    mountPage("/administration/announcement/", AnnouncementListPage.class);
+        "/administration/administrateur/${" + CommonParameters.ID + "}/",
+        UserAdministrateurFonctionnelDetailPage.class);
+    mountPage("/administration/annonce/", AnnouncementListPage.class);
 
     // Console sign in
     mountPage("/console/login/", ConsoleSignInPage.class);

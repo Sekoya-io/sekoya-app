@@ -24,7 +24,7 @@ public class ReferenceData<E extends ReferenceData<?>> extends GenericReferenceD
   public static final String LABEL_SORT = "labelSort";
 
   @Basic(optional = false)
-  @Column(unique = true, length = Length.LONG)
+  @Column(length = Length.LONG)
   @FullTextField(name = LABEL_AUTOCOMPLETE, analyzer = HibernateSearchAnalyzer.TEXT)
   @KeywordField(
       name = LABEL_SORT,

@@ -3,7 +3,6 @@ package sekoya.front.user.popup;
 import static sekoya.back.property.SekoyaBackPropertyIds.SECURITY_PASSWORD_LENGTH_MIN;
 
 import igloo.bootstrap.modal.AbstractAjaxModalPopupPanel;
-import igloo.igloojs.showpassword.ShowPasswordBehavior;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
@@ -11,7 +10,6 @@ import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.markup.html.panel.DelegatedMarkupPanel;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Detachables;
-import java.util.Collections;
 import org.apache.wicket.Component;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
@@ -19,15 +17,12 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.apache.wicket.validation.IValidatable;
-import org.apache.wicket.validation.IValidationError;
-import org.apache.wicket.validation.ValidationError;
 import org.iglooproject.spring.property.SpringPropertyIds;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.spring.util.StringUtils;
@@ -47,34 +42,19 @@ import sekoya.front.SekoyaSession;
 import sekoya.front.common.form.EmailAddressTextField;
 import sekoya.front.common.validator.EmailAddressUnicityValidator;
 import sekoya.front.common.validator.UserPasswordValidator;
-import sekoya.front.common.validator.UsernamePatternValidator;
-import sekoya.front.common.validator.UsernameUnicityValidator;
-import sekoya.front.user.page.TechnicalUserDetailPage;
+import sekoya.front.user.page.UserOrganisationDetailPage;
 
-public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
+public class UserOrganisationSavePopup extends AbstractAjaxModalPopupPanel<User> {
 
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TechnicalUserSavePopup.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserOrganisationSavePopup.class);
 
-  protected static final UsernamePatternValidator USERNAME_PATTERN_VALIDATOR =
-      new UsernamePatternValidator() {
-        private static final long serialVersionUID = 1L;
+  @SpringBean private IUserControllerService userControllerService;
 
-        @Override
-        protected IValidationError decorate(
-            IValidationError error, IValidatable<String> validatable) {
-          ((ValidationError) error)
-              .setKeys(Collections.singletonList("common.validator.username.pattern"));
-          return error;
-        }
-      };
+  @SpringBean private ISecurityManagementControllerService securityManagementControllerService;
 
-  @SpringBean protected IUserControllerService userControllerService;
-
-  @SpringBean protected ISecurityManagementControllerService securityManagementcontrollerService;
-
-  @SpringBean protected IPropertyService propertyService;
+  @SpringBean private IPropertyService propertyService;
 
   private final IModel<FormMode> formModeModel = Model.of();
 
@@ -82,7 +62,7 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
 
   private ModelValidatingForm<User> form;
 
-  public TechnicalUserSavePopup(String id) {
+  public UserOrganisationSavePopup(String id) {
     super(id, new GenericEntityModel<>());
   }
 
@@ -103,30 +83,25 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
     body.add(form);
 
     boolean passwordRequired =
-        securityManagementcontrollerService
-                .getSecurityOptions(UserType.TECHNICAL)
+        securityManagementControllerService
+                .getSecurityOptions(UserType.ORGANISATION)
                 .isPasswordAdminUpdateEnabled()
-            && !securityManagementcontrollerService
-                .getSecurityOptions(UserType.TECHNICAL)
+            && !securityManagementControllerService
+                .getSecurityOptions(UserType.ORGANISATION)
                 .isPasswordUserRecoveryEnabled();
 
     PasswordTextField password = new PasswordTextField("password", passwordModel);
 
     form.add(
-        new TextField<String>("firstName", BindingModel.of(getModel(), Bindings.user().firstName()))
-            .setLabel(new ResourceModel("business.user.firstName"))
-            .setRequired(true),
-        new TextField<String>("lastName", BindingModel.of(getModel(), Bindings.user().lastName()))
-            .setLabel(new ResourceModel("business.user.lastName"))
-            .setRequired(true),
-        new TextField<String>("username", BindingModel.of(getModel(), Bindings.user().username()))
-            .setLabel(new ResourceModel("business.user.username"))
-            .setRequired(true)
-            .add(USERNAME_PATTERN_VALIDATOR)
-            .add(new UsernameUnicityValidator(getModel())),
+        new RequiredTextField<>(
+                "firstName", BindingModel.of(getModel(), Bindings.user().firstName()))
+            .setLabel(new ResourceModel("business.user.firstName")),
+        new RequiredTextField<>("lastName", BindingModel.of(getModel(), Bindings.user().lastName()))
+            .setLabel(new ResourceModel("business.user.lastName")),
         new EmailAddressTextField(
                 "emailAddress", BindingModel.of(getModel(), Bindings.user().emailAddress()))
             .setLabel(new ResourceModel("business.user.emailAddress"))
+            .setRequired(true)
             .add(new EmailAddressUnicityValidator(getModel())),
         new EnclosureContainer("addContainer")
             .condition(addModeCondition())
@@ -135,14 +110,13 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
                     .condition(
                         Condition.isTrue(
                             () ->
-                                securityManagementcontrollerService
-                                    .getSecurityOptions(UserType.TECHNICAL)
+                                securityManagementControllerService
+                                    .getSecurityOptions(UserType.ORGANISATION)
                                     .isPasswordAdminUpdateEnabled()))
                     .add(
                         password
                             .setLabel(new ResourceModel("business.user.password"))
                             .setRequired(passwordRequired),
-                        new BlankLink("showPassword").add(new ShowPasswordBehavior(password)),
                         new CoreLabel(
                             "passwordHelp",
                             new StringResourceModel("user.common.form.password.help")
@@ -153,14 +127,15 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
                     .setOutputMarkupId(true)));
 
     form.add(
-        new UserPasswordValidator(Model.of(UserType.TECHNICAL), password).userModel(getModel()));
+        new UserPasswordValidator(Model.of(UserType.ORGANISATION), password).userModel(getModel()));
 
     return body;
   }
 
   @Override
   protected Component createFooter(String wicketId) {
-    DelegatedMarkupPanel footer = new DelegatedMarkupPanel(wicketId, TechnicalUserSavePopup.class);
+    DelegatedMarkupPanel footer =
+        new DelegatedMarkupPanel(wicketId, UserOrganisationSavePopup.class);
 
     footer.add(
         new AjaxButton("save", form) {
@@ -169,18 +144,18 @@ public class TechnicalUserSavePopup extends AbstractAjaxModalPopupPanel<User> {
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
             try {
-              IModel<User> userModel = TechnicalUserSavePopup.this.getModel();
+              IModel<User> userModel = UserOrganisationSavePopup.this.getModel();
               User user = userModel.getObject();
               User authenticatedUser = SekoyaSession.get().getUser();
               String password = passwordModel.getObject();
 
-              userControllerService.saveTechnicalUser(user, password);
+              userControllerService.saveUserOrganisation(user, password);
 
               Session.get().success(getString("common.success"));
 
               if (addModeCondition().applies() && !StringUtils.hasText(password)) {
                 Session.get().success(getString("user.add.success.notification"));
-                throw TechnicalUserDetailPage.MAPPER
+                throw UserOrganisationDetailPage.MAPPER
                     .ignoreParameter2()
                     .map(userModel)
                     .newRestartResponseException();

@@ -24,7 +24,7 @@ public class TestAnnouncementPermissions {
     @Test
     void canWriteAnnouncement_withPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(true)
           .when(announcementPermissionEvaluator)
@@ -36,7 +36,7 @@ public class TestAnnouncementPermissions {
     @Test
     void canWriteAnnouncement_noPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(false)
           .when(announcementPermissionEvaluator)
@@ -51,7 +51,7 @@ public class TestAnnouncementPermissions {
     @Test
     void canRemoveAnnouncement_withPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(true)
           .when(announcementPermissionEvaluator)
@@ -63,7 +63,7 @@ public class TestAnnouncementPermissions {
     @Test
     void canRemoveAnnouncement_noPermission() {
       User authenticated = new User();
-      authenticated.setType(UserType.BASIC);
+      authenticated.setType(UserType.ORGANISATION);
 
       Mockito.doReturn(false)
           .when(announcementPermissionEvaluator)

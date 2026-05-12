@@ -24,12 +24,16 @@ import sekoya.back.business.history.model.atomic.HistoryLogEventType;
 import sekoya.back.business.history.model.bean.HistoryLogAdditionalInformationBean;
 import sekoya.back.business.history.service.IHistoryEventSummaryService;
 import sekoya.back.business.history.service.IHistoryLogService;
+import sekoya.back.business.role.model.Role;
+import sekoya.back.business.role.model.Role.RoleEnumKey;
+import sekoya.back.business.role.service.IRoleService;
 import sekoya.back.business.user.dao.IUserDao;
 import sekoya.back.business.user.difference.service.IUserDifferenceService;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserPasswordRecoveryRequestInitiator;
 import sekoya.back.business.user.model.atomic.UserPasswordRecoveryRequestType;
 import sekoya.back.business.user.model.atomic.UserType;
+import sekoya.back.business.user.predicate.UserPredicates;
 import sekoya.back.security.service.ISecurityManagementService;
 import sekoya.back.security.service.ISekoyaAuthenticationService;
 
@@ -43,6 +47,7 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
   private final IPropertyService propertyService;
   private final ISekoyaAuthenticationService authenticationService;
   private final ISecurityManagementService securityManagementService;
+  private final IRoleService roleService;
   private final PasswordEncoder passwordEncoder;
 
   @Autowired
@@ -54,7 +59,8 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
       @Lazy ISekoyaAuthenticationService authenticationService,
       IPropertyService propertyService,
       @Lazy ISecurityManagementService securityManagementService,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder,
+      IRoleService roleService) {
     super(dao);
     this.dao = dao;
     this.userDifferenceService = userDifferenceService;
@@ -64,6 +70,7 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
     this.authenticationService = authenticationService;
     this.securityManagementService = securityManagementService;
     this.passwordEncoder = passwordEncoder;
+    this.roleService = roleService;
   }
 
   @Override
@@ -94,19 +101,46 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
   }
 
   @Override
-  public void saveBasicUser(User user, String password)
+  public void saveUserOrganisation(User user, String password)
       throws SecurityServiceException, ServiceException {
-    user.setType(UserType.BASIC);
+    user.setUsername(user.getEmailAddress().getValue());
+    user.setType(UserType.ORGANISATION);
     User author = getAuthenticatedUser();
+    addRoleForNewUser(user, RoleEnumKey.ORGANISATION);
     saveUser(user, author, password);
   }
 
   @Override
-  public void saveTechnicalUser(User user, String password)
+  public void saveUserAdministrateurFonctionnel(User user, String password)
       throws SecurityServiceException, ServiceException {
-    user.setType(UserType.TECHNICAL);
+    user.setUsername(user.getEmailAddress().getValue());
+    user.setType(UserType.ADMINISTRATEUR_FONCTIONNEL);
+    User author = getAuthenticatedUser();
+    addRoleForNewUser(user, RoleEnumKey.ADMINISTRATEUR_FONCTIONNEL);
+    saveUser(user, author, password);
+  }
+
+  @Override
+  public void saveUserAdministrateurTechnique(User user, String password)
+      throws SecurityServiceException, ServiceException {
+    user.setType(UserType.ADMINISTRATEUR_TECHNIQUE);
     User author = getAuthenticatedUser();
     saveUser(user, author, password);
+  }
+
+  private void addRoleForNewUser(User user, RoleEnumKey roleEnumKey) throws ServiceException {
+    if (!user.isNew()
+        || UserPredicates.administrateurTechnique().apply(user)
+        || roleEnumKey == null) {
+      return;
+    }
+
+    Role role = roleService.getByEnumKey(roleEnumKey);
+    if (role == null) {
+      throw new ServiceException("Aucun rôle pour l'enumkey '%s'".formatted(roleEnumKey));
+    }
+
+    user.addRole(role);
   }
 
   private void saveUser(User user, User author, String password)

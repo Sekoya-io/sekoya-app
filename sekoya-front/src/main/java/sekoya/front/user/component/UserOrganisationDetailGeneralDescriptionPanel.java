@@ -1,6 +1,6 @@
 package sekoya.front.user.component;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.USER_BASIC_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ORGANISATION_WRITE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.wicket.component.CoreLabel;
@@ -17,16 +17,16 @@ import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.popup.BasicUserSavePopup;
+import sekoya.front.user.popup.UserOrganisationSavePopup;
 
-public class BasicUserDetailGeneralDescriptionPanel extends GenericPanel<User> {
+public class UserOrganisationDetailGeneralDescriptionPanel extends GenericPanel<User> {
 
   private static final long serialVersionUID = 1L;
 
-  public BasicUserDetailGeneralDescriptionPanel(String id, IModel<User> userModel) {
+  public UserOrganisationDetailGeneralDescriptionPanel(String id, IModel<User> userModel) {
     super(id, userModel);
 
-    BasicUserSavePopup editPopup = new BasicUserSavePopup("editPopup");
+    UserOrganisationSavePopup editPopup = new UserOrganisationSavePopup("editPopup");
     add(editPopup);
 
     IModel<String> emailAddressValueModel =
@@ -62,6 +62,6 @@ public class BasicUserDetailGeneralDescriptionPanel extends GenericPanel<User> {
                             editPopup.setUpEdit(getModelObject());
                           }
                         })
-                    .add(Condition.permission(userModel, USER_BASIC_WRITE).thenShow())));
+                    .add(Condition.permission(userModel, USER_ORGANISATION_WRITE).thenShow())));
   }
 }

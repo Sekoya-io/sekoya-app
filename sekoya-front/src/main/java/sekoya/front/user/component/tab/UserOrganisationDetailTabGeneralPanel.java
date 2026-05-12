@@ -1,0 +1,17 @@
+package sekoya.front.user.component.tab;
+
+import igloo.wicket.markup.html.panel.GenericPanel;
+import org.apache.wicket.model.IModel;
+import sekoya.back.business.user.model.User;
+import sekoya.front.user.component.UserOrganisationDetailGeneralDescriptionPanel;
+
+public class UserOrganisationDetailTabGeneralPanel extends GenericPanel<User> {
+
+  private static final long serialVersionUID = 1L;
+
+  public UserOrganisationDetailTabGeneralPanel(String id, IModel<User> userModel) {
+    super(id, userModel);
+
+    add(new UserOrganisationDetailGeneralDescriptionPanel("description", userModel));
+  }
+}

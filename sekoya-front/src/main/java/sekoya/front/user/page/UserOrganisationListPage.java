@@ -1,8 +1,8 @@
 package sekoya.front.user.page;
 
-import static org.iglooproject.jpa.security.business.authority.util.CoreAuthorityConstants.ROLE_ADMIN;
-import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_2XL;
+import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
@@ -12,7 +12,6 @@ import igloo.wicket.markup.html.link.EmailLink;
 import igloo.wicket.model.BindingModel;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebPage;
@@ -40,41 +39,43 @@ import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.business.user.predicate.UserPredicates;
+import sekoya.back.business.user.search.IUserSearchQuery;
 import sekoya.back.business.user.search.UserSort;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.user.component.TechnicalUserListSearchPanel;
+import sekoya.front.user.component.UserOrganisationListSearchPanel;
 import sekoya.front.user.export.UserExcelTableExport;
 import sekoya.front.user.model.UserDataProvider;
-import sekoya.front.user.popup.TechnicalUserSavePopup;
+import sekoya.front.user.popup.UserOrganisationSavePopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-@AuthorizeInstantiation(ROLE_ADMIN)
-public class TechnicalUserListPage extends UserTemplate {
+public class UserOrganisationListPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;
 
   public static IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start()
-        .validator(Condition.role(ROLE_ADMIN))
-        .page(TechnicalUserListPage.class);
+        .validator(Condition.permission(GLOBAL_USER_READ))
+        .page(UserOrganisationListPage.class);
   }
 
-  @SpringBean private IPropertyService propertyService;
+  @SpringBean private IUserSearchQuery userSearchQuery;
 
   @SpringBean private IUserControllerService userControllerService;
 
-  public TechnicalUserListPage(PageParameters parameters) {
+  @SpringBean private IPropertyService propertyService;
+
+  public UserOrganisationListPage(PageParameters parameters) {
     super(parameters);
 
     addBreadCrumbElement(
-        new BreadCrumbElement(new ResourceModel("navigation.administration.technicalUser")));
+        new BreadCrumbElement(new ResourceModel("navigation.administration.userOrganisation")));
 
     UserDataProvider dataProvider = new UserDataProvider();
-    dataProvider.getDataModel().getObject().setType(UserType.TECHNICAL);
+    dataProvider.getDataModel().getObject().setType(UserType.ORGANISATION);
 
-    TechnicalUserSavePopup addPopup = new TechnicalUserSavePopup("addPopup");
+    UserOrganisationSavePopup addPopup = new UserOrganisationSavePopup("addPopup");
     add(addPopup);
 
     ExcelExportWorkInProgressModalPopupPanel loadingPopup =
@@ -106,7 +107,8 @@ public class TechnicalUserListPage extends UserTemplate {
                           protected void onShow(AjaxRequestTarget target) {
                             addPopup.setUpAdd(new User());
                           }
-                        })));
+                        })
+                    .add(Condition.permission(GLOBAL_USER_READ).thenShow())));
 
     DecoratedCoreDataTablePanel<User, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
@@ -114,7 +116,7 @@ public class TechnicalUserListPage extends UserTemplate {
             .badgePill()
             .withClass("cell-w-100 text-center")
             .addLabelColumn(new ResourceModel("business.user.username"), Bindings.user().username())
-            .withLink(TechnicalUserDetailPage.MAPPER.setParameter2(new PageModel<>(this)))
+            .withLink(UserOrganisationDetailPage.MAPPER.setParameter2(new PageModel<>(this)))
             .withClass("cell-w-250")
             .addLabelColumn(new ResourceModel("business.user.lastName"), Bindings.user().lastName())
             .withSort(UserSort.LAST_NAME, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
@@ -154,7 +156,7 @@ public class TechnicalUserListPage extends UserTemplate {
             .withClass(
                 itemModel ->
                     Condition.predicate(itemModel, UserPredicates.disabled())
-                        .then(BTN_TABLE_ROW_ACTION)
+                        .then(TABLE_ROW_DISABLED)
                         .otherwise(""))
             .end()
             .bootstrapCard()
@@ -162,11 +164,11 @@ public class TechnicalUserListPage extends UserTemplate {
             .count("user.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
-    add(new TechnicalUserListSearchPanel("search", dataProvider, results), results);
+    add(new UserOrganisationListSearchPanel("search", dataProvider, results), results);
   }
 
   @Override
   protected Class<? extends WebPage> getSecondMenuPage() {
-    return TechnicalUserListPage.class;
+    return UserOrganisationListPage.class;
   }
 }

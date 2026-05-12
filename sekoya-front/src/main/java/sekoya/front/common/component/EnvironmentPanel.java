@@ -38,6 +38,6 @@ public class EnvironmentPanel extends GenericPanel<Environment> {
 
     setVisible(
         VISIBLE_ALERTS.contains(getModelObject())
-            || UserPredicates.technical().apply(SekoyaSession.get().getUser()));
+            || UserPredicates.administrateurTechnique().apply(SekoyaSession.get().getUser()));
   }
 }

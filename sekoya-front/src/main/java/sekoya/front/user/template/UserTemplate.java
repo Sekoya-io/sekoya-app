@@ -8,7 +8,7 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
 import sekoya.front.common.template.MainTemplate;
-import sekoya.front.user.page.BasicUserListPage;
+import sekoya.front.user.page.UserOrganisationListPage;
 
 @AuthorizeInstantiationIfPermission(permissions = GLOBAL_USER_READ)
 public abstract class UserTemplate extends MainTemplate {
@@ -23,6 +23,6 @@ public abstract class UserTemplate extends MainTemplate {
 
   @Override
   protected Class<? extends WebPage> getFirstMenuPage() {
-    return BasicUserListPage.class;
+    return UserOrganisationListPage.class;
   }
 }

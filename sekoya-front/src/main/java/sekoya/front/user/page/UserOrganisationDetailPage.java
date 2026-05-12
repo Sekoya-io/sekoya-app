@@ -1,6 +1,6 @@
 package sekoya.front.user.page;
 
-import static org.iglooproject.jpa.security.business.authority.util.CoreAuthorityConstants.ROLE_ADMIN;
+import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_EDIT_PASSWORD;
 import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_RECOVERY_PASSWORD;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_DISABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ENABLE;
@@ -20,7 +20,6 @@ import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
@@ -48,18 +47,17 @@ import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.util.BootstrapTabsUtils;
 import sekoya.front.navigation.link.LinkFactory;
-import sekoya.front.user.component.tab.TechnicalUserDetailTabGeneralPanel;
-import sekoya.front.user.component.tab.TechnicalUserDetailTabHistoryPanel;
+import sekoya.front.user.component.tab.UserOrganisationDetailTabGeneralPanel;
+import sekoya.front.user.component.tab.UserOrganisationDetailTabHistoryPanel;
 import sekoya.front.user.popup.UserPasswordEditPopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-@AuthorizeInstantiation(ROLE_ADMIN)
-public class TechnicalUserDetailPage extends UserTemplate {
+public class UserOrganisationDetailPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TechnicalUserDetailPage.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(UserOrganisationDetailPage.class);
 
   public static final ITwoParameterLinkDescriptorMapper<IPageLinkDescriptor, User, Page> MAPPER =
       LinkDescriptorBuilder.start()
@@ -70,11 +68,11 @@ public class TechnicalUserDetailPage extends UserTemplate {
           .map(CommonParameters.ID)
           .mandatory()
           .pickFirst()
-          .validator(UserPredicates.technical())
+          .validator(UserPredicates.organisation())
           .pickSecond()
           .map(CommonParameters.SOURCE_PAGE_ID)
           .optional()
-          .page(TechnicalUserDetailPage.class);
+          .page(UserOrganisationDetailPage.class);
 
   public static final String TAB_GENERAL_PANEL_ID = "general";
   public static final String TAB_GENERAL_TAB_ID =
@@ -91,13 +89,13 @@ public class TechnicalUserDetailPage extends UserTemplate {
 
   protected final IModel<Page> sourcePageModel = new PageModel<>();
 
-  public TechnicalUserDetailPage(PageParameters parameters) {
+  public UserOrganisationDetailPage(PageParameters parameters) {
     super(parameters);
 
     addBreadCrumbElement(
         new BreadCrumbElement(
-            new ResourceModel("navigation.administration.technicalUser"),
-            TechnicalUserListPage.linkDescriptor()));
+            new ResourceModel("navigation.administration.userOrganisation"),
+            UserOrganisationListPage.linkDescriptor()));
     addBreadCrumbElement(
         new BreadCrumbElement(BindingModel.of(userModel, Bindings.user().fullName())));
 
@@ -105,18 +103,18 @@ public class TechnicalUserDetailPage extends UserTemplate {
         .map(userModel, sourcePageModel)
         .extractSafely(
             parameters,
-            TechnicalUserListPage.linkDescriptor(),
+            UserOrganisationListPage.linkDescriptor(),
             getString("common.error.unexpected"));
 
     Component backToSourcePage =
         LinkFactory.get()
-            .linkGenerator(sourcePageModel, TechnicalUserListPage.class)
+            .linkGenerator(sourcePageModel, UserOrganisationListPage.class)
             .link("backToSourcePage")
             .hideIfInvalid();
 
     add(
         backToSourcePage,
-        TechnicalUserListPage.linkDescriptor()
+        UserOrganisationListPage.linkDescriptor()
             .link("backToList")
             .add(Condition.componentVisible(backToSourcePage).thenHide()),
         new CoreLabel("title", BindingModel.of(userModel, Bindings.user().fullName())));
@@ -140,7 +138,7 @@ public class TechnicalUserDetailPage extends UserTemplate {
             .add(
                 new BlankLink("passwordEdit")
                     .add(new AjaxModalOpenBehavior(passwordEditPopup, MouseEvent.CLICK))
-                    .add(Condition.permission(userModel, ADMIN_RECOVERY_PASSWORD).thenShow()),
+                    .add(Condition.permission(userModel, ADMIN_EDIT_PASSWORD).thenShow()),
                 AjaxConfirmLink.<User>build()
                     .title(new ResourceModel("user.password.recovery.reset.confirm.title"))
                     .content(new ResourceModel("common.action.confirm.content"))
@@ -157,7 +155,8 @@ public class TechnicalUserDetailPage extends UserTemplate {
                                   UserPasswordRecoveryRequestType.RESET,
                                   UserPasswordRecoveryRequestInitiator.ADMIN,
                                   SekoyaSession.get().getUser());
-                              Session.get().success(getString("common.success"));
+                              Session.get()
+                                  .success(getString("user.password.recovery.reset.success"));
                               target.add(getPage());
                             } catch (Exception e) {
                               LOGGER.error(
@@ -214,7 +213,7 @@ public class TechnicalUserDetailPage extends UserTemplate {
             TAB_GENERAL_TAB_ID,
             TAB_GENERAL_PANEL_ID,
             new WebMarkupContainer("generalTab"),
-            new TechnicalUserDetailTabGeneralPanel("general", userModel),
+            new UserOrganisationDetailTabGeneralPanel("general", userModel),
             () -> true));
 
     add(
@@ -222,12 +221,12 @@ public class TechnicalUserDetailPage extends UserTemplate {
             TAB_HISTORY_TAB_ID,
             TAB_HISTORY_PANEL_ID,
             new WebMarkupContainer("historyTab"),
-            new TechnicalUserDetailTabHistoryPanel("history", userModel),
+            new UserOrganisationDetailTabHistoryPanel("history", userModel),
             () -> false));
   }
 
   @Override
   protected Class<? extends WebPage> getSecondMenuPage() {
-    return TechnicalUserListPage.class;
+    return UserOrganisationListPage.class;
   }
 }

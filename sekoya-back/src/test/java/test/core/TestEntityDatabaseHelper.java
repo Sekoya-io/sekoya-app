@@ -12,6 +12,7 @@ import sekoya.back.business.announcement.model.atomic.AnnouncementType;
 import sekoya.back.business.announcement.service.business.IAnnouncementService;
 import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.role.model.Role;
+import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.role.service.IRoleService;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
@@ -82,6 +83,7 @@ public class TestEntityDatabaseHelper {
 
     Role role = new Role();
     role.setTitle("role" + (++uniqueToken));
+    role.setEnumKey(RoleEnumKey.ORGANISATION);
 
     Optional.ofNullable(roleConsumer).ifPresent(consumer -> consumer.accept(role));
 
@@ -96,7 +98,7 @@ public class TestEntityDatabaseHelper {
       throws ServiceException, SecurityServiceException {
 
     User user = new User();
-    user.setType(UserType.TECHNICAL);
+    user.setType(UserType.ADMINISTRATEUR_TECHNIQUE);
     String token = "user" + (++uniqueToken);
     user.setEnabled(true);
     user.setUsername(token);

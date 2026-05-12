@@ -95,12 +95,11 @@ public class SekoyaBackSecurityConfiguration {
                                         SECURITY_PASSWORD_USER_FORBIDDEN_PASSWORDS)))),
         ImmutableMap.<UserType, SecurityOptions>builder()
             .put(
-                UserType.TECHNICAL,
+                UserType.ADMINISTRATEUR_TECHNIQUE,
                 SecurityOptions.create(
                     securityOptions ->
                         securityOptions
                             .passwordAdminRecovery()
-                            .passwordAdminUpdate()
                             .passwordUserRecovery()
                             .passwordUserUpdate()
                             .passwordRules(
@@ -112,12 +111,25 @@ public class SekoyaBackSecurityConfiguration {
                                             propertyService.get(
                                                 SECURITY_PASSWORD_USER_FORBIDDEN_PASSWORDS)))))
             .put(
-                UserType.BASIC,
+                UserType.ADMINISTRATEUR_FONCTIONNEL,
                 SecurityOptions.create(
                     securityOptions ->
                         securityOptions
-                            .passwordExpiration()
-                            .passwordHistory()
+                            .passwordUserRecovery()
+                            .passwordUserUpdate()
+                            .passwordRules(
+                                rules ->
+                                    rules
+                                        .minMaxLength(passwordLengthMin, passwordLengthMax)
+                                        .forbiddenUsername()
+                                        .forbiddenPasswords(
+                                            propertyService.get(
+                                                SECURITY_PASSWORD_USER_FORBIDDEN_PASSWORDS)))))
+            .put(
+                UserType.ORGANISATION,
+                SecurityOptions.create(
+                    securityOptions ->
+                        securityOptions
                             .passwordUserRecovery()
                             .passwordUserUpdate()
                             .passwordRules(
