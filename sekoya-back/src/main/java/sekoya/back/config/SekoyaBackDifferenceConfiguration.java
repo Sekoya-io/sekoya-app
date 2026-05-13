@@ -3,13 +3,12 @@ package sekoya.back.config;
 import igloo.difference.DifferenceIntrospector;
 import igloo.difference.DifferenceIntrospectorDefaults;
 import igloo.difference.model.DifferenceFields;
+import jakarta.validation.constraints.Email;
 import java.util.Set;
 import org.iglooproject.commons.util.fieldpath.FieldPath;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sekoya.back.business.common.model.EmailAddress;
-import sekoya.back.business.common.model.PhoneNumber;
-import sekoya.back.business.common.model.PostalCode;
+import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.role.model.RoleBinding;
 import sekoya.back.business.user.difference.service.IUserDifferenceService;
 import sekoya.back.business.user.difference.service.UserDifferenceServiceImpl;
@@ -20,7 +19,7 @@ import sekoya.back.util.binding.Bindings;
 public class SekoyaBackDifferenceConfiguration {
 
   private static final Set<Class<?>> ADDITIONAL_SIMPLE_TYPES =
-      Set.of(EmailAddress.class, PhoneNumber.class, PostalCode.class);
+      Set.of(Email.class, CodePostal.class);
 
   @Bean
   public IUserDifferenceService userDifferenceService() {
@@ -40,6 +39,7 @@ public class SekoyaBackDifferenceConfiguration {
     differenceIntrospector.addIgnoredPaths(Bindings.user().passwordHash());
     differenceIntrospector.addIgnoredPaths(Bindings.user().passwordInformation());
     differenceIntrospector.addIgnoredPaths(Bindings.user().passwordRecoveryRequest());
+    differenceIntrospector.addIgnoredPaths(Bindings.user().userOrganisation().user());
     differenceIntrospector.addIgnoredPaths(Bindings.user().announcementInformation());
     differenceIntrospector.addIgnoredPaths(Bindings.user().creation());
     differenceIntrospector.addIgnoredPaths(Bindings.user().modification());
@@ -48,6 +48,7 @@ public class SekoyaBackDifferenceConfiguration {
 
     differenceIntrospector.addBinding(Bindings.user().roles(), new RoleBinding());
     differenceIntrospector.addShallowPaths(Bindings.user().roles());
+    differenceIntrospector.addShallowPaths(Bindings.user().userOrganisation().organisation());
 
     return differenceIntrospector.visitBinding();
   }

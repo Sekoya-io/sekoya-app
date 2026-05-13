@@ -27,7 +27,7 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
 
   private RoleEnumKey roleEnumKey;
 
-  private EnabledFilter active = EnabledFilter.ENABLED_ONLY;
+  private EnabledFilter enabledFilter = EnabledFilter.ENABLED_ONLY;
 
   public String getTerm() {
     return term;
@@ -85,19 +85,19 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
     this.role = role;
   }
 
-  public EnabledFilter getActive() {
-    return active;
-  }
-
-  public void setActive(EnabledFilter active) {
-    this.active = active;
-  }
-
   public RoleEnumKey getRoleEnumKey() {
     return roleEnumKey;
   }
 
   public void setRoleEnumKey(RoleEnumKey roleEnumKey) {
     this.roleEnumKey = roleEnumKey;
+  }
+
+  public EnabledFilter getEnabledFilter() {
+    return enabledFilter;
+  }
+
+  public void setEnabledFilter(EnabledFilter enabledFilter) {
+    this.enabledFilter = enabledFilter;
   }
 }

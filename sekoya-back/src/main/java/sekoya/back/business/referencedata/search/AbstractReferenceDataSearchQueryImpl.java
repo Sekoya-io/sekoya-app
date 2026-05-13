@@ -68,13 +68,13 @@ public abstract class AbstractReferenceDataSearchQueryImpl<
       }
       if (data.getEnabledFilter() != null
           && !Objects.equals(data.getEnabledFilter(), EnabledFilter.ALL)) {
-        boolean active =
+        boolean enabled =
             switch (data.getEnabledFilter()) {
               case DISABLED_ONLY -> false;
               case ENABLED_ONLY -> true;
               default -> throw new IllegalSwitchValueException(data.getEnabledFilter());
             };
-        root.add(f.match().field(ReferenceData.ENABLED).matching(active));
+        root.add(f.match().field(ReferenceData.ENABLED).matching(enabled));
       }
     };
   }

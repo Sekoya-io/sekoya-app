@@ -19,9 +19,9 @@ public class ReferenceData<E extends ReferenceData<?>> extends GenericReferenceD
 
   private static final long serialVersionUID = -1779439527249543663L;
 
-  public static final String LABEL_AUTOCOMPLETE = "labelAutocomplete";
-
-  public static final String LABEL_SORT = "labelSort";
+  public static final String LABEL = "label";
+  public static final String LABEL_AUTOCOMPLETE = LABEL + "Autocomplete";
+  public static final String LABEL_SORT = LABEL + "Sort";
 
   @Basic(optional = false)
   @Column(length = Length.LONG)

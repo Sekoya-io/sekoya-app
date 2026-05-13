@@ -106,14 +106,15 @@ public class UserSearchQueryImpl implements IUserSearchQuery {
       if (data.getRole() != null) {
         root.add(f.match().field(User.ROLES).matching(data.getRole()));
       }
-      if (data.getActive() != null && !Objects.equals(data.getActive(), EnabledFilter.ALL)) {
-        boolean active =
-            switch (data.getActive()) {
+      if (data.getEnabledFilter() != null
+          && !Objects.equals(data.getEnabledFilter(), EnabledFilter.ALL)) {
+        boolean enabled =
+            switch (data.getEnabledFilter()) {
               case DISABLED_ONLY -> false;
               case ENABLED_ONLY -> true;
-              default -> throw new IllegalSwitchValueException(data.getActive());
+              default -> throw new IllegalSwitchValueException(data.getEnabledFilter());
             };
-        root.add(f.match().field(User.ENABLED).matching(active));
+        root.add(f.match().field(User.ENABLED).matching(enabled));
       }
     };
   }

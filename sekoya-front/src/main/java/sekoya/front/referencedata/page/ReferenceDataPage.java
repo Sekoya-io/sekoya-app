@@ -8,7 +8,9 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
 import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
 import sekoya.front.common.component.NavTabsPanel;
-import sekoya.front.referencedata.component.CityListPanel;
+import sekoya.front.referencedata.component.CommuneListPanel;
+import sekoya.front.referencedata.component.DepartementListPanel;
+import sekoya.front.referencedata.component.RegionListPanel;
 import sekoya.front.referencedata.template.ReferenceDataTemplate;
 
 public class ReferenceDataPage extends ReferenceDataTemplate {
@@ -27,12 +29,30 @@ public class ReferenceDataPage extends ReferenceDataTemplate {
     add(
         new NavTabsPanel("tabs")
             .add(
-                new NavTabsPanel.SimpleTabFactory("city", "business.city") {
+                new NavTabsPanel.SimpleTabFactory("commune", "business.commune") {
                   private static final long serialVersionUID = 1L;
 
                   @Override
                   public Component createContent(String wicketId) {
-                    return new CityListPanel(wicketId);
+                    return new CommuneListPanel(wicketId);
+                  }
+                })
+            .add(
+                new NavTabsPanel.SimpleTabFactory("departement", "business.departement") {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public Component createContent(String wicketId) {
+                    return new DepartementListPanel(wicketId);
+                  }
+                })
+            .add(
+                new NavTabsPanel.SimpleTabFactory("region", "business.region") {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public Component createContent(String wicketId) {
+                    return new RegionListPanel(wicketId);
                   }
                 }));
   }

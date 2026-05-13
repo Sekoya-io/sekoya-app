@@ -9,6 +9,7 @@ import igloo.hibernateconfig.api.HibernateSearchAnalyzer;
 import igloo.hibernateconfig.api.HibernateSearchNormalizer;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Cacheable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import java.time.Instant;
 import java.util.Collections;
@@ -131,6 +133,13 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
   @GenericField(name = ROLES, valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
   @JoinTable(indexes = @Index(name = "user__role_role_id_idx", columnList = "roles_id"))
   private SortedSet<Role> roles = Sets.newTreeSet(RoleComparator.get());
+
+  @OneToOne(
+      mappedBy = "user",
+      fetch = FetchType.LAZY,
+      cascade = CascadeType.ALL,
+      orphanRemoval = true)
+  private UserOrganisation userOrganisation;
 
   @Embedded
   private UserAnnouncementInformation announcementInformation = new UserAnnouncementInformation();
@@ -280,6 +289,14 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
 
   public boolean addRole(Role role) {
     return roles.add(role);
+  }
+
+  public UserOrganisation getUserOrganisation() {
+    return userOrganisation;
+  }
+
+  public void setUserOrganisation(UserOrganisation userOrganisation) {
+    this.userOrganisation = userOrganisation;
   }
 
   public UserAnnouncementInformation getAnnouncementInformation() {

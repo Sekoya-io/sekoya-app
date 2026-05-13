@@ -36,19 +36,21 @@ import org.iglooproject.wicket.more.security.page.LoginSuccessPage;
 import org.iglooproject.wicket.more.util.convert.HibernateProxyAwareConverterLocator;
 import org.iglooproject.wicket.more.util.listener.FormInvalidDecoratorListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
-import sekoya.back.business.common.model.PhoneNumber;
-import sekoya.back.business.common.model.PostalCode;
 import sekoya.back.business.history.model.atomic.HistoryLogEventType;
+import sekoya.back.business.referencedata.model.Commune;
+import sekoya.back.business.referencedata.model.Departement;
+import sekoya.back.business.referencedata.model.Region;
+import sekoya.back.business.referencedata.model.atomic.CommuneTypeInsee;
 import sekoya.back.business.role.model.Role;
 import sekoya.back.business.user.model.User;
 import sekoya.front.announcement.page.AnnouncementListPage;
+import sekoya.front.common.converter.CodePostalConverter;
 import sekoya.front.common.converter.EmailAddressConverter;
 import sekoya.front.common.converter.LocalDateConverter;
 import sekoya.front.common.converter.LocalDateTimeConverter;
 import sekoya.front.common.converter.LocalTimeConverter;
-import sekoya.front.common.converter.PhoneNumberConverter;
-import sekoya.front.common.converter.PostalCodeConverter;
 import sekoya.front.common.renderer.InstantRenderer;
 import sekoya.front.common.renderer.RoleRenderer;
 import sekoya.front.common.template.favicon.ApplicationFaviconPackage;
@@ -68,6 +70,7 @@ import sekoya.front.navigation.page.HomePage;
 import sekoya.front.navigation.page.MaintenancePage;
 import sekoya.front.profile.page.ProfilePage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
+import sekoya.front.referencedata.renderer.ReferenceDataRenderer;
 import sekoya.front.resources.application.SekoyaApplicationResources;
 import sekoya.front.resources.business.SekoyaBusinessResources;
 import sekoya.front.resources.common.SekoyaCommonResources;
@@ -147,8 +150,12 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Boolean.class, BooleanRenderer.get());
 
     converterLocator.set(EmailAddress.class, EmailAddressConverter.get());
-    converterLocator.set(PhoneNumber.class, PhoneNumberConverter.get());
-    converterLocator.set(PostalCode.class, PostalCodeConverter.get());
+    converterLocator.set(CodePostal.class, CodePostalConverter.get());
+
+    converterLocator.set(Commune.class, ReferenceDataRenderer.get());
+    converterLocator.set(CommuneTypeInsee.class, EnumRenderer.get());
+    converterLocator.set(Departement.class, ReferenceDataRenderer.get());
+    converterLocator.set(Region.class, ReferenceDataRenderer.get());
 
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());

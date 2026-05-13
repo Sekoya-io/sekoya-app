@@ -55,7 +55,7 @@ public class UserOrganisationListSearchPanel extends Panel {
         new EnumDropDownSingleChoice<>(
                 "enabledFilter",
                 BindingModel.of(
-                    dataProvider.getDataModel(), Bindings.userSearchQueryData().active()),
+                    dataProvider.getDataModel(), Bindings.userSearchQueryData().enabledFilter()),
                 EnabledFilter.class)
             .setLabel(new ResourceModel("business.user.enabled.state"))
             .add(new LabelPlaceholderBehavior()));

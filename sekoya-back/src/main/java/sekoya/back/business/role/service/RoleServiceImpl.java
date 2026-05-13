@@ -1,7 +1,6 @@
 package sekoya.back.business.role.service;
 
 import org.iglooproject.jpa.business.generic.service.GenericEntityServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sekoya.back.business.role.dao.IRoleDao;
 import sekoya.back.business.role.model.Role;
@@ -12,7 +11,6 @@ public class RoleServiceImpl extends GenericEntityServiceImpl<Long, Role> implem
 
   private final IRoleDao dao;
 
-  @Autowired
   public RoleServiceImpl(IRoleDao dao) {
     super(dao);
     this.dao = dao;

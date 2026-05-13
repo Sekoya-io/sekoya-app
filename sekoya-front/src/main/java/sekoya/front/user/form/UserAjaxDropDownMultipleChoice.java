@@ -66,7 +66,7 @@ public class UserAjaxDropDownMultipleChoice<C extends Collection<User>>
       if (userType != null) {
         data.setType(userType);
       }
-      data.setActive(EnabledFilter.ENABLED_ONLY);
+      data.setEnabledFilter(EnabledFilter.ENABLED_ONLY);
       Map<UserSort, SortOrder> sorts =
           ImmutableMap.of(
               UserSort.SCORE, UserSort.SCORE.getDefaultOrder(),

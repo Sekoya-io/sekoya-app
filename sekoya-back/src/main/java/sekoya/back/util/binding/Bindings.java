@@ -1,16 +1,19 @@
 package sekoya.back.util.binding;
 
 import sekoya.back.business.announcement.model.AnnouncementBinding;
+import sekoya.back.business.common.model.CodePostalBinding;
 import sekoya.back.business.common.model.EmailAddressBinding;
-import sekoya.back.business.common.model.PhoneNumberBinding;
-import sekoya.back.business.common.model.PostalCodeBinding;
 import sekoya.back.business.history.model.HistoryDifferenceBinding;
 import sekoya.back.business.history.model.HistoryLogBinding;
 import sekoya.back.business.history.search.HistoryLogSearchQueryDataBinding;
-import sekoya.back.business.referencedata.model.CityBinding;
+import sekoya.back.business.referencedata.model.CommuneBinding;
+import sekoya.back.business.referencedata.model.DepartementBinding;
 import sekoya.back.business.referencedata.model.IReferenceDataBindingInterfaceBinding;
-import sekoya.back.business.referencedata.search.CitySearchQueryDataBinding;
+import sekoya.back.business.referencedata.model.RegionBinding;
+import sekoya.back.business.referencedata.search.CommuneSearchQueryDataBinding;
+import sekoya.back.business.referencedata.search.DepartementSearchQueryDataBinding;
 import sekoya.back.business.referencedata.search.IBasicReferenceDataSearchQueryDataBindingInterfaceBinding;
+import sekoya.back.business.referencedata.search.RegionSearchQueryDataBinding;
 import sekoya.back.business.role.model.RoleBinding;
 import sekoya.back.business.user.model.UserBinding;
 import sekoya.back.business.user.search.UserSearchQueryDataBinding;
@@ -18,17 +21,22 @@ import sekoya.back.business.user.search.UserSearchQueryDataBinding;
 public final class Bindings {
 
   private static final EmailAddressBinding EMAIL_ADDRESS = new EmailAddressBinding();
-  private static final PhoneNumberBinding PHONE_NUMBER = new PhoneNumberBinding();
-  private static final PostalCodeBinding POSTAL_CODE = new PostalCodeBinding();
+  private static final CodePostalBinding CODE_POSTAL = new CodePostalBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
   private static final IBasicReferenceDataSearchQueryDataBindingInterfaceBinding
       BASIC_REFERENCE_DATA_SEARCH_QUERY_DATA =
           new IBasicReferenceDataSearchQueryDataBindingInterfaceBinding();
-  private static final CityBinding CITY = new CityBinding();
-  private static final CitySearchQueryDataBinding CITY_SEARCH_QUERY_DATA =
-      new CitySearchQueryDataBinding();
+  private static final CommuneBinding COMMUNE = new CommuneBinding();
+  private static final CommuneSearchQueryDataBinding COMMUNE_SEARCH_QUERY_DATA =
+      new CommuneSearchQueryDataBinding();
+  private static final DepartementBinding DEPARTEMENT = new DepartementBinding();
+  private static final DepartementSearchQueryDataBinding DEPARTEMENT_SEARCH_QUERY_DATA =
+      new DepartementSearchQueryDataBinding();
+  private static final RegionBinding REGION = new RegionBinding();
+  private static final RegionSearchQueryDataBinding REGION_SEARCH_QUERY_DATA =
+      new RegionSearchQueryDataBinding();
 
   private static final UserBinding USER = new UserBinding();
   private static final UserSearchQueryDataBinding USER_SEARCH_QUERY_DATA =
@@ -47,12 +55,8 @@ public final class Bindings {
     return EMAIL_ADDRESS;
   }
 
-  public static PhoneNumberBinding phoneNumber() {
-    return PHONE_NUMBER;
-  }
-
-  public static PostalCodeBinding postalCode() {
-    return POSTAL_CODE;
+  public static CodePostalBinding codePostal() {
+    return CODE_POSTAL;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {
@@ -64,12 +68,28 @@ public final class Bindings {
     return BASIC_REFERENCE_DATA_SEARCH_QUERY_DATA;
   }
 
-  public static CityBinding city() {
-    return CITY;
+  public static CommuneBinding commune() {
+    return COMMUNE;
   }
 
-  public static CitySearchQueryDataBinding citySearchQueryData() {
-    return CITY_SEARCH_QUERY_DATA;
+  public static CommuneSearchQueryDataBinding communeSearchQueryData() {
+    return COMMUNE_SEARCH_QUERY_DATA;
+  }
+
+  public static DepartementBinding departement() {
+    return DEPARTEMENT;
+  }
+
+  public static DepartementSearchQueryDataBinding departementSearchQueryData() {
+    return DEPARTEMENT_SEARCH_QUERY_DATA;
+  }
+
+  public static RegionBinding region() {
+    return REGION;
+  }
+
+  public static RegionSearchQueryDataBinding regionSearchQueryData() {
+    return REGION_SEARCH_QUERY_DATA;
   }
 
   public static UserBinding user() {

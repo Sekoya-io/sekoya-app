@@ -47,7 +47,7 @@ public class UserDataProvider
                 .bind(Bindings.userSearchQueryData().firstName(), Model.of())
                 .bind(Bindings.userSearchQueryData().email(), Model.of())
                 .bind(Bindings.userSearchQueryData().role(), new GenericEntityModel<>())
-                .bind(Bindings.userSearchQueryData().active(), Model.of())));
+                .bind(Bindings.userSearchQueryData().enabledFilter(), Model.of())));
   }
 
   public UserDataProvider(IModel<UserSearchQueryData> dataModel) {
