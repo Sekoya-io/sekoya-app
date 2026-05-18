@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div wicket:id="body">
+		<form wicket:id="form">
+			<div class="row row-form">
+				<div class="col-12">
+					<div class="row row-form-group form-group">
+						<div class="col-md-4">
+							<label wicket:for="nom" class="col-form-label form-label"><wicket:label /></label>
+						</div>
+						<div class="col-md-8">
+							<input wicket:id="nom" class="form-control" type="text" />
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="row row-form-group form-group">
+						<div class="col-md-4">
+							<label wicket:for="chiffreAffaires" class="col-form-label form-label"><wicket:label /></label>
+						</div>
+						<div class="col-md-8">
+							<div class="input-group">
+								<input wicket:id="chiffreAffaires" class="form-control" type="text" />
+								<span class="input-group-text" aria-hidden="true"><span class="fa fa-fw fa-k" /><span class="fa fa-fw fa-euro-sign" /></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div wicket:id="footer">
+		<button wicket:id="cancel" class="btn btn-outline-secondary" type="button">
+			<wicket:message key="common.action.cancel" />
+		</button>
+		<button wicket:id="save" class="btn btn-success" type="button">
+			<span class="fa fa-fw fa-check" />
+			<wicket:message key="common.action.save" />
+		</button>
+	</div>
+</wicket:panel>
+</html>

@@ -11,6 +11,8 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
   // Add contants of the form public static final String MY_PERMISSION_NAME = "MY_PERMISSION_NAME";
   // here
 
+  public static final String ORGANISATION_WRITE = "ORGANISATION_WRITE";
+
   public static final String REFERENCE_DATA_READ = "REFERENCE_DATA_READ";
   public static final String REFERENCE_DATA_WRITE = "REFERENCE_DATA_WRITE_CREATE";
 
@@ -47,4 +49,7 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
 
   public static final String GLOBAL_ANNOUNCEMENT_READ = "GLOBAL_ANNOUNCEMENT_READ";
   public static final String GLOBAL_ANNOUNCEMENT_WRITE = "GLOBAL_ANNOUNCEMENT_WRITE";
+
+  public static final String GLOBAL_ORGANISATION_READ = "GLOBAL_ORGANISATION_READ";
+  public static final String GLOBAL_ORGANISATION_WRITE = "GLOBAL_ORGANISATION_WRITE";
 }

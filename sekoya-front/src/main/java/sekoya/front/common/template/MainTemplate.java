@@ -41,6 +41,7 @@ import sekoya.front.common.template.resources.styles.application.application.app
 import sekoya.front.common.template.theme.advanced.NavbarPanel;
 import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
+import sekoya.front.organisation.page.OrganisationListPage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
@@ -107,6 +108,9 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             .getHomePageLinkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.home"))
             .iconClasses(Model.of("fa fa-fw fa-home")),
+        OrganisationListPage.linkDescriptor()
+            .navigationMenuItem(new ResourceModel("navigation.organisation"))
+            .iconClasses(Model.of("fa fa-fw fa-building")),
         ReferenceDataPage.linkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.referenceData"))
             .iconClasses(Model.of("fa fa-fw fa-list")),

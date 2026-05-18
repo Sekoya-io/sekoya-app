@@ -39,6 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.history.model.atomic.HistoryLogEventType;
+import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.referencedata.model.Commune;
 import sekoya.back.business.referencedata.model.Departement;
 import sekoya.back.business.referencedata.model.Region;
@@ -68,6 +69,8 @@ import sekoya.front.console.notification.demo.page.ConsoleNotificationDemoListPa
 import sekoya.front.history.renderer.IHistoryValueRenderer;
 import sekoya.front.navigation.page.HomePage;
 import sekoya.front.navigation.page.MaintenancePage;
+import sekoya.front.organisation.page.OrganisationListPage;
+import sekoya.front.organisation.renderer.OrganisationRenderer;
 import sekoya.front.profile.page.ProfilePage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.referencedata.renderer.ReferenceDataRenderer;
@@ -157,6 +160,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Departement.class, ReferenceDataRenderer.get());
     converterLocator.set(Region.class, ReferenceDataRenderer.get());
 
+    converterLocator.set(Organisation.class, OrganisationRenderer.get());
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());
 
@@ -188,6 +192,9 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
 
     // Profile
     mountPage("/profil/", ProfilePage.class);
+
+    // Organisation
+    mountPage("/organisation/", OrganisationListPage.class);
 
     // Reference data
     mountPage("/referentiel/", ReferenceDataPage.class);

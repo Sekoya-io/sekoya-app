@@ -6,6 +6,8 @@ import sekoya.back.business.common.model.EmailAddressBinding;
 import sekoya.back.business.history.model.HistoryDifferenceBinding;
 import sekoya.back.business.history.model.HistoryLogBinding;
 import sekoya.back.business.history.search.HistoryLogSearchQueryDataBinding;
+import sekoya.back.business.organisation.model.OrganisationBinding;
+import sekoya.back.business.organisation.search.OrganisationSearchQueryDataBinding;
 import sekoya.back.business.referencedata.model.CommuneBinding;
 import sekoya.back.business.referencedata.model.DepartementBinding;
 import sekoya.back.business.referencedata.model.IReferenceDataBindingInterfaceBinding;
@@ -22,6 +24,10 @@ public final class Bindings {
 
   private static final EmailAddressBinding EMAIL_ADDRESS = new EmailAddressBinding();
   private static final CodePostalBinding CODE_POSTAL = new CodePostalBinding();
+
+  private static final OrganisationBinding ORGANISATION = new OrganisationBinding();
+  private static final OrganisationSearchQueryDataBinding ORGANISATION_SEARCH_QUERY_DATA =
+      new OrganisationSearchQueryDataBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
@@ -57,6 +63,14 @@ public final class Bindings {
 
   public static CodePostalBinding codePostal() {
     return CODE_POSTAL;
+  }
+
+  public static OrganisationBinding organisation() {
+    return ORGANISATION;
+  }
+
+  public static OrganisationSearchQueryDataBinding organisationSearchQueryData() {
+    return ORGANISATION_SEARCH_QUERY_DATA;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {

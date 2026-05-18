@@ -1,4 +1,4 @@
-package sekoya.back.business.organisation.service;
+package sekoya.back.business.organisation.service.business;
 
 import org.iglooproject.jpa.business.generic.service.IGenericEntityService;
 import org.iglooproject.jpa.exception.SecurityServiceException;
@@ -8,5 +8,7 @@ import sekoya.back.business.organisation.model.Organisation;
 public interface IOrganisationService extends IGenericEntityService<Long, Organisation> {
 
   void saveOrganisation(Organisation organisation)
-      throws ServiceException, SecurityServiceException;
+      throws SecurityServiceException, ServiceException;
+
+  Organisation getByNomCaseInsensitive(String nom);
 }

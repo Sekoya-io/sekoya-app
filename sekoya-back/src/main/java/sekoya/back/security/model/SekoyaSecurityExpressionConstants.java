@@ -4,6 +4,13 @@ import static org.iglooproject.commons.util.security.PermissionObject.DEFAULT_PE
 
 public final class SekoyaSecurityExpressionConstants {
 
+  public static final String ORGANISATION_WRITE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.ORGANISATION_WRITE
+          + "')";
+
   public static final String USER_WRITE =
       "hasPermission(#"
           + DEFAULT_PERMISSION_OBJECT_NAME

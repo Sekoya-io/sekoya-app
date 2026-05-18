@@ -4,5 +4,6 @@
 .firstName [SIMPLE]
 .lastName [SIMPLE]
 .roles [SHALLOW]
+.userOrganisation [DEEP]
+.userOrganisation.organisation [SHALLOW]
 .username [SIMPLE]
-.userOrganisation.organisation [SIMPLE]
