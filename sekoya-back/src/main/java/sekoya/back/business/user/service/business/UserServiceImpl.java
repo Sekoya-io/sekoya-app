@@ -73,6 +73,8 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
 
   @Override
   protected void createEntity(User user) throws ServiceException, SecurityServiceException {
+    user.setEnabled(true);
+
     historyEventSummaryService.refresh(user.getCreation());
     historyEventSummaryService.refresh(user.getModification());
 
@@ -103,6 +105,8 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
       throws SecurityServiceException, ServiceException {
     user.setUsername(user.getEmailAddress().getValue());
     user.setType(UserType.ORGANISATION);
+    // TODO CBV : check null ?
+    user.getUserOrganisation().setUser(user);
     User author = getAuthenticatedUser();
     addRoleForNewUser(user, RoleEnumKey.ORGANISATION);
     saveUser(user, author, password);

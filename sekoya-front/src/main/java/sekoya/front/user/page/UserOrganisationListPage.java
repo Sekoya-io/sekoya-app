@@ -44,7 +44,7 @@ import sekoya.back.business.user.search.UserSort;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.user.component.UserOrganisationListSearchPanel;
-import sekoya.front.user.export.UserExcelTableExport;
+import sekoya.front.user.export.UserOrganisationExcelTableExport;
 import sekoya.front.user.model.UserDataProvider;
 import sekoya.front.user.popup.UserOrganisationSavePopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
@@ -94,7 +94,8 @@ public class UserOrganisationListPage extends UserTemplate {
 
                   @Override
                   protected Workbook generateWorkbook() {
-                    UserExcelTableExport export = new UserExcelTableExport(this);
+                    UserOrganisationExcelTableExport export =
+                        new UserOrganisationExcelTableExport(this);
                     return export.generate(dataProvider);
                   }
                 },
@@ -117,14 +118,14 @@ public class UserOrganisationListPage extends UserTemplate {
             .withClass("cell-w-100 text-center")
             .addLabelColumn(new ResourceModel("business.user.username"), Bindings.user().username())
             .withLink(UserOrganisationDetailPage.MAPPER.setParameter2(new PageModel<>(this)))
-            .withClass("cell-w-250")
+            .withClass("cell-w-200")
             .addLabelColumn(new ResourceModel("business.user.lastName"), Bindings.user().lastName())
             .withSort(UserSort.LAST_NAME, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-250")
+            .withClass("cell-w-200")
             .addLabelColumn(
                 new ResourceModel("business.user.firstName"), Bindings.user().firstName())
             .withSort(UserSort.FIRST_NAME, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-250")
+            .withClass("cell-w-200")
             .addColumn(
                 new AbstractCoreColumn<>(new ResourceModel("business.user.emailAddress")) {
                   private static final long serialVersionUID = 1L;
@@ -150,8 +151,12 @@ public class UserOrganisationListPage extends UserTemplate {
                                 .thenShow()));
                   }
                 })
-            .withClass("cell-w-350")
+            .withClass("cell-w-250")
             .withClass(CELL_DISPLAY_2XL)
+            .addLabelColumn(
+                new ResourceModel("business.userOrganisation.organisation"),
+                Bindings.user().userOrganisation().organisation())
+            .withClass("cell-w-200")
             .rows()
             .withClass(
                 itemModel ->

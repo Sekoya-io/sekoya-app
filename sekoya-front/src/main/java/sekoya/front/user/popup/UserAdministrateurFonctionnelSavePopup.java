@@ -16,7 +16,6 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
@@ -125,10 +124,7 @@ public class UserAdministrateurFonctionnelSavePopup extends AbstractAjaxModalPop
                             "passwordHelp",
                             new StringResourceModel("user.common.form.password.help")
                                 .setParameters(
-                                    ApplicationPropertyModel.of(SECURITY_PASSWORD_LENGTH_MIN)))),
-                new CheckBox("enabled", BindingModel.of(getModel(), Bindings.user().enabled()))
-                    .setLabel(new ResourceModel("business.user.enabled"))
-                    .setOutputMarkupId(true)));
+                                    ApplicationPropertyModel.of(SECURITY_PASSWORD_LENGTH_MIN))))));
 
     form.add(
         new UserPasswordValidator(Model.of(UserType.ADMINISTRATEUR_TECHNIQUE), password)

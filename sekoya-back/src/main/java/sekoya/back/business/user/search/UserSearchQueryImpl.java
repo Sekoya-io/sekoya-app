@@ -116,6 +116,11 @@ public class UserSearchQueryImpl implements IUserSearchQuery {
             };
         root.add(f.match().field(User.ENABLED).matching(enabled));
       }
+
+      if (data.getOrganisation() != null) {
+        root.add(
+            f.match().field(User.USER_ORGANISATION_ORGANISATION).matching(data.getOrganisation()));
+      }
     };
   }
 }

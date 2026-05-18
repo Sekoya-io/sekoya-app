@@ -3,6 +3,7 @@ package sekoya.back.business.user.search;
 import org.bindgen.Bindable;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.jpa.more.search.query.ISearchQueryData;
+import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.role.model.Role;
 import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.user.model.User;
@@ -28,6 +29,8 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
   private RoleEnumKey roleEnumKey;
 
   private EnabledFilter enabledFilter = EnabledFilter.ENABLED_ONLY;
+
+  private Organisation organisation;
 
   public String getTerm() {
     return term;
@@ -99,5 +102,13 @@ public class UserSearchQueryData implements ISearchQueryData<User> {
 
   public void setEnabledFilter(EnabledFilter enabledFilter) {
     this.enabledFilter = enabledFilter;
+  }
+
+  public Organisation getOrganisation() {
+    return organisation;
+  }
+
+  public void setOrganisation(Organisation organisation) {
+    this.organisation = organisation;
   }
 }

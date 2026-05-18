@@ -21,7 +21,7 @@ import sekoya.back.business.user.model.UserBinding;
 import sekoya.front.common.export.AbstractSekoyaSimpleExcelTableExport;
 import sekoya.front.user.renderer.UserRenderer;
 
-public class UserExcelTableExport extends AbstractSekoyaSimpleExcelTableExport {
+public class UserOrganisationExcelTableExport extends AbstractSekoyaSimpleExcelTableExport {
 
   private static final String SHEET_NAME_RESOURCE_KEY = "user.common.export.excel.sheetName";
 
@@ -31,13 +31,14 @@ public class UserExcelTableExport extends AbstractSekoyaSimpleExcelTableExport {
           new ColumnInformation("business.user.lastName"),
           new ColumnInformation("business.user.firstName"),
           new ColumnInformation("business.user.emailAddress"),
+          new ColumnInformation("business.userOrganisation.organisation"),
           new ColumnInformation("business.user.enabled"),
           new ColumnInformation("business.user.roles"),
           new ColumnInformation("business.user.creation"),
           new ColumnInformation("business.user.modification"),
           new ColumnInformation("business.user.lastLoginDate"));
 
-  public UserExcelTableExport(Component component) {
+  public UserOrganisationExcelTableExport(Component component) {
     super(component);
   }
 
@@ -77,6 +78,8 @@ public class UserExcelTableExport extends AbstractSekoyaSimpleExcelTableExport {
     String emailAddressValue = binding.emailAddress().value().getSafely();
     emailLink.setAddress("mailto:" + emailAddressValue);
     addLinkToCell(addTextCell(row, columnIndex++, emailAddressValue), emailLink);
+
+    addTextCell(row, columnIndex++, binding.userOrganisation().organisation().nom().getSafely());
 
     if (binding.enabled().getSafely()) {
       addTextCell(row, columnIndex++, "Oui");

@@ -35,6 +35,7 @@ import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.iglooproject.commons.util.collections.CollectionUtils;
 import org.iglooproject.functional.Joiners;
@@ -75,6 +76,11 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
   public static final String EMAIL_ADDRESS_AUTOCOMPLETE = EMAIL_ADDRESS + "Autocomplete";
   public static final String ROLES = "roles";
   public static final String ENABLED = "enabled";
+
+  public static final String USER_ORGANISATION = "userOrganisation";
+  public static final String USER_ORGANISATION_EMBEDDED = USER_ORGANISATION + "Embedded";
+  public static final String USER_ORGANISATION_ORGANISATION =
+      USER_ORGANISATION_EMBEDDED + "." + UserOrganisation.ORGANISATION;
 
   @Id @GeneratedValue private Long id;
 
@@ -139,6 +145,9 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
       orphanRemoval = true)
+  @IndexedEmbedded(
+      name = USER_ORGANISATION_EMBEDDED,
+      includePaths = {UserOrganisation.ORGANISATION})
   private UserOrganisation userOrganisation;
 
   @Embedded

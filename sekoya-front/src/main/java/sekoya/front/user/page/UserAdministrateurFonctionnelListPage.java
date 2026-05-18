@@ -44,7 +44,7 @@ import sekoya.back.business.user.search.UserSort;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.user.component.UserAdministrateurFonctionnelListSearchPanel;
-import sekoya.front.user.export.UserExcelTableExport;
+import sekoya.front.user.export.UserAdministrateurFonctionnelExcelTableExport;
 import sekoya.front.user.model.UserDataProvider;
 import sekoya.front.user.popup.UserAdministrateurFonctionnelSavePopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
@@ -95,7 +95,7 @@ public class UserAdministrateurFonctionnelListPage extends UserTemplate {
 
                   @Override
                   protected Workbook generateWorkbook() {
-                    UserExcelTableExport export = new UserExcelTableExport(this);
+                    UserAdministrateurFonctionnelExcelTableExport export = new UserAdministrateurFonctionnelExcelTableExport(this);
                     return export.generate(dataProvider);
                   }
                 },

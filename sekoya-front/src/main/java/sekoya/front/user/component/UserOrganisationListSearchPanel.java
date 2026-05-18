@@ -18,6 +18,7 @@ import org.iglooproject.wicket.more.model.GenericEntityModel;
 import org.wicketstuff.wiquery.core.events.StateEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.organisation.form.OrganisationAjaxDropDownSingleChoice;
 import sekoya.front.user.model.UserDataProvider;
 
 public class UserOrganisationListSearchPanel extends Panel {
@@ -51,6 +52,12 @@ public class UserOrganisationListSearchPanel extends Panel {
                 "name",
                 BindingModel.of(dataProvider.getDataModel(), Bindings.userSearchQueryData().term()))
             .setLabel(new ResourceModel("business.user.name"))
+            .add(new LabelPlaceholderBehavior()),
+        new OrganisationAjaxDropDownSingleChoice(
+                "organisation",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.userSearchQueryData().organisation()))
+            .setLabel(new ResourceModel("business.userOrganisation.organisation"))
             .add(new LabelPlaceholderBehavior()),
         new EnumDropDownSingleChoice<>(
                 "enabledFilter",

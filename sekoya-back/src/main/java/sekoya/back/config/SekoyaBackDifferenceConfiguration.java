@@ -9,6 +9,7 @@ import org.iglooproject.commons.util.fieldpath.FieldPath;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sekoya.back.business.common.model.CodePostal;
+import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.role.model.RoleBinding;
 import sekoya.back.business.user.difference.service.IUserDifferenceService;
 import sekoya.back.business.user.difference.service.UserDifferenceServiceImpl;
@@ -19,7 +20,7 @@ import sekoya.back.util.binding.Bindings;
 public class SekoyaBackDifferenceConfiguration {
 
   private static final Set<Class<?>> ADDITIONAL_SIMPLE_TYPES =
-      Set.of(Email.class, CodePostal.class);
+      Set.of(Email.class, CodePostal.class, EmailAddress.class);
 
   @Bean
   public IUserDifferenceService userDifferenceService() {
