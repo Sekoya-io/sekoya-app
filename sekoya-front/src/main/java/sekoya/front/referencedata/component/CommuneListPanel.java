@@ -67,12 +67,12 @@ public class CommuneListPanel
         .withClass("cell-w-120")
         .addLabelColumn(
             new ResourceModel("business.commune.departement"), Bindings.commune().departement())
-        .withSort(CommuneSort.DEPARTEMENT, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
+        .withSort(CommuneSort.DEPARTEMENT_LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
         .withClass("cell-w-150")
         .addLabelColumn(
             new ResourceModel("business.departement.region"),
             Bindings.commune().departement().region())
-        .withSort(CommuneSort.REGION, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
+        .withSort(CommuneSort.REGION_LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
         .withClass("cell-w-200");
   }
 
@@ -82,7 +82,7 @@ public class CommuneListPanel
       CommuneDataProvider dataProvider,
       DecoratedCoreDataTablePanel<Commune, CommuneSort> table) {
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
-    return new CommuneSearchPanel(wicketId, dataProvider, table);
+    return new CommuneListSearchPanel(wicketId, dataProvider, table);
   }
 
   private class CodeInseeCellFragment extends Fragment {

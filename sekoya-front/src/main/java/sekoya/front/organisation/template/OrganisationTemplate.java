@@ -18,7 +18,9 @@ public abstract class OrganisationTemplate extends MainTemplate {
   protected OrganisationTemplate(PageParameters parameters) {
     super(parameters);
 
-    addBreadCrumbElement(new BreadCrumbElement(new ResourceModel("navigation.organisation")));
+    addBreadCrumbElement(
+        new BreadCrumbElement(
+            new ResourceModel("navigation.organisation"), OrganisationListPage.linkDescriptor()));
   }
 
   @Override

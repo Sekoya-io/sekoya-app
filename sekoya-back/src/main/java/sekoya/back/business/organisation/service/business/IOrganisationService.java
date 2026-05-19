@@ -10,5 +10,7 @@ public interface IOrganisationService extends IGenericEntityService<Long, Organi
   void saveOrganisation(Organisation organisation)
       throws SecurityServiceException, ServiceException;
 
+  Organisation getDefault();
+
   Organisation getByNomCaseInsensitive(String nom);
 }

@@ -62,6 +62,6 @@ public class BasicReferenceDataListPanel<T extends ReferenceData<? super T>>
       String wicketId,
       BasicReferenceDataDataProvider<T> dataProvider,
       DecoratedCoreDataTablePanel<T, BasicReferenceDataSort> table) {
-    return new BasicReferenceDataSearchPanel<>(wicketId, dataProvider, table);
+    return new BasicReferenceDataListSearchPanel<>(wicketId, dataProvider, table);
   }
 }

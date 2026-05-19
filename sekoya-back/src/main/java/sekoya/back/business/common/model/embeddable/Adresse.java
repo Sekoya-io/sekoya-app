@@ -7,6 +7,12 @@ import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 import org.bindgen.Bindable;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.mapper.pojo.automaticindexing.ReindexOnUpdate;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency;
+import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.referencedata.model.Commune;
 import sekoya.back.hibernate.type.CodePostalType;
@@ -16,6 +22,10 @@ import sekoya.back.hibernate.type.CodePostalType;
 public class Adresse implements Serializable {
 
   private static final long serialVersionUID = 1L;
+
+  public static final String COMMUNE = "commune";
+  public static final String COMMUNE_EMBEDDED = COMMUNE + "Embedded";
+  public static final String COMMUNE_LABEL_SORT = COMMUNE_EMBEDDED + "." + Commune.LABEL_SORT;
 
   @Basic(optional = false)
   private String adresse1;
@@ -27,6 +37,9 @@ public class Adresse implements Serializable {
   private CodePostal codePostal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @GenericField(name = COMMUNE, valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
+  @IndexedEmbedded(name = COMMUNE_EMBEDDED, includePaths = Commune.LABEL_SORT)
+  @IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
   private Commune commune;
 
   public String getAdresse1() {

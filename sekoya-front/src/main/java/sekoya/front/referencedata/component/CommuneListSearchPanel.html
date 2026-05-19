@@ -3,14 +3,26 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 	<wicket:panel>
 		<form wicket:id="form">
-			<div class="row row-form">
+			<div class="row row-form align-items-center">
 				<div class="form-group col-lg-6 col-2xl-4">
 					<label wicket:for="label" class="visually-hidden"><wicket:label /></label>
 					<input wicket:id="label" class="form-control" type="text" />
 				</div>
 				<div class="form-group col-lg-6 col-2xl-2">
+					<label wicket:for="codePostal" class="visually-hidden"><wicket:label /></label>
+					<input wicket:id="codePostal" class="form-control" type="text" />
+				</div>
+				<div class="form-group col-lg-6 col-2xl-2">
 					<label wicket:for="codeInsee" class="visually-hidden"><wicket:label /></label>
 					<input wicket:id="codeInsee" class="form-control" type="text" />
+				</div>
+				<div class="form-group col-lg-6 col-2xl-4">
+					<label wicket:for="typeInsee" class="visually-hidden"><wicket:label /></label>
+					<select wicket:id="typeInsee" class="form-control" />
+				</div>
+				<div class="form-group col-lg-6 col-2xl-3">
+					<label wicket:for="departement" class="visually-hidden"><wicket:label /></label>
+					<select wicket:id="departement" class="form-control" />
 				</div>
 				<div class="form-group col-lg-6 col-2xl-3">
 					<label wicket:for="region" class="visually-hidden"><wicket:label /></label>
@@ -20,7 +32,6 @@
 					<label wicket:for="enabledFilter" class="visually-hidden"><wicket:label /></label>
 					<select wicket:id="enabledFilter" class="form-control" />
 				</div>
-				<wicket:child />
 			</div>
 		</form>
 	</wicket:panel>

@@ -24,7 +24,7 @@ public class SidebarPanel extends AbstractNavbarPanel {
     add(
         new SidebarHeaderPanel("header"),
         new SidebarUserPanel("user"),
-        new SidebarQuickSearchPanel("quickSearch"),
+        new SidebarOrganisationPanel("quickSearch"),
         new SidebarMenuPanel(
             "menu", mainNavSupplier, firstMenuPageSupplier, secondMenuPageSupplier));
 

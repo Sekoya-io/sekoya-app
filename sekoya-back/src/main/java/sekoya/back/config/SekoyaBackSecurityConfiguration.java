@@ -26,6 +26,11 @@ import sekoya.back.security.service.SecurityManagementServiceImpl;
 import sekoya.back.security.service.SekoyaAuthenticationServiceImpl;
 import sekoya.back.security.service.SekoyaSecurityServiceImpl;
 import sekoya.back.security.service.SekoyaUserDetailsServiceImpl;
+import sekoya.back.security.service.permission.IAnnouncementPermissionEvaluator;
+import sekoya.back.security.service.permission.IOrganisationPermissionEvaluator;
+import sekoya.back.security.service.permission.IReferenceDataPermissionEvaluator;
+import sekoya.back.security.service.permission.ISitePermissionEvaluator;
+import sekoya.back.security.service.permission.IUserPermissionEvaluator;
 import sekoya.back.security.service.permission.SekoyaPermissionEvaluator;
 
 @Configuration
@@ -33,8 +38,18 @@ public class SekoyaBackSecurityConfiguration {
 
   @Bean
   @Scope(proxyMode = ScopedProxyMode.INTERFACES)
-  public ICorePermissionEvaluator permissionEvaluator() {
-    return new SekoyaPermissionEvaluator();
+  public ICorePermissionEvaluator permissionEvaluator(
+      IOrganisationPermissionEvaluator organisationPermissionEvaluator,
+      ISitePermissionEvaluator sitePermissionEvaluator,
+      IUserPermissionEvaluator userPermissionEvaluator,
+      IReferenceDataPermissionEvaluator referenceDataPermissionEvaluator,
+      IAnnouncementPermissionEvaluator announcementPermissionEvaluator) {
+    return new SekoyaPermissionEvaluator(
+        organisationPermissionEvaluator,
+        sitePermissionEvaluator,
+        userPermissionEvaluator,
+        referenceDataPermissionEvaluator,
+        announcementPermissionEvaluator);
   }
 
   @Bean

@@ -38,6 +38,9 @@ import org.iglooproject.wicket.more.util.listener.FormInvalidDecoratorListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
+import sekoya.back.business.common.model.Latitude;
+import sekoya.back.business.common.model.Longitude;
+import sekoya.back.business.common.model.embeddable.Adresse;
 import sekoya.back.business.history.model.atomic.HistoryLogEventType;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.referencedata.model.Commune;
@@ -45,13 +48,19 @@ import sekoya.back.business.referencedata.model.Departement;
 import sekoya.back.business.referencedata.model.Region;
 import sekoya.back.business.referencedata.model.atomic.CommuneTypeInsee;
 import sekoya.back.business.role.model.Role;
+import sekoya.back.business.site.model.Site;
+import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.business.user.model.User;
 import sekoya.front.announcement.page.AnnouncementListPage;
 import sekoya.front.common.converter.CodePostalConverter;
 import sekoya.front.common.converter.EmailAddressConverter;
+import sekoya.front.common.converter.LatitudeConverter;
 import sekoya.front.common.converter.LocalDateConverter;
 import sekoya.front.common.converter.LocalDateTimeConverter;
 import sekoya.front.common.converter.LocalTimeConverter;
+import sekoya.front.common.converter.LongitudeConverter;
+import sekoya.front.common.renderer.AdresseRenderer;
+import sekoya.front.common.renderer.CommuneRenderer;
 import sekoya.front.common.renderer.InstantRenderer;
 import sekoya.front.common.renderer.RoleRenderer;
 import sekoya.front.common.template.favicon.ApplicationFaviconPackage;
@@ -86,6 +95,9 @@ import sekoya.front.security.password.page.SecurityPasswordCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.security.password.page.SecurityPasswordRecoveryRequestResetPage;
 import sekoya.front.security.password.page.SecurityPasswordResetPage;
+import sekoya.front.site.page.SiteDetailPage;
+import sekoya.front.site.page.SiteListPage;
+import sekoya.front.site.renderer.SiteRenderer;
 import sekoya.front.user.page.UserAdministrateurFonctionnelDetailPage;
 import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
 import sekoya.front.user.page.UserOrganisationDetailPage;
@@ -154,13 +166,20 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
 
     converterLocator.set(EmailAddress.class, EmailAddressConverter.get());
     converterLocator.set(CodePostal.class, CodePostalConverter.get());
+    converterLocator.set(Latitude.class, LatitudeConverter.get());
+    converterLocator.set(Longitude.class, LongitudeConverter.get());
 
-    converterLocator.set(Commune.class, ReferenceDataRenderer.get());
+    converterLocator.set(Adresse.class, AdresseRenderer.get());
+
+    converterLocator.set(Commune.class, CommuneRenderer.get());
     converterLocator.set(CommuneTypeInsee.class, EnumRenderer.get());
     converterLocator.set(Departement.class, ReferenceDataRenderer.get());
     converterLocator.set(Region.class, ReferenceDataRenderer.get());
 
     converterLocator.set(Organisation.class, OrganisationRenderer.get());
+    converterLocator.set(Site.class, SiteRenderer.get());
+    converterLocator.set(SiteTypologie.class, EnumRenderer.get());
+
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());
 
@@ -195,6 +214,10 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
 
     // Organisation
     mountPage("/organisation/", OrganisationListPage.class);
+
+    // Site
+    mountPage("/site/", SiteListPage.class);
+    mountParameterizedPage("/site/${" + CommonParameters.ID + "}/", SiteDetailPage.class);
 
     // Reference data
     mountPage("/referentiel/", ReferenceDataPage.class);

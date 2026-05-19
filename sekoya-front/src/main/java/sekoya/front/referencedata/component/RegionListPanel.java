@@ -45,6 +45,6 @@ public class RegionListPanel
       RegionDataProvider dataProvider,
       DecoratedCoreDataTablePanel<Region, RegionSort> table) {
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
-    return new RegionSearchPanel(wicketId, dataProvider, table);
+    return new RegionListSearchPanel(wicketId, dataProvider, table);
   }
 }

@@ -5,5 +5,7 @@ import sekoya.back.business.organisation.model.Organisation;
 
 public interface IOrganisationDao extends IGenericEntityDao<Long, Organisation> {
 
+  Organisation getDefault();
+
   Organisation getByNomCaseInsensitive(String nom);
 }

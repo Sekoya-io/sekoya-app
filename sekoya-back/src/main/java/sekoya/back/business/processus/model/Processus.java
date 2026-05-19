@@ -67,7 +67,7 @@ public class Processus extends GenericEntity<Long, Processus> {
   private ProcessusPriorite priorite;
 
   @Basic(optional = false)
-  private boolean actif = true;
+  private boolean enabled = true;
 
   @OneToMany(mappedBy = "processus", fetch = FetchType.LAZY)
   @SortComparator(AleaComparator.class)
@@ -127,12 +127,12 @@ public class Processus extends GenericEntity<Long, Processus> {
     this.priorite = priorite;
   }
 
-  public boolean isActif() {
-    return actif;
+  public boolean isEnabled() {
+    return enabled;
   }
 
-  public void setActif(boolean actif) {
-    this.actif = actif;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   public SortedSet<Alea> getAleas() {

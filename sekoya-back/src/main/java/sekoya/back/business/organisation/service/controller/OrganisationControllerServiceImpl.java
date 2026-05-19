@@ -2,7 +2,6 @@ package sekoya.back.business.organisation.service.controller;
 
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.organisation.service.business.IOrganisationService;
@@ -12,7 +11,6 @@ public class OrganisationControllerServiceImpl implements IOrganisationControlle
 
   private final IOrganisationService organisationService;
 
-  @Autowired
   public OrganisationControllerServiceImpl(IOrganisationService organisationService) {
     this.organisationService = organisationService;
   }

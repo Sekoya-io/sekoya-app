@@ -39,7 +39,7 @@ public class DepartementListPanel
         .withClass("cell-w-100")
         .addLabelColumn(
             new ResourceModel("business.departement.region"), Bindings.departement().region())
-        .withSort(DepartementSort.REGION, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
+        .withSort(DepartementSort.REGION_LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
         .withClass("cell-w-250");
   }
 
@@ -49,6 +49,6 @@ public class DepartementListPanel
       DepartementDataProvider dataProvider,
       DecoratedCoreDataTablePanel<Departement, DepartementSort> table) {
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
-    return new DepartementSearchPanel(wicketId, dataProvider, table);
+    return new DepartementListSearchPanel(wicketId, dataProvider, table);
   }
 }

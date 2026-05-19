@@ -12,7 +12,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
@@ -61,14 +61,16 @@ public class OrganisationSavePopup extends AbstractAjaxModalPopupPanel<Organisat
     body.add(form);
 
     form.add(
-        new RequiredTextField<>("nom", BindingModel.of(getModel(), Bindings.organisation().nom()))
+        new TextField<>("nom", BindingModel.of(getModel(), Bindings.organisation().nom()))
             .setLabel(new ResourceModel("business.organisation.nom"))
+            .setRequired(true)
             .add(new OrganisationNomUnicityValidator(getModel())),
-        new RequiredTextField<>(
+        new TextField<>(
                 "chiffreAffaires",
                 BindingModel.of(getModel(), Bindings.organisation().chiffreAffaires()),
                 Integer.class)
-            .setLabel(new ResourceModel("business.organisation.chiffreAffaires")));
+            .setLabel(new ResourceModel("business.organisation.chiffreAffaires"))
+            .setRequired(true));
 
     return body;
   }
@@ -84,8 +86,7 @@ public class OrganisationSavePopup extends AbstractAjaxModalPopupPanel<Organisat
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
             try {
-              IModel<Organisation> organisationModel = OrganisationSavePopup.this.getModel();
-              Organisation organisation = organisationModel.getObject();
+              Organisation organisation = OrganisationSavePopup.this.getModelObject();
 
               organisationControllerService.saveOrganisation(organisation);
 
@@ -94,11 +95,7 @@ public class OrganisationSavePopup extends AbstractAjaxModalPopupPanel<Organisat
               closePopup(target);
               target.add(getPage());
             } catch (Exception e) {
-              if (addModeCondition().applies()) {
-                LOGGER.error("Error occured while creating organisation", e);
-              } else {
-                LOGGER.error("Error occured while updating organisation", e);
-              }
+              LOGGER.error("Erreur lors de la saisie d'une organisation", e);
               Session.get().error(getString("common.error.unexpected"));
             }
             FeedbackUtils.refreshFeedback(target, getPage());

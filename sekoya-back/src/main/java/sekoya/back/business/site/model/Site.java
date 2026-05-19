@@ -21,12 +21,16 @@ import org.bindgen.Bindable;
 import org.hibernate.annotations.SortComparator;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.iglooproject.commons.util.collections.CollectionUtils;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
+import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.common.model.Latitude;
 import sekoya.back.business.common.model.Longitude;
 import sekoya.back.business.common.model.embeddable.Adresse;
@@ -45,12 +49,23 @@ public class Site extends GenericEntity<Long, Site> {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String ORGANISATION = "organisation";
   public static final String NOM = "nom";
   public static final String NOM_AUTOCOMPLETE = NOM + "Autocomplete";
+  public static final String TYPOLOGIE = "typologie";
+  public static final String ADRESSE = "adresse";
+  public static final String ADRESSE_EMBEDDED = ADRESSE + "Embedded";
+  public static final String ADRESSE_COMMUNE = ADRESSE_EMBEDDED + "." + Adresse.COMMUNE;
+  public static final String ADRESSE_COMMUNE_LABEL_SORT =
+      ADRESSE_EMBEDDED + "." + Adresse.COMMUNE_LABEL_SORT;
+  public static final String ENABLED = "enabled";
 
   @Id @GeneratedValue private Long id;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @GenericField(
+      name = ORGANISATION,
+      valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
   private Organisation organisation;
 
   @Basic(optional = false)
@@ -62,20 +77,26 @@ public class Site extends GenericEntity<Long, Site> {
 
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
+  @GenericField(name = TYPOLOGIE)
   private SiteTypologie typologie;
 
-  @Embedded private Adresse adresse;
+  @Embedded
+  @IndexedEmbedded(
+      name = ADRESSE_EMBEDDED,
+      includePaths = {Adresse.COMMUNE, Adresse.COMMUNE_LABEL_SORT})
+  private Adresse adresse;
 
-  @Basic
+  @Basic(optional = false)
   @Type(LatitudeType.class)
   private Latitude latitude;
 
-  @Basic
+  @Basic(optional = false)
   @Type(LongitudeType.class)
   private Longitude longitude;
 
   @Basic(optional = false)
-  private boolean actif = true;
+  @GenericField(name = ENABLED)
+  private boolean enabled = true;
 
   @OneToMany(mappedBy = "site", fetch = FetchType.LAZY)
   @SortComparator(ProcessusComparator.class)
@@ -154,12 +175,12 @@ public class Site extends GenericEntity<Long, Site> {
     this.longitude = longitude;
   }
 
-  public boolean isActif() {
-    return actif;
+  public boolean isEnabled() {
+    return enabled;
   }
 
-  public void setActif(boolean actif) {
-    this.actif = actif;
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
   }
 
   public SortedSet<Processus> getProcessus() {

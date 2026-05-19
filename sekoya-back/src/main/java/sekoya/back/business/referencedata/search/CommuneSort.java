@@ -76,7 +76,7 @@ public enum CommuneSort implements ISort<Function<SearchSortFactory, SortFinalSt
       return SortOrder.ASC;
     }
   },
-  DEPARTEMENT {
+  DEPARTEMENT_LABEL {
     @Override
     public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
       return List.of(
@@ -88,7 +88,7 @@ public enum CommuneSort implements ISort<Function<SearchSortFactory, SortFinalSt
       return SortOrder.ASC;
     }
   },
-  REGION {
+  REGION_LABEL {
     @Override
     public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
       return List.of(

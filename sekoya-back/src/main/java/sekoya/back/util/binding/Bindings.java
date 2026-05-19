@@ -17,6 +17,8 @@ import sekoya.back.business.referencedata.search.DepartementSearchQueryDataBindi
 import sekoya.back.business.referencedata.search.IBasicReferenceDataSearchQueryDataBindingInterfaceBinding;
 import sekoya.back.business.referencedata.search.RegionSearchQueryDataBinding;
 import sekoya.back.business.role.model.RoleBinding;
+import sekoya.back.business.site.model.SiteBinding;
+import sekoya.back.business.site.search.SiteSearchQueryDataBinding;
 import sekoya.back.business.user.model.UserBinding;
 import sekoya.back.business.user.search.UserSearchQueryDataBinding;
 
@@ -28,6 +30,10 @@ public final class Bindings {
   private static final OrganisationBinding ORGANISATION = new OrganisationBinding();
   private static final OrganisationSearchQueryDataBinding ORGANISATION_SEARCH_QUERY_DATA =
       new OrganisationSearchQueryDataBinding();
+
+  private static final SiteBinding SITE = new SiteBinding();
+  private static final SiteSearchQueryDataBinding SITE_SEARCH_QUERY_DATA =
+      new SiteSearchQueryDataBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
@@ -71,6 +77,14 @@ public final class Bindings {
 
   public static OrganisationSearchQueryDataBinding organisationSearchQueryData() {
     return ORGANISATION_SEARCH_QUERY_DATA;
+  }
+
+  public static SiteBinding site() {
+    return SITE;
+  }
+
+  public static SiteSearchQueryDataBinding siteSearchQueryData() {
+    return SITE_SEARCH_QUERY_DATA;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {

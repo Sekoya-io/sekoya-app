@@ -5,4 +5,7 @@ import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.user.model.User;
 
 public interface IOrganisationPermissionEvaluator
-    extends IGenericPermissionEvaluator<User, Organisation> {}
+    extends IGenericPermissionEvaluator<User, Organisation> {
+
+  boolean isVisible(User user, Organisation organisation);
+}

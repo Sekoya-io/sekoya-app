@@ -11,6 +11,27 @@ public final class SekoyaSecurityExpressionConstants {
           + SekoyaPermissionConstants.ORGANISATION_WRITE
           + "')";
 
+  public static final String SITE_WRITE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.SITE_WRITE
+          + "')";
+
+  public static final String SITE_ENABLE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.SITE_ENABLE
+          + "')";
+
+  public static final String SITE_DISABLE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.SITE_DISABLE
+          + "')";
+
   public static final String USER_WRITE =
       "hasPermission(#"
           + DEFAULT_PERMISSION_OBJECT_NAME

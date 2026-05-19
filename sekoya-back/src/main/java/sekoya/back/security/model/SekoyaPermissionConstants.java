@@ -13,6 +13,11 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
 
   public static final String ORGANISATION_WRITE = "ORGANISATION_WRITE";
 
+  public static final String SITE_READ = "SITE_READ";
+  public static final String SITE_WRITE = "SITE_WRITE";
+  public static final String SITE_ENABLE = "SITE_ENABLE";
+  public static final String SITE_DISABLE = "SITE_DISABLE";
+
   public static final String REFERENCE_DATA_READ = "REFERENCE_DATA_READ";
   public static final String REFERENCE_DATA_WRITE = "REFERENCE_DATA_WRITE_CREATE";
 
@@ -52,4 +57,7 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
 
   public static final String GLOBAL_ORGANISATION_READ = "GLOBAL_ORGANISATION_READ";
   public static final String GLOBAL_ORGANISATION_WRITE = "GLOBAL_ORGANISATION_WRITE";
+
+  public static final String GLOBAL_SITE_READ = "GLOBAL_SITE_READ";
+  public static final String GLOBAL_SITE_WRITE = "GLOBAL_SITE_WRITE";
 }

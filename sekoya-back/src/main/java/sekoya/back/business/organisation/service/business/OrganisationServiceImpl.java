@@ -55,6 +55,11 @@ public class OrganisationServiceImpl extends GenericEntityServiceImpl<Long, Orga
   }
 
   @Override
+  public Organisation getDefault() {
+    return dao.getDefault();
+  }
+
+  @Override
   public Organisation getByNomCaseInsensitive(String nom) {
     if (!StringUtils.hasText(nom)) {
       return null;

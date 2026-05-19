@@ -65,7 +65,7 @@ public enum DepartementSort implements ISort<Function<SearchSortFactory, SortFin
       return SortOrder.ASC;
     }
   },
-  REGION {
+  REGION_LABEL {
     @Override
     public List<Function<SearchSortFactory, SortFinalStep>> getSortFields(SortOrder sortOrder) {
       return List.of(

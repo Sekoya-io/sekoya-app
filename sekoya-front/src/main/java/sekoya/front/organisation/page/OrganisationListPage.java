@@ -25,7 +25,6 @@ import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilde
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.html.sort.SortIconStyle;
 import org.iglooproject.wicket.more.markup.html.sort.TableSortLink.CycleMode;
-import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
@@ -62,11 +61,9 @@ public class OrganisationListPage extends OrganisationTemplate {
   public OrganisationListPage(PageParameters parameters) {
     super(parameters);
 
-    addBreadCrumbElement(new BreadCrumbElement(new ResourceModel("navigation.organisation")));
-
     OrganisationDataProvider dataProvider = new OrganisationDataProvider();
 
-    OrganisationSavePopup savePopup = new OrganisationSavePopup("addPopup");
+    OrganisationSavePopup savePopup = new OrganisationSavePopup("savePopup");
     add(savePopup);
 
     EnclosureContainer headerElementsSection = new EnclosureContainer("headerElementsSection");
@@ -90,7 +87,8 @@ public class OrganisationListPage extends OrganisationTemplate {
 
     DecoratedCoreDataTablePanel<Organisation, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
-            .addLabelColumn(new ResourceModel("business.organisation.nom"), Bindings.organisation())
+            .addLabelColumn(
+                new ResourceModel("business.organisation.nom"), Bindings.organisation().nom())
             .withSort(OrganisationSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
             .addLabelColumn(

@@ -21,6 +21,10 @@ public final class UserPredicates {
     return type(UserType.ADMINISTRATEUR_FONCTIONNEL);
   }
 
+  public static SerializablePredicate2<User> administrateur() {
+    return Predicates2.or(administrateurFonctionnel(), administrateurTechnique());
+  }
+
   public static SerializablePredicate2<User> organisation() {
     return type(UserType.ORGANISATION);
   }

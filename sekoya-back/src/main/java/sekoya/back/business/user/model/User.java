@@ -76,7 +76,6 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
   public static final String EMAIL_ADDRESS_AUTOCOMPLETE = EMAIL_ADDRESS + "Autocomplete";
   public static final String ROLES = "roles";
   public static final String ENABLED = "enabled";
-
   public static final String USER_ORGANISATION = "userOrganisation";
   public static final String USER_ORGANISATION_EMBEDDED = USER_ORGANISATION + "Embedded";
   public static final String USER_ORGANISATION_ORGANISATION =
@@ -145,9 +144,7 @@ public class User extends GenericEntity<Long, User> implements IUser, INotificat
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
       orphanRemoval = true)
-  @IndexedEmbedded(
-      name = USER_ORGANISATION_EMBEDDED,
-      includePaths = {UserOrganisation.ORGANISATION})
+  @IndexedEmbedded(name = USER_ORGANISATION_EMBEDDED, includePaths = UserOrganisation.ORGANISATION)
   private UserOrganisation userOrganisation;
 
   @Embedded

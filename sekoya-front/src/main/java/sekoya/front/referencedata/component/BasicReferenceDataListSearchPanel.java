@@ -18,11 +18,11 @@ import sekoya.back.business.referencedata.search.BasicReferenceDataSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.referencedata.model.BasicReferenceDataDataProvider;
 
-public class BasicReferenceDataSearchPanel<T extends ReferenceData<? super T>> extends Panel {
+public class BasicReferenceDataListSearchPanel<T extends ReferenceData<? super T>> extends Panel {
 
   private static final long serialVersionUID = 3027788723051745121L;
 
-  public BasicReferenceDataSearchPanel(
+  public BasicReferenceDataListSearchPanel(
       String id,
       BasicReferenceDataDataProvider<T> dataProvider,
       DecoratedCoreDataTablePanel<T, BasicReferenceDataSort> table) {
