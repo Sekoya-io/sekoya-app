@@ -34,8 +34,8 @@ public class UserOrganisationExcelTableExport extends AbstractSekoyaSimpleExcelT
           new ColumnInformation("business.userOrganisation.organisation"),
           new ColumnInformation("business.user.enabled"),
           new ColumnInformation("business.user.roles"),
-          new ColumnInformation("business.user.creation"),
-          new ColumnInformation("business.user.modification"),
+          new ColumnInformation("business.common.historyEventSummary.creation"),
+          new ColumnInformation("business.common.historyEventSummary.modification"),
           new ColumnInformation("business.user.lastLoginDate"));
 
   public UserOrganisationExcelTableExport(Component component) {

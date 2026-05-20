@@ -43,11 +43,9 @@ public class UserOrganisationDetailGeneralDescriptionPanel extends GenericPanel<
             .showPlaceholder(),
         new DefaultPlaceholderPanel("emailAddressPlaceholder")
             .condition(Condition.modelNotNull(emailAddressValueModel)),
-        new CoreLabel("creationDate", BindingModel.of(userModel, Bindings.user().creation().date()))
+        new CoreLabel("creation", BindingModel.of(userModel, Bindings.user().creation()))
             .showPlaceholder(),
-        new CoreLabel(
-                "modificationDate",
-                BindingModel.of(userModel, Bindings.user().modification().date()))
+        new CoreLabel("modification", BindingModel.of(userModel, Bindings.user().modification()))
             .showPlaceholder(),
         new CoreLabel("lastLoginDate", BindingModel.of(userModel, Bindings.user().lastLoginDate()))
             .showPlaceholder());

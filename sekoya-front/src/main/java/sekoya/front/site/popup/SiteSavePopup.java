@@ -139,7 +139,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
               closePopup(target);
               target.add(getPage());
             } catch (Exception e) {
-              LOGGER.error("Erreur lors de la saisie d'un site", e);
+              LOGGER.error("Erreur saisie site", e);
               Session.get().error(getString("common.error.unexpected"));
             }
             FeedbackUtils.refreshFeedback(target, getPage());

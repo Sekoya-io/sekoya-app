@@ -21,6 +21,7 @@ import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.PackageResourceReference;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
+import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventValue;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryValue;
 import org.iglooproject.spring.property.service.IPropertyService;
@@ -61,6 +62,7 @@ import sekoya.front.common.converter.LocalTimeConverter;
 import sekoya.front.common.converter.LongitudeConverter;
 import sekoya.front.common.renderer.AdresseRenderer;
 import sekoya.front.common.renderer.CommuneRenderer;
+import sekoya.front.common.renderer.HistoryEventSummaryRenderer;
 import sekoya.front.common.renderer.InstantRenderer;
 import sekoya.front.common.renderer.RoleRenderer;
 import sekoya.front.common.template.favicon.ApplicationFaviconPackage;
@@ -169,6 +171,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Latitude.class, LatitudeConverter.get());
     converterLocator.set(Longitude.class, LongitudeConverter.get());
 
+    converterLocator.set(HistoryEventSummary.class, HistoryEventSummaryRenderer.complet());
     converterLocator.set(Adresse.class, AdresseRenderer.get());
 
     converterLocator.set(Commune.class, CommuneRenderer.get());

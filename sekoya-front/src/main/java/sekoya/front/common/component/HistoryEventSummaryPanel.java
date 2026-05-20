@@ -26,7 +26,7 @@ public class HistoryEventSummaryPanel extends Panel {
                 new AttributeAppender(
                     "title",
                     new StringResourceModel(
-                        "common.historyEventSummary.value.creation",
+                        "business.common.historyEventSummary.creation.value",
                         HistoryEventSummaryRenderer.complet().asModel(creationModel)))),
         new EnclosureContainer("modification")
             .condition(Condition.modelNotNull(modificationModel))
@@ -34,7 +34,7 @@ public class HistoryEventSummaryPanel extends Panel {
                 new AttributeAppender(
                     "title",
                     new StringResourceModel(
-                        "common.historyEventSummary.value.modification",
+                        "business.common.historyEventSummary.modification.value",
                         HistoryEventSummaryRenderer.complet().asModel(modificationModel)))));
   }
 }

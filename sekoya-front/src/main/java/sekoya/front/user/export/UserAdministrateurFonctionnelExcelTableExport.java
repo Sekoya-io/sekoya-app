@@ -34,8 +34,8 @@ public class UserAdministrateurFonctionnelExcelTableExport
           new ColumnInformation("business.user.emailAddress"),
           new ColumnInformation("business.user.enabled"),
           new ColumnInformation("business.user.roles"),
-          new ColumnInformation("business.user.creation"),
-          new ColumnInformation("business.user.modification"),
+          new ColumnInformation("business.common.historyEventSummary.creation"),
+          new ColumnInformation("business.common.historyEventSummary.modification"),
           new ColumnInformation("business.user.lastLoginDate"));
 
   public UserAdministrateurFonctionnelExcelTableExport(Component component) {

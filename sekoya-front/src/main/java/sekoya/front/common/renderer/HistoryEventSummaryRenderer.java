@@ -1,8 +1,10 @@
 package sekoya.front.common.renderer;
 
+import static org.iglooproject.spring.util.StringUtils.emptyTextToNull;
+
 import igloo.wicket.renderer.Renderer;
 import java.util.Locale;
-import org.apache.wicket.model.StringResourceModel;
+import org.iglooproject.functional.Joiners;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import sekoya.front.history.renderer.IHistoryValueRenderer;
 
@@ -39,11 +41,10 @@ public abstract class HistoryEventSummaryRenderer extends Renderer<HistoryEventS
           if (value.getSubject() == null) {
             return HistoryEventSummaryRenderer.date().render(value, locale);
           } else {
-            return new StringResourceModel("common.historyEventSummary.value")
-                .setParameters(
-                    HistoryEventSummaryRenderer.date().render(value, locale),
-                    HistoryEventSummaryRenderer.subject().render(value, locale))
-                .getObject();
+            return Joiners.onMiddotSpace()
+                .join(
+                    emptyTextToNull(HistoryEventSummaryRenderer.date().render(value, locale)),
+                    emptyTextToNull(HistoryEventSummaryRenderer.subject().render(value, locale)));
           }
         }
       }.nullsAsNull();
