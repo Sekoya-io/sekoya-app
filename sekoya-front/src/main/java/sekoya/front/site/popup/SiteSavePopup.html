@@ -53,62 +53,99 @@
 					</div>
 					<div class="row row-form">
 						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="adresse1" class="col-form-label form-label"><wicket:label /></label>
+							<form wicket:id="searchForm">
+								<label wicket:for="term" class="visually-hidden"><wicket:label /></label>
+								<div class="input-group">
+									<span class="input-group-text"><span class="fa fa-fw fa-magnifying-glass" /></span>
+									<input wicket:id="term" class="form-control" type="text" />
 								</div>
-								<div class="col-md-8">
-									<input wicket:id="adresse1" class="form-control" type="text" />
+							</form>
+						</div>
+						<div wicket:id="adresseSearchResultsContainer" class="col-12">
+							<div class="row row-form">
+								<div wicket:enclosure-component="adresseChoice" class="col-12">
+									<div wicket:id="adresseChoice" class="form-control-plaintext">
+										<ul class="list-group">
+											<li wicket:id="choices" class="list-group-item">
+												<input wicket:id=item class="form-check-input" type="radio" />
+												<label wicket:for="item" class="form-check-label"><wicket:label /></label>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div wicket:id="noResultContainer" class="col-12">
+									<div class="alert alert-light">
+										<wicket:message key="site.adresseSearch.choices.noResult" />
+									</div>
+								</div>
+								<div wicket:id="errorContainer" class="col-12">
+									<div class="alert alert-warning">
+										<wicket:message key="site.adresseSearch.choices.error" />
+									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="adresse2" class="col-form-label form-label"><wicket:label /></label>
+						<div wicket:id="adresseContainer" class="col-12">
+							<div class="row row-form">
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="adresse1" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<input wicket:id="adresse1" class="form-control" type="text" />
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8">
-									<input wicket:id="adresse2" class="form-control" type="text" />
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="adresse2" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<input wicket:id="adresse2" class="form-control" type="text" />
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="codePostal" class="col-form-label form-label"><wicket:label /></label>
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="codePostal" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<input wicket:id="codePostal" class="form-control" type="text" />
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8">
-									<input wicket:id="codePostal" class="form-control" type="text" />
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="commune" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<select wicket:id="commune" class="form-control" />
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="commune" class="col-form-label form-label"><wicket:label /></label>
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="latitude" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<input wicket:id="latitude" class="form-control" type="text" />
+										</div>
+									</div>
 								</div>
-								<div class="col-md-8">
-									<select wicket:id="commune" class="form-control" />
-								</div>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="latitude" class="col-form-label form-label"><wicket:label /></label>
-								</div>
-								<div class="col-md-8">
-									<input wicket:id="latitude" class="form-control" type="text" />
-								</div>
-							</div>
-						</div>
-						<div class="col-12">
-							<div class="row row-form-group form-group">
-								<div class="col-md-4">
-									<label wicket:for="longitude" class="col-form-label form-label"><wicket:label /></label>
-								</div>
-								<div class="col-md-8">
-									<input wicket:id="longitude" class="form-control" type="text" />
+								<div class="col-12">
+									<div class="row row-form-group form-group">
+										<div class="col-md-4">
+											<label wicket:for="longitude" class="col-form-label form-label"><wicket:label /></label>
+										</div>
+										<div class="col-md-8">
+											<input wicket:id="longitude" class="form-control" type="text" />
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

@@ -31,4 +31,12 @@ public final class SekoyaBackPropertyIds extends AbstractPropertyIds {
       immutable("security.password.validator.enabled");
   public static final ImmutablePropertyId<List<String>> SECURITY_PASSWORD_USER_FORBIDDEN_PASSWORDS =
       immutable("security.password.user.forbiddenPasswords");
+
+  public static final ImmutablePropertyId<Long> API_COMMON_REQUEST_TIMEOUT =
+      immutable("api.common.request.timeout");
+  public static final ImmutablePropertyId<Long> API_COMMON_RESPONSE_CONNECT_TIMEOUT =
+      immutable("api.common.response.connect.timeout");
+
+  public static final ImmutablePropertyId<String> API_REST_CLIENT_GEOCODAGE_URL =
+      immutable("api.rest.client.geocodage.url");
 }

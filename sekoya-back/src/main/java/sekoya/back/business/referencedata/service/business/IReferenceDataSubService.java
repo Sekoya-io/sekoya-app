@@ -1,4 +1,4 @@
-package sekoya.back.business.referencedata.service;
+package sekoya.back.business.referencedata.service.business;
 
 import org.iglooproject.jpa.more.business.referencedata.service.IGenericReferenceDataSubService;
 

@@ -1,5 +1,8 @@
 package sekoya.back.config;
 
+import static sekoya.back.property.SekoyaBackPropertyIds.API_COMMON_REQUEST_TIMEOUT;
+import static sekoya.back.property.SekoyaBackPropertyIds.API_COMMON_RESPONSE_CONNECT_TIMEOUT;
+import static sekoya.back.property.SekoyaBackPropertyIds.API_REST_CLIENT_GEOCODAGE_URL;
 import static sekoya.back.property.SekoyaBackPropertyIds.BUILD_DATE;
 import static sekoya.back.property.SekoyaBackPropertyIds.BUILD_SHA;
 import static sekoya.back.property.SekoyaBackPropertyIds.ENVIRONMENT;
@@ -39,5 +42,10 @@ public class SekoyaBackPropertyRegistryConfiguration implements IPropertyRegistr
         SECURITY_PASSWORD_USER_FORBIDDEN_PASSWORDS,
         new StringCollectionConverter<>(Converter.identity(), Suppliers2.arrayList()),
         Lists.newArrayList());
+
+    registry.registerLong(API_COMMON_REQUEST_TIMEOUT, 300000L);
+    registry.registerLong(API_COMMON_RESPONSE_CONNECT_TIMEOUT, 30000L);
+
+    registry.registerString(API_REST_CLIENT_GEOCODAGE_URL);
   }
 }

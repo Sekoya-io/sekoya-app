@@ -1,4 +1,4 @@
-package sekoya.back.business.referencedata.service;
+package sekoya.back.business.referencedata.service.business;
 
 import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.dsl.SimpleExpression;
