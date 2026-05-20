@@ -11,6 +11,8 @@ import sekoya.back.business.announcement.model.Announcement;
 import sekoya.back.business.announcement.model.atomic.AnnouncementType;
 import sekoya.back.business.announcement.service.business.IAnnouncementService;
 import sekoya.back.business.common.model.EmailAddress;
+import sekoya.back.business.organisation.model.Organisation;
+import sekoya.back.business.organisation.service.business.IOrganisationService;
 import sekoya.back.business.role.model.Role;
 import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.role.service.IRoleService;
@@ -53,6 +55,8 @@ public class TestEntityDatabaseHelper {
   @Autowired private IUserService userService;
 
   @Autowired private IRoleService roleService;
+
+  @Autowired private IOrganisationService organisationService;
 
   @Autowired protected PasswordEncoder passwordEncoder;
 
@@ -114,5 +118,21 @@ public class TestEntityDatabaseHelper {
     }
 
     return user;
+  }
+
+  public Organisation createOrganisation(
+      Consumer<Organisation> organisationConsumer, boolean database)
+      throws ServiceException, SecurityServiceException {
+
+    Organisation organisation = new Organisation();
+    organisation.setNom("organisation" + (++uniqueToken));
+
+    Optional.ofNullable(organisationConsumer).ifPresent(consumer -> consumer.accept(organisation));
+
+    if (database) {
+      organisationService.create(organisation);
+    }
+
+    return organisation;
   }
 }

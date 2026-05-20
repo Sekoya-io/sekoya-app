@@ -23,9 +23,11 @@ import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.jdbc.Sql;
 import sekoya.back.business.common.model.EmailAddress;
+import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.role.model.Role;
 import sekoya.back.business.role.model.Role.RoleEnumKey;
 import sekoya.back.business.user.model.User;
+import sekoya.back.business.user.model.UserOrganisation;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import test.core.AbstractSekoyaTestCase;
@@ -73,6 +75,11 @@ class TestUserService extends AbstractSekoyaTestCase {
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
     void testSaveUserOrganisation() throws SecurityServiceException, ServiceException {
+      Organisation organisation = entityDatabaseHelper.createOrganisation(null, true);
+
+      UserOrganisation userOrganisation = new UserOrganisation();
+      userOrganisation.setOrganisation(organisation);
+
       User user =
           entityDatabaseHelper.createUser(
               u -> {
@@ -80,6 +87,7 @@ class TestUserService extends AbstractSekoyaTestCase {
                 u.setFirstName("firstname");
                 u.setLastName("lastname");
                 u.setType(null);
+                u.setUserOrganisation(userOrganisation);
               },
               false);
 
@@ -142,11 +150,19 @@ class TestUserService extends AbstractSekoyaTestCase {
         value = USER_ADMINISTRATEUR_TECHNIQUE_USERNAME,
         setupBefore = TestExecutionEvent.TEST_EXECUTION)
     @Test
-    void testSaveUserOrganisation_userAdministrateurTechniqueAuthenticate_doesNotThrowException() {
+    void testSaveUserOrganisation_userAdministrateurTechniqueAuthenticate_doesNotThrowException()
+        throws ServiceException, SecurityServiceException {
+      Organisation organisation = entityDatabaseHelper.createOrganisation(null, true);
+
+      UserOrganisation userOrganisation = new UserOrganisation();
+      userOrganisation.setOrganisation(organisation);
+
       Assertions.assertThatCode(
               () ->
                   userControllerService.saveUserOrganisation(
-                      entityDatabaseHelper.createUser(null, false), USER_EDIT_PASSWORD))
+                      entityDatabaseHelper.createUser(
+                          u -> u.setUserOrganisation(userOrganisation), false),
+                      USER_EDIT_PASSWORD))
           .doesNotThrowAnyException();
     }
 
