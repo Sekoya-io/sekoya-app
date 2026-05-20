@@ -95,7 +95,8 @@ public class UserAdministrateurFonctionnelListPage extends UserTemplate {
 
                   @Override
                   protected Workbook generateWorkbook() {
-                    UserAdministrateurFonctionnelExcelTableExport export = new UserAdministrateurFonctionnelExcelTableExport(this);
+                    UserAdministrateurFonctionnelExcelTableExport export =
+                        new UserAdministrateurFonctionnelExcelTableExport(this);
                     return export.generate(dataProvider);
                   }
                 },

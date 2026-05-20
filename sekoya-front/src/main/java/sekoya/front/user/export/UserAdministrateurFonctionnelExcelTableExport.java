@@ -21,7 +21,8 @@ import sekoya.back.business.user.model.UserBinding;
 import sekoya.front.common.export.AbstractSekoyaSimpleExcelTableExport;
 import sekoya.front.user.renderer.UserRenderer;
 
-public class UserAdministrateurFonctionnelExcelTableExport extends AbstractSekoyaSimpleExcelTableExport {
+public class UserAdministrateurFonctionnelExcelTableExport
+    extends AbstractSekoyaSimpleExcelTableExport {
 
   private static final String SHEET_NAME_RESOURCE_KEY = "user.common.export.excel.sheetName";
 

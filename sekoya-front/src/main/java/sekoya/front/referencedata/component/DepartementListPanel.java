@@ -39,7 +39,8 @@ public class DepartementListPanel
         .withClass("cell-w-100")
         .addLabelColumn(
             new ResourceModel("business.departement.region"), Bindings.departement().region())
-        .withSort(DepartementSort.REGION_LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
+        .withSort(
+            DepartementSort.REGION_LABEL, SortIconStyle.ALPHABET, CycleMode.NONE_DEFAULT_REVERSE)
         .withClass("cell-w-250");
   }
 
