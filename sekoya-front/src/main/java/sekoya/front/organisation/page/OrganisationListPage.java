@@ -2,6 +2,7 @@ package sekoya.front.organisation.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.ORGANISATION_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
@@ -126,6 +127,7 @@ public class OrganisationListPage extends OrganisationTemplate {
                     savePopup.setUpEdit(organisationModel.getObject());
                   }
                 })
+            .whenPermission(ORGANISATION_WRITE)
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")

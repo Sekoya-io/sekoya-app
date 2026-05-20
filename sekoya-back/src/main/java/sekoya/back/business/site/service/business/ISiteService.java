@@ -1,5 +1,6 @@
 package sekoya.back.business.site.service.business;
 
+import java.util.List;
 import org.iglooproject.jpa.business.generic.service.IGenericEntityService;
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
@@ -15,4 +16,6 @@ public interface ISiteService extends IGenericEntityService<Long, Site> {
   void disable(Site site) throws ServiceException, SecurityServiceException;
 
   Site getByOrganisationAndNomCaseInsensitive(Organisation organisation, String nom);
+
+  List<Site> listByOrganisation(Organisation organisation);
 }

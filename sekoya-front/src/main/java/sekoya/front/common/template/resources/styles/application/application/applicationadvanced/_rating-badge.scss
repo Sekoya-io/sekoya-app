@@ -1,0 +1,175 @@
+.rating-badge-form-check {
+	display: inline-grid; 
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	gap: .3rem;
+	
+	> .rating-badge-form-check-label {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		margin-bottom: 0;
+		padding: $input-padding-y $input-padding-x;
+		font-family: $input-font-family;
+		@include font-size($input-font-size);
+		font-weight: $input-font-weight;
+		line-height: $input-line-height;
+		color: $input-color;
+		background-color: color-mix(in srgb, var(--rating-badge-color) 15%, transparent);
+		border: $input-border-width solid var(--rating-badge-color);
+		cursor: pointer;
+		
+		@include border-radius($input-border-radius, 0);
+		@include box-shadow($input-box-shadow);
+	}
+	
+	> .rating-badge-form-check-label:hover,
+	> .btn-check:checked + .rating-badge-form-check-label {
+		background-color: var(--rating-badge-color);
+		border-color: var(--rating-badge-color);
+		color: var(--rating-badge-text-color);
+		box-shadow: $box-shadow-sm;
+	}
+	
+	> .btn-check:checked + .rating-badge-form-check-label,
+	> .btn-check:not(:checked) + .rating-badge-form-check-label:hover {
+		transform: scale(1.1);
+	}
+	
+	&:hover > .btn-check:checked + .rating-badge-form-check-label:not(:hover) {
+		transform: none;
+	}
+	
+	> .btn-check:focus-visible + .rating-badge-form-check-label {
+		outline: 2px solid #3b82f6;
+		outline-offset: 2px;
+	}
+	
+	&.rating-badge-form-check-sm {
+		gap: .25rem;
+		
+		> .rating-badge-form-check-label {
+			min-height: $input-height-sm;
+			padding: $input-padding-y-sm $input-padding-x-sm;
+			@include font-size($input-font-size-sm);
+			@include border-radius($input-border-radius-sm);
+		}
+	}
+	
+	&.rating-badge-form-check-lg {
+		gap: .35rem;
+		
+		> .rating-badge-form-check-label {
+			min-height: $input-height-lg;
+			padding: $input-padding-y-lg $input-padding-x-lg;
+			@include font-size($input-font-size-lg);
+			@include border-radius($input-border-radius-lg);
+		}
+	}
+}
+
+.rating-badge-display {
+	display: inline-grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	gap: .3rem;
+	
+	> .rating-badge {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		padding: $input-padding-y $input-padding-x;
+		font-family: $input-font-family;
+		@include font-size($input-font-size);
+		font-weight: $input-font-weight;
+		line-height: $input-line-height;
+		background: $light;
+		color: $secondary;
+		border: $input-border-width solid $border-color;
+		opacity: .75;
+		
+		@include border-radius($input-border-radius, 0);
+		
+		&.rating-badge-active {
+			background-color: var(--rating-badge-color);
+			border-color: var(--rating-badge-color);
+			color: var(--rating-badge-text-color);
+			opacity: 1;
+			transform: scale(1.15);
+		}
+	}
+	
+	&.rating-badge-display-sm {
+		gap: .25rem;
+		
+		> .rating-badge {
+			min-height: $input-height-sm;
+			padding: $input-padding-y-sm $input-padding-x-sm;
+			@include font-size($input-font-size-sm);
+			@include border-radius($input-border-radius-sm);
+		}
+	}
+	
+	&.rating-badge-display-lg {
+		gap: .35rem;
+		
+		> .rating-badge {
+			min-height: $input-height-lg;
+			padding: $input-padding-y-lg $input-padding-x-lg;
+			@include font-size($input-font-size-lg);
+			@include border-radius($input-border-radius-lg);
+		}
+	}
+}
+
+$rating-badge-processus-priorite-data: (
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+@each $val, $color in $rating-badge-processus-priorite-data {
+	.rating-badge-form-check-processus-priorite > .rating-badge-form-check-label[data-val="#{$val}"],
+	.rating-badge-display-processus-priorite > .rating-badge[data-val="#{$val}"] {
+		--rating-badge-color: #{$color};
+		--rating-badge-text-color: #{color-contrast($color)};
+	}
+}
+
+$rating-badge-alea-sensibilite-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+@each $val, $color in $rating-badge-alea-sensibilite-data {
+	.rating-badge-form-check-alea-sensibilite > .rating-badge-form-check-label[data-val="#{$val}"],
+	.rating-badge-display-alea-sensibilite > .rating-badge[data-val="#{$val}"] {
+		--rating-badge-color: #{$color};
+		--rating-badge-text-color: #{color-contrast($color)};
+	}
+}
+
+$rating-badge-impact-potentiel-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+@each $val, $color in $rating-badge-impact-potentiel-data {
+	.rating-badge-form-check-impact-potentiel > .rating-badge-form-check-label[data-val="#{$val}"],
+	.rating-badge-display-impact-potentiel > .rating-badge[data-val="#{$val}"] {
+		--rating-badge-color: #{$color};
+		--rating-badge-text-color: #{color-contrast($color)};
+	}
+}

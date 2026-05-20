@@ -1,5 +1,6 @@
 package sekoya.back.business.site.service.business;
 
+import java.util.List;
 import java.util.Objects;
 import org.iglooproject.jpa.business.generic.service.GenericEntityServiceImpl;
 import org.iglooproject.jpa.exception.SecurityServiceException;
@@ -64,5 +65,11 @@ public class SiteServiceImpl extends GenericEntityServiceImpl<Long, Site> implem
     Objects.requireNonNull(organisation);
     Objects.requireNonNull(nom);
     return dao.getByOrganisationAndNomCaseInsensitive(organisation, nom);
+  }
+
+  @Override
+  public List<Site> listByOrganisation(Organisation organisation) {
+    Objects.requireNonNull(organisation);
+    return dao.listByOrganisation(organisation);
   }
 }

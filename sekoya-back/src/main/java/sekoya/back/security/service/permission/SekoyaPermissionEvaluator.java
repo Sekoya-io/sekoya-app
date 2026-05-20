@@ -5,6 +5,7 @@ import org.iglooproject.jpa.util.HibernateUtils;
 import org.springframework.security.acls.model.Permission;
 import sekoya.back.business.announcement.model.Announcement;
 import sekoya.back.business.organisation.model.Organisation;
+import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.referencedata.model.ReferenceData;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.user.model.User;
@@ -15,6 +16,8 @@ public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<U
 
   private final ISitePermissionEvaluator sitePermissionEvaluator;
 
+  private final IProcessusPermissionEvaluator processusPermissionEvaluator;
+
   private final IUserPermissionEvaluator userPermissionEvaluator;
 
   private final IReferenceDataPermissionEvaluator referenceDataPermissionEvaluator;
@@ -24,12 +27,14 @@ public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<U
   public SekoyaPermissionEvaluator(
       IOrganisationPermissionEvaluator organisationPermissionEvaluator,
       ISitePermissionEvaluator sitePermissionEvaluator,
+      IProcessusPermissionEvaluator processusPermissionEvaluator,
       IUserPermissionEvaluator userPermissionEvaluator,
       IReferenceDataPermissionEvaluator referenceDataPermissionEvaluator,
       IAnnouncementPermissionEvaluator announcementPermissionEvaluator) {
     super();
     this.organisationPermissionEvaluator = organisationPermissionEvaluator;
     this.sitePermissionEvaluator = sitePermissionEvaluator;
+    this.processusPermissionEvaluator = processusPermissionEvaluator;
     this.userPermissionEvaluator = userPermissionEvaluator;
     this.referenceDataPermissionEvaluator = referenceDataPermissionEvaluator;
     this.announcementPermissionEvaluator = announcementPermissionEvaluator;
@@ -49,6 +54,8 @@ public class SekoyaPermissionEvaluator extends AbstractCorePermissionEvaluator<U
       case Organisation organisation ->
           organisationPermissionEvaluator.hasPermission(user, organisation, permission);
       case Site site -> sitePermissionEvaluator.hasPermission(user, site, permission);
+      case Processus processus ->
+          processusPermissionEvaluator.hasPermission(user, processus, permission);
       case User targetUser -> userPermissionEvaluator.hasPermission(user, targetUser, permission);
       case ReferenceData<?> referenceData ->
           referenceDataPermissionEvaluator.hasPermission(user, referenceData, permission);

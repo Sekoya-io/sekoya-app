@@ -17,4 +17,13 @@ public enum ImpactPotentiel {
   public int getScore() {
     return score;
   }
+
+  public static ImpactPotentiel fromScore(int score) {
+    for (ImpactPotentiel impact : values()) {
+      if (impact.score == score) {
+        return impact;
+      }
+    }
+    throw new IllegalArgumentException("Score d'impact potentiel inconnu : " + score);
+  }
 }

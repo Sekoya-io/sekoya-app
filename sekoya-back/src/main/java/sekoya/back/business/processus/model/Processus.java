@@ -16,21 +16,31 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.SortedSet;
 import org.bindgen.Bindable;
 import org.hibernate.Length;
 import org.hibernate.annotations.SortComparator;
 import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.ObjectPath;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.PropertyValue;
 import org.iglooproject.commons.util.collections.CollectionUtils;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
+import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.model.comparator.AleaComparator;
 import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
+import sekoya.back.business.processus.model.atomic.ProcessusThematique;
 import sekoya.back.business.processus.model.atomic.ProcessusType;
 import sekoya.back.business.site.model.Site;
 
@@ -42,12 +52,19 @@ public class Processus extends GenericEntity<Long, Processus> {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String SITE = "site";
+  public static final String SITE_EMBEDDED = SITE + "Embedded";
+  public static final String SITE_ORGANISATION = SITE_EMBEDDED + "." + Site.ORGANISATION;
+  public static final String THEMATIQUE = "thematique";
   public static final String NOM = "nom";
   public static final String NOM_AUTOCOMPLETE = NOM + "Autocomplete";
+  public static final String PRIORITE = "priorite";
 
   @Id @GeneratedValue private Long id;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @GenericField(name = SITE, valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
+  @IndexedEmbedded(name = SITE_EMBEDDED, includePaths = Site.ORGANISATION)
   private Site site;
 
   @Basic(optional = false)
@@ -64,12 +81,13 @@ public class Processus extends GenericEntity<Long, Processus> {
 
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
+  @GenericField(name = PRIORITE, sortable = Sortable.YES)
   private ProcessusPriorite priorite;
 
   @Basic(optional = false)
   private boolean enabled = true;
 
-  @OneToMany(mappedBy = "processus", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "processus", fetch = FetchType.LAZY, orphanRemoval = true)
   @SortComparator(AleaComparator.class)
   private final SortedSet<Alea> aleas = Sets.newTreeSet(AleaComparator.get());
 
@@ -95,6 +113,21 @@ public class Processus extends GenericEntity<Long, Processus> {
     this.site = site;
   }
 
+  public ProcessusType getType() {
+    return type;
+  }
+
+  @Transient
+  @IndexingDependency(derivedFrom = @ObjectPath(@PropertyValue(propertyName = "type")))
+  @GenericField(name = THEMATIQUE, sortable = Sortable.YES)
+  public ProcessusThematique getThematique() {
+    return Optional.ofNullable(type).map(ProcessusType::getThematique).orElse(null);
+  }
+
+  public void setType(ProcessusType type) {
+    this.type = type;
+  }
+
   public String getNom() {
     return nom;
   }
@@ -109,14 +142,6 @@ public class Processus extends GenericEntity<Long, Processus> {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public ProcessusType getType() {
-    return type;
-  }
-
-  public void setType(ProcessusType type) {
-    this.type = type;
   }
 
   public ProcessusPriorite getPriorite() {
@@ -141,6 +166,14 @@ public class Processus extends GenericEntity<Long, Processus> {
 
   public void setAleas(SortedSet<Alea> aleas) {
     CollectionUtils.replaceAll(this.aleas, aleas);
+  }
+
+  public void addAlea(Alea alea) {
+    this.aleas.add(alea);
+  }
+
+  public void removeAlea(Alea alea) {
+    this.aleas.remove(alea);
   }
 
   public HistoryEventSummary getCreation() {

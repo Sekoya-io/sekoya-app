@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div class="card card-main">
+		<div class="card-header">
+			<div class="card-header-title">
+				<wicket:message key="processus.save.description.title" />
+			</div>
+		</div>
+		<div class="card-body">
+			<div wicket:id="unicity" class="alert alert-warning mb-3">
+				<wicket:message key="processus.save.description.warning.unicity" />
+			</div>
+			<form wicket:id="form">
+				<div class="row row-form">
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label wicket:for="site" class="col-form-label form-label"><wicket:label /></label>
+							</div>
+							<div class="col-md-8">
+								<select wicket:id="site" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label wicket:for="thematique" class="col-form-label form-label"><wicket:label /></label>
+							</div>
+							<div class="col-md-8">
+								<select wicket:id="thematique" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label wicket:for="type" class="col-form-label form-label"><wicket:label /></label>
+							</div>
+							<div class="col-md-8">
+								<select wicket:id="type" class="form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label wicket:for="nom" class="col-form-label form-label"><wicket:label /></label>
+							</div>
+							<div class="col-md-8">
+								<input wicket:id="nom" class="form-control" type="text" />
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label wicket:for="description" class="col-form-label form-label"><wicket:label /></label>
+							</div>
+							<div class="col-md-8">
+								<textarea wicket:id="description" class="form-control" rows="4" />
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="row row-form-group form-group">
+							<div class="col-md-4">
+								<label class="col-form-label form-label required">
+									<wicket:message key="business.processus.priorite" />
+								</label>
+							</div>
+							<div class="col-md-8">
+								<div wicket:id="priorite" class="rating-badge-form-check rating-badge-form-check-processus-priorite">
+									<wicket:container wicket:id="values" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</wicket:panel>
+</html>

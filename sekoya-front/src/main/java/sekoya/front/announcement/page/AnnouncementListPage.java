@@ -45,6 +45,7 @@ import sekoya.front.announcement.renderer.AnnouncementEnabledRenderer;
 import sekoya.front.announcement.template.AnnouncementTemplate;
 import sekoya.front.common.component.AnnouncementMessagePanel;
 import sekoya.front.common.renderer.ActionRenderers;
+import sekoya.front.common.util.CssClassConstants;
 
 public class AnnouncementListPage extends AnnouncementTemplate {
 
@@ -129,6 +130,7 @@ public class AnnouncementListPage extends AnnouncementTemplate {
                 new ResourceModel("business.announcement.publication.endDateTime"),
                 Bindings.announcement().publication().endDateTime())
             .withClass("cell-w-120")
+            .withClass(CssClassConstants.CELL_DISPLAY_XL)
             .addActionColumn()
             .addAction(
                 ActionRenderers.edit(),

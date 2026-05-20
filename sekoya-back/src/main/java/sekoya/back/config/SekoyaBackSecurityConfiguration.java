@@ -28,6 +28,7 @@ import sekoya.back.security.service.SekoyaSecurityServiceImpl;
 import sekoya.back.security.service.SekoyaUserDetailsServiceImpl;
 import sekoya.back.security.service.permission.IAnnouncementPermissionEvaluator;
 import sekoya.back.security.service.permission.IOrganisationPermissionEvaluator;
+import sekoya.back.security.service.permission.IProcessusPermissionEvaluator;
 import sekoya.back.security.service.permission.IReferenceDataPermissionEvaluator;
 import sekoya.back.security.service.permission.ISitePermissionEvaluator;
 import sekoya.back.security.service.permission.IUserPermissionEvaluator;
@@ -41,12 +42,14 @@ public class SekoyaBackSecurityConfiguration {
   public ICorePermissionEvaluator permissionEvaluator(
       IOrganisationPermissionEvaluator organisationPermissionEvaluator,
       ISitePermissionEvaluator sitePermissionEvaluator,
+      IProcessusPermissionEvaluator processusPermissionEvaluator,
       IUserPermissionEvaluator userPermissionEvaluator,
       IReferenceDataPermissionEvaluator referenceDataPermissionEvaluator,
       IAnnouncementPermissionEvaluator announcementPermissionEvaluator) {
     return new SekoyaPermissionEvaluator(
         organisationPermissionEvaluator,
         sitePermissionEvaluator,
+        processusPermissionEvaluator,
         userPermissionEvaluator,
         referenceDataPermissionEvaluator,
         announcementPermissionEvaluator);

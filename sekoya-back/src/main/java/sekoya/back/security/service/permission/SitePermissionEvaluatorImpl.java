@@ -38,25 +38,24 @@ public class SitePermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
     return false;
   }
 
+  @Override
+  public boolean isVisible(User user, Site site) {
+    return organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
+  }
+
   public boolean canReadSite(User user, Site site) {
-    return hasPermission(user, GLOBAL_SITE_READ)
-        && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
+    return hasPermission(user, GLOBAL_SITE_READ) && isVisible(user, site);
   }
 
   public boolean canWriteSite(User user, Site site) {
-    return hasPermission(user, GLOBAL_SITE_WRITE)
-        && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
+    return hasPermission(user, GLOBAL_SITE_WRITE) && isVisible(user, site);
   }
 
   public boolean canEnableSite(User user, Site site) {
-    return !site.isEnabled()
-        && hasPermission(user, GLOBAL_SITE_WRITE)
-        && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
+    return !site.isEnabled() && hasPermission(user, GLOBAL_SITE_WRITE) && isVisible(user, site);
   }
 
   public boolean canDisableSite(User user, Site site) {
-    return site.isEnabled()
-        && hasPermission(user, GLOBAL_SITE_WRITE)
-        && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
+    return site.isEnabled() && hasPermission(user, GLOBAL_SITE_WRITE) && isVisible(user, site);
   }
 }

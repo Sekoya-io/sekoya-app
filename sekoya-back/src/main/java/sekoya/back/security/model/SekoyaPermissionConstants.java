@@ -18,6 +18,11 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
   public static final String SITE_ENABLE = "SITE_ENABLE";
   public static final String SITE_DISABLE = "SITE_DISABLE";
 
+  public static final String PROCESSUS_READ = "PROCESSUS_READ";
+  public static final String PROCESSUS_WRITE = "PROCESSUS_WRITE";
+  public static final String PROCESSUS_ENABLE = "PROCESSUS_ENABLE";
+  public static final String PROCESSUS_DISABLE = "PROCESSUS_DISABLE";
+
   public static final String REFERENCE_DATA_READ = "REFERENCE_DATA_READ";
   public static final String REFERENCE_DATA_WRITE = "REFERENCE_DATA_WRITE_CREATE";
 
@@ -46,6 +51,15 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
   // Add contants of the form public static final String MY_PERMISSION_NAME = "MY_PERMISSION_NAME";
   // here
 
+  public static final String GLOBAL_ORGANISATION_READ = "GLOBAL_ORGANISATION_READ";
+  public static final String GLOBAL_ORGANISATION_WRITE = "GLOBAL_ORGANISATION_WRITE";
+
+  public static final String GLOBAL_SITE_READ = "GLOBAL_SITE_READ";
+  public static final String GLOBAL_SITE_WRITE = "GLOBAL_SITE_WRITE";
+
+  public static final String GLOBAL_PROCESSUS_READ = "GLOBAL_PROCESSUS_READ";
+  public static final String GLOBAL_PROCESSUS_WRITE = "GLOBAL_PROCESSUS_WRITE";
+
   public static final String GLOBAL_REFERENCE_DATA_READ = "GLOBAL_REFERENCE_DATA_READ";
   public static final String GLOBAL_REFERENCE_DATA_WRITE = "GLOBAL_REFERENCE_DATA_WRITE";
 
@@ -54,10 +68,4 @@ public class SekoyaPermissionConstants extends CorePermissionConstants {
 
   public static final String GLOBAL_ANNOUNCEMENT_READ = "GLOBAL_ANNOUNCEMENT_READ";
   public static final String GLOBAL_ANNOUNCEMENT_WRITE = "GLOBAL_ANNOUNCEMENT_WRITE";
-
-  public static final String GLOBAL_ORGANISATION_READ = "GLOBAL_ORGANISATION_READ";
-  public static final String GLOBAL_ORGANISATION_WRITE = "GLOBAL_ORGANISATION_WRITE";
-
-  public static final String GLOBAL_SITE_READ = "GLOBAL_SITE_READ";
-  public static final String GLOBAL_SITE_WRITE = "GLOBAL_SITE_WRITE";
 }

@@ -12,6 +12,7 @@ import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.model.BindingModel;
+import igloo.wicket.model.Detachables;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -52,7 +53,7 @@ public class SiteDetailPage extends SiteTemplate {
 
   @SpringBean protected ISiteControllerService siteControllerService;
 
-  protected final IModel<Site> siteModel = new GenericEntityModel<>();
+  private final IModel<Site> siteModel = new GenericEntityModel<>();
 
   public SiteDetailPage(PageParameters parameters) {
     super(parameters);
@@ -123,6 +124,12 @@ public class SiteDetailPage extends SiteTemplate {
                     .add(Condition.permission(siteModel, SITE_DISABLE).thenShow())));
 
     add(new SiteDetailDescriptionPanel("description", siteModel));
+  }
+
+  @Override
+  protected void onDetach() {
+    super.onDetach();
+    Detachables.detach(siteModel);
   }
 
   @Override

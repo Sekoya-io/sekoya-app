@@ -42,6 +42,7 @@ import sekoya.front.common.template.theme.advanced.NavbarPanel;
 import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
 import sekoya.front.organisation.page.OrganisationListPage;
+import sekoya.front.processus.page.ProcessusListPage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.site.page.SiteListPage;
@@ -115,6 +116,9 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
         SiteListPage.linkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.site"))
             .iconClasses(Model.of("fa fa-fw fa-industry")),
+        ProcessusListPage.linkDescriptor()
+            .navigationMenuItem(new ResourceModel("navigation.processus"))
+            .iconClasses(Model.of("fa fa-fw fa-diagram-project")),
         ReferenceDataPage.linkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.referenceData"))
             .iconClasses(Model.of("fa fa-fw fa-list")),

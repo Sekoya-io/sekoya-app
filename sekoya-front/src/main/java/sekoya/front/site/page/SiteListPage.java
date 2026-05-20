@@ -2,6 +2,7 @@ package sekoya.front.site.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
@@ -9,13 +10,9 @@ import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.bootstrap.modal.OneParameterModalOpenAjaxAction;
 import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
-import igloo.wicket.model.BindingModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -28,15 +25,12 @@ import org.iglooproject.wicket.more.markup.html.sort.SortIconStyle;
 import org.iglooproject.wicket.more.markup.html.sort.TableSortLink.CycleMode;
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
-import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
 import sekoya.back.business.user.search.IUserSearchQuery;
-import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
-import sekoya.front.common.component.HistoryEventSummaryPanel;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.site.component.SiteListSearchPanel;
 import sekoya.front.site.model.SiteDataProvider;
@@ -54,8 +48,6 @@ public class SiteListPage extends SiteTemplate {
   }
 
   @SpringBean private IUserSearchQuery userSearchQuery;
-
-  @SpringBean private IUserControllerService userControllerService;
 
   @SpringBean private IPropertyService propertyService;
 
@@ -105,23 +97,6 @@ public class SiteListPage extends SiteTemplate {
                 SiteSort.ADRESSE_COMMUNE_LABEL, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .multiline()
             .withClass("cell-w-300")
-            .addColumn(
-                new AbstractCoreColumn<Site, SiteSort>(Model.of()) {
-                  private static final long serialVersionUID = 1L;
-
-                  @Override
-                  public void populateItem(
-                      Item<ICellPopulator<Site>> cellItem,
-                      String componentId,
-                      IModel<Site> rowModel) {
-                    cellItem.add(
-                        new HistoryEventSummaryPanel(
-                            componentId,
-                            BindingModel.of(rowModel, Bindings.site().creation()),
-                            BindingModel.of(rowModel, Bindings.site().modification())));
-                  }
-                })
-            .withClass("cell-w-80 cell-w-fit text-center")
             .addActionColumn()
             .addAction(
                 ActionRenderers.edit(),
@@ -134,6 +109,7 @@ public class SiteListPage extends SiteTemplate {
                     savePopup.setUpEdit(siteModel.getObject());
                   }
                 })
+            .whenPermission(SITE_WRITE)
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")

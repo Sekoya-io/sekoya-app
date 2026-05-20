@@ -1,5 +1,6 @@
 package sekoya.back.business.site.service.controller;
 
+import java.util.List;
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,10 @@ public class SiteControllerServiceImpl implements ISiteControllerService {
   @Override
   public Site getByOrganisationAndNomCaseInsensitive(Organisation organisation, String nom) {
     return siteService.getByOrganisationAndNomCaseInsensitive(organisation, nom);
+  }
+
+  @Override
+  public List<Site> listByOrganisation(Organisation organisation) {
+    return siteService.listByOrganisation(organisation);
   }
 }

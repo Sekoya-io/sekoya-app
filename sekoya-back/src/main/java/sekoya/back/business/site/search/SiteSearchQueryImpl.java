@@ -63,9 +63,10 @@ public class SiteSearchQueryImpl implements ISiteSearchQuery {
       predicateContributor(SiteSearchQueryData data) {
     return (f, root) -> {
       root.add(f.matchAll());
-      if (data.getOrganisation() != null) {
-        root.add(f.match().field(Site.ORGANISATION).matching(data.getOrganisation()));
-      }
+
+      Objects.requireNonNull(data.getOrganisation());
+      root.add(f.match().field(Site.ORGANISATION).matching(data.getOrganisation()));
+
       if (data.getNom() != null) {
         root.add(
             f.simpleQueryString()

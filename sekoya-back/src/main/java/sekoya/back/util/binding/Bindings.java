@@ -1,5 +1,6 @@
 package sekoya.back.util.binding;
 
+import sekoya.back.business.alea.model.AleaBinding;
 import sekoya.back.business.announcement.model.AnnouncementBinding;
 import sekoya.back.business.common.model.CodePostalBinding;
 import sekoya.back.business.common.model.EmailAddressBinding;
@@ -8,6 +9,8 @@ import sekoya.back.business.history.model.HistoryLogBinding;
 import sekoya.back.business.history.search.HistoryLogSearchQueryDataBinding;
 import sekoya.back.business.organisation.model.OrganisationBinding;
 import sekoya.back.business.organisation.search.OrganisationSearchQueryDataBinding;
+import sekoya.back.business.processus.model.ProcessusBinding;
+import sekoya.back.business.processus.search.ProcessusSearchQueryDataBinding;
 import sekoya.back.business.referencedata.model.CommuneBinding;
 import sekoya.back.business.referencedata.model.DepartementBinding;
 import sekoya.back.business.referencedata.model.IReferenceDataBindingInterfaceBinding;
@@ -34,6 +37,12 @@ public final class Bindings {
   private static final SiteBinding SITE = new SiteBinding();
   private static final SiteSearchQueryDataBinding SITE_SEARCH_QUERY_DATA =
       new SiteSearchQueryDataBinding();
+
+  private static final ProcessusBinding PROCESSUS = new ProcessusBinding();
+  private static final ProcessusSearchQueryDataBinding PROCESSUS_SEARCH_QUERY_DATA =
+      new ProcessusSearchQueryDataBinding();
+
+  private static final AleaBinding ALEA = new AleaBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
@@ -85,6 +94,18 @@ public final class Bindings {
 
   public static SiteSearchQueryDataBinding siteSearchQueryData() {
     return SITE_SEARCH_QUERY_DATA;
+  }
+
+  public static ProcessusBinding processus() {
+    return PROCESSUS;
+  }
+
+  public static ProcessusSearchQueryDataBinding processusSearchQueryData() {
+    return PROCESSUS_SEARCH_QUERY_DATA;
+  }
+
+  public static AleaBinding alea() {
+    return ALEA;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {

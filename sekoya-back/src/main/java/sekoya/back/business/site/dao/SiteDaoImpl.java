@@ -1,6 +1,7 @@
 package sekoya.back.business.site.dao;
 
 import com.querydsl.jpa.impl.JPAQuery;
+import java.util.List;
 import org.iglooproject.jpa.business.generic.dao.GenericEntityDaoImpl;
 import org.springframework.stereotype.Repository;
 import sekoya.back.business.organisation.model.Organisation;
@@ -19,5 +20,15 @@ public class SiteDaoImpl extends GenericEntityDaoImpl<Long, Site> implements ISi
         .where(qSite.organisation.eq(organisation))
         .where(qSite.nom.lower().eq(nom.toLowerCase()))
         .fetchOne();
+  }
+
+  @Override
+  public List<Site> listByOrganisation(Organisation organisation) {
+    return new JPAQuery<Site>(getEntityManager())
+        .from(qSite)
+        .where(qSite.organisation.eq(organisation))
+        .orderBy(qSite.nom.asc())
+        .orderBy(qSite.id.asc())
+        .fetch();
   }
 }

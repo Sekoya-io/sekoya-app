@@ -37,6 +37,8 @@ import org.iglooproject.wicket.more.security.page.LoginSuccessPage;
 import org.iglooproject.wicket.more.util.convert.HibernateProxyAwareConverterLocator;
 import org.iglooproject.wicket.more.util.listener.FormInvalidDecoratorListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.common.model.Latitude;
@@ -44,6 +46,10 @@ import sekoya.back.business.common.model.Longitude;
 import sekoya.back.business.common.model.embeddable.Adresse;
 import sekoya.back.business.history.model.atomic.HistoryLogEventType;
 import sekoya.back.business.organisation.model.Organisation;
+import sekoya.back.business.processus.model.Processus;
+import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
+import sekoya.back.business.processus.model.atomic.ProcessusThematique;
+import sekoya.back.business.processus.model.atomic.ProcessusType;
 import sekoya.back.business.referencedata.model.Commune;
 import sekoya.back.business.referencedata.model.Departement;
 import sekoya.back.business.referencedata.model.Region;
@@ -82,6 +88,12 @@ import sekoya.front.navigation.page.HomePage;
 import sekoya.front.navigation.page.MaintenancePage;
 import sekoya.front.organisation.page.OrganisationListPage;
 import sekoya.front.organisation.renderer.OrganisationRenderer;
+import sekoya.front.processus.page.ProcessusAddPage;
+import sekoya.front.processus.page.ProcessusDetailPage;
+import sekoya.front.processus.page.ProcessusEditPage;
+import sekoya.front.processus.page.ProcessusListPage;
+import sekoya.front.processus.renderer.AleaRenderer;
+import sekoya.front.processus.renderer.ProcessusRenderer;
 import sekoya.front.profile.page.ProfilePage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
 import sekoya.front.referencedata.renderer.ReferenceDataRenderer;
@@ -182,6 +194,12 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Organisation.class, OrganisationRenderer.get());
     converterLocator.set(Site.class, SiteRenderer.get());
     converterLocator.set(SiteTypologie.class, EnumRenderer.get());
+    converterLocator.set(Processus.class, ProcessusRenderer.get());
+    converterLocator.set(ProcessusThematique.class, EnumRenderer.get());
+    converterLocator.set(ProcessusType.class, EnumRenderer.get());
+    converterLocator.set(ProcessusPriorite.class, EnumRenderer.get());
+    converterLocator.set(Alea.class, AleaRenderer.get());
+    converterLocator.set(AleaType.class, EnumRenderer.get());
 
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());
@@ -221,6 +239,13 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     // Site
     mountPage("/site/", SiteListPage.class);
     mountParameterizedPage("/site/${" + CommonParameters.ID + "}/", SiteDetailPage.class);
+
+    // Processus
+    mountPage("/processus/", ProcessusListPage.class);
+    mountParameterizedPage("/processus/${" + CommonParameters.ID + "}/", ProcessusDetailPage.class);
+    mountPage("/processus/creation/", ProcessusAddPage.class);
+    mountParameterizedPage(
+        "/processus/${" + CommonParameters.ID + "}/modification/", ProcessusEditPage.class);
 
     // Reference data
     mountPage("/referentiel/", ReferenceDataPage.class);

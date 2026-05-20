@@ -4,6 +4,7 @@ import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.SITE_
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.SITE_ENABLE;
 import static sekoya.back.security.model.SekoyaSecurityExpressionConstants.SITE_WRITE;
 
+import java.util.List;
 import org.iglooproject.commons.util.security.PermissionObject;
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
@@ -23,4 +24,6 @@ public interface ISiteControllerService {
   void disable(@PermissionObject Site site) throws ServiceException, SecurityServiceException;
 
   Site getByOrganisationAndNomCaseInsensitive(Organisation organisation, String nom);
+
+  List<Site> listByOrganisation(Organisation organisation);
 }

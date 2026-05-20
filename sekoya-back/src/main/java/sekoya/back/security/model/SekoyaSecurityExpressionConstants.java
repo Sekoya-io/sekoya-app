@@ -32,6 +32,27 @@ public final class SekoyaSecurityExpressionConstants {
           + SekoyaPermissionConstants.SITE_DISABLE
           + "')";
 
+  public static final String PROCESSUS_WRITE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.PROCESSUS_WRITE
+          + "')";
+
+  public static final String PROCESSUS_ENABLE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.PROCESSUS_ENABLE
+          + "')";
+
+  public static final String PROCESSUS_DISABLE =
+      "hasPermission(#"
+          + DEFAULT_PERMISSION_OBJECT_NAME
+          + ", '"
+          + SekoyaPermissionConstants.PROCESSUS_DISABLE
+          + "')";
+
   public static final String USER_WRITE =
       "hasPermission(#"
           + DEFAULT_PERMISSION_OBJECT_NAME
