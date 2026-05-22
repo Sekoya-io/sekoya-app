@@ -1,5 +1,6 @@
 package sekoya.front.announcement.page;
 
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ANNOUNCEMENT_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
@@ -83,7 +84,8 @@ public class AnnouncementListPage extends AnnouncementTemplate {
                           protected void onShow(AjaxRequestTarget target) {
                             savePopup.setUpAdd(new Announcement());
                           }
-                        })));
+                        })
+                    .add(Condition.permission(GLOBAL_ANNOUNCEMENT_WRITE).thenShow())));
 
     DecoratedCoreDataTablePanel<?, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())

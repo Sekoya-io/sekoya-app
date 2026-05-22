@@ -1,7 +1,6 @@
 package sekoya.front.user.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.ADMIN_RECOVERY_PASSWORD;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_DISABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ENABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.USER_READ;
@@ -34,7 +33,6 @@ import org.iglooproject.wicket.more.link.model.PageModel;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
-import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
@@ -54,7 +52,6 @@ import sekoya.front.user.popup.UserPasswordEditPopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-@AuthorizeInstantiationIfPermission(permissions = GLOBAL_USER_READ)
 public class UserAdministrateurFonctionnelDetailPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;

@@ -152,6 +152,11 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                 SiteTypologie.class)
             .setLabel(new ResourceModel("business.site.typologie"))
             .setRequired(true),
+        new TextField<>(
+                "chiffreAffaires",
+                BindingModel.of(getModel(), Bindings.site().chiffreAffaires()),
+                Integer.class)
+            .setLabel(new ResourceModel("business.site.chiffreAffaires")),
         new IndependentNestedForm<>("searchForm")
             .add(
                 new TextField<>("term", choicesSearchTermModel)
@@ -240,13 +245,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                 new TextField<>("longitude", longitudeModel, Longitude.class)
                     .setLabel(new ResourceModel("business.site.longitude"))
                     .setRequired(true))
-            .setOutputMarkupId(true),
-        new TextField<>(
-                "chiffreAffaires",
-                BindingModel.of(getModel(), Bindings.site().chiffreAffaires()),
-                Integer.class)
-            .setLabel(new ResourceModel("business.site.chiffreAffaires"))
-            .setRequired(true));
+            .setOutputMarkupId(true));
 
     return body;
   }

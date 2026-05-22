@@ -1,7 +1,7 @@
 package sekoya.front.site.page;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_READ;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
@@ -19,6 +19,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
 import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
@@ -48,7 +49,7 @@ public class SiteListPage extends SiteTemplate {
 
   public static IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start()
-        .validator(Condition.permission(GLOBAL_ORGANISATION_READ))
+        .validator(Condition.permission(GLOBAL_SITE_READ))
         .page(SiteListPage.class);
   }
 
@@ -66,6 +67,7 @@ public class SiteListPage extends SiteTemplate {
         .getDataModel()
         .getObject()
         .setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
+    dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
 
     SiteSavePopup savePopup = new SiteSavePopup("savePopup");
     add(savePopup);
@@ -87,7 +89,7 @@ public class SiteListPage extends SiteTemplate {
                             savePopup.setUpAdd(new Site());
                           }
                         })
-                    .add(Condition.permission(GLOBAL_ORGANISATION_WRITE).thenShow())));
+                    .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow())));
 
     DecoratedCoreDataTablePanel<Site, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())

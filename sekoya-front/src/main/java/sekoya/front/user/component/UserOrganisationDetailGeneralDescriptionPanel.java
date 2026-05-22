@@ -1,6 +1,6 @@
 package sekoya.front.user.component;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.USER_ORGANISATION_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.USER_WRITE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.wicket.component.CoreLabel;
@@ -64,6 +64,6 @@ public class UserOrganisationDetailGeneralDescriptionPanel extends GenericPanel<
                             editPopup.setUpEdit(getModelObject());
                           }
                         })
-                    .add(Condition.permission(userModel, USER_ORGANISATION_WRITE).thenShow())));
+                    .add(Condition.permission(userModel, USER_WRITE).thenShow())));
   }
 }

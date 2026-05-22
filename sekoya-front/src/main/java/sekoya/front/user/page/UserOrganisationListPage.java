@@ -1,6 +1,7 @@
 package sekoya.front.user.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_WRITE;
 import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_2XL;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
@@ -109,7 +110,7 @@ public class UserOrganisationListPage extends UserTemplate {
                             addPopup.setUpAdd(new User());
                           }
                         })
-                    .add(Condition.permission(GLOBAL_USER_READ).thenShow())));
+                    .add(Condition.permission(GLOBAL_USER_WRITE).thenShow())));
 
     DecoratedCoreDataTablePanel<User, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())

@@ -1,7 +1,7 @@
 package sekoya.back.security.service.permission;
 
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_READ;
-import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_WRITE;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_DISABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_ENABLE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_READ;
@@ -39,24 +39,24 @@ public class SitePermissionEvaluatorImpl extends AbstractGenericPermissionEvalua
   }
 
   public boolean canReadSite(User user, Site site) {
-    return hasPermission(user, GLOBAL_ORGANISATION_READ)
+    return hasPermission(user, GLOBAL_SITE_READ)
         && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
   }
 
   public boolean canWriteSite(User user, Site site) {
-    return hasPermission(user, GLOBAL_ORGANISATION_WRITE)
+    return hasPermission(user, GLOBAL_SITE_WRITE)
         && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
   }
 
   public boolean canEnableSite(User user, Site site) {
     return !site.isEnabled()
-        && hasPermission(user, GLOBAL_ORGANISATION_WRITE)
+        && hasPermission(user, GLOBAL_SITE_WRITE)
         && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
   }
 
   public boolean canDisableSite(User user, Site site) {
     return site.isEnabled()
-        && hasPermission(user, GLOBAL_ORGANISATION_WRITE)
+        && hasPermission(user, GLOBAL_SITE_WRITE)
         && organisationPermissionEvaluator.isVisible(user, site.getOrganisation());
   }
 }

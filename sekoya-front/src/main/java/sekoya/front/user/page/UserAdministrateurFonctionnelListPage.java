@@ -1,6 +1,7 @@
 package sekoya.front.user.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_2XL;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
@@ -35,7 +36,6 @@ import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
-import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiationIfPermission;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
@@ -50,7 +50,6 @@ import sekoya.front.user.popup.UserAdministrateurFonctionnelSavePopup;
 import sekoya.front.user.renderer.UserEnabledRenderer;
 import sekoya.front.user.template.UserTemplate;
 
-@AuthorizeInstantiationIfPermission(permissions = GLOBAL_USER_READ)
 public class UserAdministrateurFonctionnelListPage extends UserTemplate {
 
   private static final long serialVersionUID = 1L;
@@ -109,7 +108,8 @@ public class UserAdministrateurFonctionnelListPage extends UserTemplate {
                           protected void onShow(AjaxRequestTarget target) {
                             addPopup.setUpAdd(new User());
                           }
-                        })));
+                        })
+                    .add(Condition.permission(GLOBAL_USER_WRITE).thenShow())));
 
     DecoratedCoreDataTablePanel<User, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
