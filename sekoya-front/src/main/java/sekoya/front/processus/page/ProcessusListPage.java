@@ -16,6 +16,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
 import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
@@ -58,6 +59,7 @@ public class ProcessusListPage extends ProcessusTemplate {
         .getDataModel()
         .getObject()
         .setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
+    dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
 
     EnclosureContainer headerElementsSection = new EnclosureContainer("headerElementsSection");
     add(headerElementsSection.anyChildVisible());
@@ -69,6 +71,24 @@ public class ProcessusListPage extends ProcessusTemplate {
 
     DecoratedCoreDataTablePanel<Processus, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
+            .addLabelColumn(new ResourceModel("business.processus.nom"), Bindings.processus().nom())
+            .withLink(ProcessusDetailPage.MAPPER)
+            .withSort(ProcessusSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
+            .withClass("cell-w-250")
+            .addLabelColumn(
+                new ResourceModel("business.processus.type"), Bindings.processus().type())
+            .withClass("cell-w-200")
+            .withClass(CssClassConstants.CELL_DISPLAY_XL)
+            .addLabelColumn(
+                new ResourceModel("business.processus.thematique"),
+                Bindings.processus().thematique())
+            .withSort(ProcessusSort.THEMATIQUE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
+            .withClass("cell-w-200")
+            .withClass(CssClassConstants.CELL_DISPLAY_XL)
+            .addLabelColumn(
+                new ResourceModel("business.processus.priorite"), Bindings.processus().priorite())
+            .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
+            .withClass("cell-w-250")
             .addColumn(
                 new AbstractCoreColumn<Processus, ProcessusSort>(
                     new ResourceModel("business.processus.site")) {
@@ -82,24 +102,6 @@ public class ProcessusListPage extends ProcessusTemplate {
                     cellItem.add(new SiteCellFragment(componentId, rowModel));
                   }
                 })
-            .withClass("cell-w-250")
-            .addLabelColumn(
-                new ResourceModel("business.processus.thematique"),
-                Bindings.processus().thematique())
-            .withSort(ProcessusSort.THEMATIQUE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-200")
-            .withClass(CssClassConstants.CELL_DISPLAY_XL)
-            .addLabelColumn(
-                new ResourceModel("business.processus.type"), Bindings.processus().type())
-            .withClass("cell-w-200")
-            .withClass(CssClassConstants.CELL_DISPLAY_XL)
-            .addLabelColumn(new ResourceModel("business.processus.nom"), Bindings.processus().nom())
-            .withLink(ProcessusDetailPage.MAPPER)
-            .withSort(ProcessusSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-250")
-            .addLabelColumn(
-                new ResourceModel("business.processus.priorite"), Bindings.processus().priorite())
-            .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
             .addLabelColumn(
                 new ResourceModel("business.processus.aleas"), Bindings.processus().aleas().size())

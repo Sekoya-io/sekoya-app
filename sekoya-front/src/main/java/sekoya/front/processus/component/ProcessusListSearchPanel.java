@@ -18,6 +18,7 @@ import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
 import sekoya.back.business.processus.model.atomic.ProcessusThematique;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.processus.model.ProcessusDataProvider;
+import sekoya.front.site.form.SiteDropDownSingleChoice;
 
 public class ProcessusListSearchPanel extends Panel {
 
@@ -46,13 +47,6 @@ public class ProcessusListSearchPanel extends Panel {
         });
 
     form.add(
-        new EnumDropDownSingleChoice<>(
-                "thematique",
-                BindingModel.of(
-                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().thematique()),
-                ProcessusThematique.class)
-            .setLabel(new ResourceModel("business.site.typologie"))
-            .add(new LabelPlaceholderBehavior()),
         new TextField<>(
                 "nom",
                 BindingModel.of(
@@ -60,11 +54,24 @@ public class ProcessusListSearchPanel extends Panel {
             .setLabel(new ResourceModel("business.processus.nom"))
             .add(new LabelPlaceholderBehavior()),
         new EnumDropDownSingleChoice<>(
+                "thematique",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().thematique()),
+                ProcessusThematique.class)
+            .setLabel(new ResourceModel("business.processus.thematique"))
+            .add(new LabelPlaceholderBehavior()),
+        new EnumDropDownSingleChoice<>(
                 "priorite",
                 BindingModel.of(
                     dataProvider.getDataModel(), Bindings.processusSearchQueryData().priorite()),
                 ProcessusPriorite.class)
             .setLabel(new ResourceModel("business.processus.priorite"))
+            .add(new LabelPlaceholderBehavior()),
+        new SiteDropDownSingleChoice(
+                "site",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().site()))
+            .setLabel(new ResourceModel("business.processus.site"))
             .add(new LabelPlaceholderBehavior()),
         new EnumDropDownSingleChoice<>(
                 "enabledFilter",

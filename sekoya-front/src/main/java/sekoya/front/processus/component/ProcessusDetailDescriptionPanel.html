@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div class="card card-main">
+		<div class="card-header">
+			<div class="card-header-title">
+				<wicket:message key="processus.detail.description.title" />
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="row g-3">
+				<div class="col-12">
+					<div class="heading-section">
+						<wicket:message key="processus.common.wording.information" />
+					</div>
+					<div class="row row-description">
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.processus.site" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<a wicket:id="siteLink">
+											<span wicket:id="site" />
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.processus.thematique" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<span wicket:id="thematique" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.processus.type" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<span wicket:id="type" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.processus.description" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<div wicket:id="description" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.processus.priorite" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<span wicket:id="priorite" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="heading-section">
+						<wicket:message key="user.common.wording.tracking" />
+					</div>
+					<div class="row row-description">
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.common.historyEventSummary.creation" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<span wicket:id="creation" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="row row-description-group description-group">
+								<div class="col-md-4">
+									<div class="description-label">
+										<wicket:message key="business.common.historyEventSummary.modification" />
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div class="description-value">
+										<span wicket:id="modification" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>
+</html>

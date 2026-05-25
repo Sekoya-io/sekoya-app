@@ -70,7 +70,7 @@ public class ProcessusSearchQueryImpl implements IProcessusSearchQuery {
       root.add(f.match().field(Processus.SITE_ORGANISATION).matching(data.getOrganisation()));
 
       if (data.getSite() != null) {
-        root.add(f.match().field(Processus.SITE).matching(data.getOrganisation()));
+        root.add(f.match().field(Processus.SITE).matching(data.getSite()));
       }
       if (data.getThematique() != null) {
         root.add(f.match().field(Processus.THEMATIQUE).matching(data.getThematique()));

@@ -17,6 +17,12 @@
 						</div>
 						<div wicket:id="actionsContainer" class="col-auto ms-auto">
 							<div class="row g-2 align-items-center">
+								<div wicket:enclosure-component="edit" class="col-auto">
+									<button wicket:id="edit" class="btn btn-primary" type="button">
+										<span class="fa fa-fw fa-pencil-alt" />
+										<wicket:message key="common.action.edit" />
+									</button>
+								</div>
 								<div wicket:enclosure-component="enable" class="col-auto">
 									<button wicket:id="enable" class="btn btn-success" type="button">
 										<span class="fa fa-fw fa-check" />
@@ -41,6 +47,7 @@
 			<div class="content-body">
 				<div class="row g-4">
 					<div wicket:id="description" class="col-lg-6" />
+					<div wicket:id="aleas" class="col-12" />
 				</div>
 			</div>
 		</div>

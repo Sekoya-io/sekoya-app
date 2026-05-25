@@ -14,13 +14,18 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import org.bindgen.Bindable;
+import org.hibernate.search.engine.backend.types.Sortable;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
+import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.alea.model.atomic.AleaSensibilite;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.ImpactPotentiel;
 import sekoya.back.business.processus.model.Processus;
+import sekoya.back.hibernate.search.bridge.EnumOrdinalValueBridge;
 
 @Entity
 @Bindable
@@ -31,21 +36,36 @@ public class Alea extends GenericEntity<Long, Alea> {
 
   private static final long serialVersionUID = 1L;
 
+  public static final String PROCESSUS = "processus";
+  public static final String TYPE = "type";
+  public static final String SENSIBILITE = "sensibilite";
+  public static final String IMPACT_POTENTIEL_BRUT = "impactPotentielBrut";
+
   @Id @GeneratedValue private Long id;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @GenericField(name = PROCESSUS, valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
   private Processus processus;
 
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
+  @GenericField(
+      name = TYPE,
+      valueBridge = @ValueBridgeRef(type = EnumOrdinalValueBridge.class),
+      sortable = Sortable.YES)
   private AleaType type;
 
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
+  @GenericField(name = SENSIBILITE)
   private AleaSensibilite sensibilite;
 
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
+  @GenericField(
+      name = IMPACT_POTENTIEL_BRUT,
+      valueBridge = @ValueBridgeRef(type = EnumOrdinalValueBridge.class),
+      sortable = Sortable.YES)
   private ImpactPotentiel impactPotentielBrut;
 
   @Embedded private HistoryEventSummary creation;

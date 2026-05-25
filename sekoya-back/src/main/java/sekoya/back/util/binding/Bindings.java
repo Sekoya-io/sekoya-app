@@ -1,6 +1,7 @@
 package sekoya.back.util.binding;
 
 import sekoya.back.business.alea.model.AleaBinding;
+import sekoya.back.business.alea.search.AleaSearchQueryDataBinding;
 import sekoya.back.business.announcement.model.AnnouncementBinding;
 import sekoya.back.business.common.model.CodePostalBinding;
 import sekoya.back.business.common.model.EmailAddressBinding;
@@ -43,6 +44,8 @@ public final class Bindings {
       new ProcessusSearchQueryDataBinding();
 
   private static final AleaBinding ALEA = new AleaBinding();
+  private static final AleaSearchQueryDataBinding ALEA_SEARCH_QUERY_DATA =
+      new AleaSearchQueryDataBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
@@ -106,6 +109,10 @@ public final class Bindings {
 
   public static AleaBinding alea() {
     return ALEA;
+  }
+
+  public static AleaSearchQueryDataBinding aleaSearchQueryData() {
+    return ALEA_SEARCH_QUERY_DATA;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {

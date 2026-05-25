@@ -59,6 +59,7 @@ public class Processus extends GenericEntity<Long, Processus> {
   public static final String NOM = "nom";
   public static final String NOM_AUTOCOMPLETE = NOM + "Autocomplete";
   public static final String PRIORITE = "priorite";
+  public static final String ENABLED = "enabled";
 
   @Id @GeneratedValue private Long id;
 
@@ -85,6 +86,7 @@ public class Processus extends GenericEntity<Long, Processus> {
   private ProcessusPriorite priorite;
 
   @Basic(optional = false)
+  @GenericField(name = ENABLED)
   private boolean enabled = true;
 
   @OneToMany(mappedBy = "processus", fetch = FetchType.LAZY, orphanRemoval = true)
