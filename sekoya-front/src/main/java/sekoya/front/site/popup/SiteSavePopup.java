@@ -7,7 +7,6 @@ import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.markup.html.panel.DelegatedMarkupPanel;
 import igloo.wicket.model.BindingModel;
-import igloo.wicket.model.CollectionCopyModel;
 import igloo.wicket.model.Detachables;
 import igloo.wicket.model.Models;
 import java.time.Duration;
@@ -20,7 +19,6 @@ import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.ThrottlingSettings;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.Radio;
 import org.apache.wicket.markup.html.form.RadioGroup;
@@ -33,7 +31,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.iglooproject.functional.Suppliers2;
 import org.iglooproject.spring.util.StringUtils;
 import org.iglooproject.wicket.more.ajax.SerializableListener;
 import org.iglooproject.wicket.more.common.behavior.UpdateOnChangeAjaxEventBehavior;
@@ -75,17 +72,44 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
   @SpringBean private IGeocodageRestClientService geocodageRestClientService;
 
-  private IModel<String> choicesSearchTermModel = Model.of();
-  private IModel<GeocodageGeocodeResponseBean> geocodeResponseBeanModel = Model.of();
-  private IModel<List<GeocodageGeocodeResponseBean>> geocodesResponseBeanModel =
-      CollectionCopyModel.serializable(Suppliers2.arrayList());
-  private IModel<Boolean> errorGeocodageModel = Model.of(Boolean.FALSE);
+  private final IModel<String> geocodeSearchTermModel = Model.of();
+  private final IModel<GeocodageGeocodeResponseBean> geocodeResponseBeanModel = Model.of();
+  private final IModel<List<GeocodageGeocodeResponseBean>> geocodesResponseBeanModel;
+  private final IModel<Boolean> geocodageNoResultModel = Model.of(Boolean.FALSE);
+  private final IModel<Boolean> geocodageErrorModel = Model.of(Boolean.FALSE);
   private final IModel<FormMode> formModeModel = Model.of();
 
   private Form<Site> form;
 
   public SiteSavePopup(String id) {
     super(id, new GenericEntityModel<>());
+
+    this.geocodesResponseBeanModel =
+        LoadableDetachableModel.of(
+            () -> {
+              String term = geocodeSearchTermModel.getObject();
+              try {
+                if (StringUtils.hasText(term)
+                    && term.length() >= 3
+                    && term.length() <= 200
+                    && (Character.isLetter(term.charAt(0)) || Character.isDigit(term.charAt(0)))) {
+                  GeocodageResponseBean responseBean = geocodageRestClientService.getSearch(term);
+                  List<GeocodageGeocodeResponseBean> result = responseBean.getFeatures();
+                  geocodageNoResultModel.setObject(result.isEmpty());
+                  geocodageErrorModel.setObject(Boolean.FALSE);
+                  return result;
+                } else {
+                  geocodageNoResultModel.setObject(Boolean.FALSE);
+                  geocodageErrorModel.setObject(Boolean.FALSE);
+                  return List.of();
+                }
+              } catch (RestClientCommunicationException e) {
+                LOGGER.error("Erreur appel géocodage.");
+                geocodageNoResultModel.setObject(Boolean.FALSE);
+                geocodageErrorModel.setObject(Boolean.TRUE);
+                return List.of();
+              }
+            });
   }
 
   @Override
@@ -101,29 +125,6 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
   protected Component createBody(String wicketId) {
     DelegatedMarkupPanel body = new DelegatedMarkupPanel(wicketId, getClass());
 
-    geocodesResponseBeanModel =
-        LoadableDetachableModel.of(
-            () -> {
-              String term = choicesSearchTermModel.getObject();
-              try {
-                if (StringUtils.hasText(term)
-                    && term.length() >= 3
-                    && term.length() <= 200
-                    && (Character.isLetter(term.charAt(0)) || Character.isDigit(term.charAt(0)))) {
-                  GeocodageResponseBean responseBean = geocodageRestClientService.getSearch(term);
-                  errorGeocodageModel.setObject(Boolean.FALSE);
-                  return responseBean.getFeatures();
-                } else {
-                  errorGeocodageModel.setObject(Boolean.FALSE);
-                  return List.of();
-                }
-              } catch (RestClientCommunicationException e) {
-                LOGGER.error("Erreur lors de l'appel géocodage.");
-                errorGeocodageModel.setObject(Boolean.TRUE);
-                return List.of();
-              }
-            });
-
     IModel<String> adresse1Model =
         BindingModel.of(getModel(), Bindings.site().adresse().adresse1());
     IModel<String> adresse2Model =
@@ -134,9 +135,9 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
     IModel<Latitude> latitudeModel = BindingModel.of(getModel(), Bindings.site().latitude());
     IModel<Longitude> longitudeModel = BindingModel.of(getModel(), Bindings.site().longitude());
 
-    WebMarkupContainer adresseSearchResultsContainer =
-        new WebMarkupContainer("adresseSearchResultsContainer");
-    WebMarkupContainer adresseContainer = new WebMarkupContainer("adresseContainer");
+    EnclosureContainer geocodageChoicesContainer =
+        new EnclosureContainer("geocodageChoicesContainer");
+    EnclosureContainer adresseContainer = new EnclosureContainer("adresseContainer");
 
     form = new Form<>("form", getModel());
     body.add(form);
@@ -157,16 +158,17 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                 BindingModel.of(getModel(), Bindings.site().chiffreAffaires()),
                 Integer.class)
             .setLabel(new ResourceModel("business.site.chiffreAffaires")),
-        new IndependentNestedForm<>("searchForm")
+        new IndependentNestedForm<>("geocodageSearchForm")
             .add(
-                new TextField<>("term", choicesSearchTermModel)
-                    .setLabel(new ResourceModel("site.adresseSearch.choices.term"))
+                new TextField<>("term", geocodeSearchTermModel)
+                    .setLabel(new ResourceModel("site.save.localisation.geocodage.search.term"))
                     .add(new LabelPlaceholderBehavior())
                     .add(
                         new AjaxFormComponentUpdatingBehavior("input") {
                           @Override
                           protected void onUpdate(AjaxRequestTarget target) {
-                            target.add(adresseSearchResultsContainer);
+                            target.add(geocodageChoicesContainer);
+                            target.add(adresseContainer);
                           }
 
                           @Override
@@ -176,10 +178,16 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                                 new ThrottlingSettings(Duration.ofMillis(500), true));
                           }
                         })),
-        adresseSearchResultsContainer
+        geocodageChoicesContainer
+            .condition(
+                Condition.or(
+                    Condition.collectionModelNotEmpty(geocodesResponseBeanModel),
+                    Condition.isTrue(geocodageNoResultModel),
+                    Condition.isTrue(geocodageErrorModel)))
             .add(
-                new RadioGroup<>("adresseChoice", geocodeResponseBeanModel)
-                    .setLabel(new ResourceModel("site.adresseSearch.choices.radio.label"))
+                new RadioGroup<>("choice", geocodeResponseBeanModel)
+                    .setLabel(
+                        new ResourceModel("site.save.localisation.geocodage.choices.radio.label"))
                     .add(
                         new CollectionView<>(
                             "choices",
@@ -219,14 +227,16 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                     .add(Condition.collectionModelNotEmpty(geocodesResponseBeanModel).thenShow())
                     .setRenderBodyOnly(false),
                 new EnclosureContainer("noResultContainer")
-                    .condition(
-                        Condition.and(
-                            Condition.collectionModelNotEmpty(geocodesResponseBeanModel).negate(),
-                            Condition.isFalse(errorGeocodageModel))),
+                    .condition(Condition.isTrue(geocodageNoResultModel)),
                 new EnclosureContainer("errorContainer")
-                    .condition(Condition.isTrue(errorGeocodageModel)))
-            .setOutputMarkupId(true),
+                    .condition(Condition.isTrue(geocodageErrorModel)))
+            .setOutputMarkupPlaceholderTag(true),
         adresseContainer
+            .condition(
+                Condition.or(
+                    addModeCondition().negate(),
+                    Condition.modelNotNull(geocodeResponseBeanModel),
+                    Condition.isTrue(geocodageErrorModel)))
             .add(
                 new TextField<>("adresse1", adresse1Model)
                     .setLabel(new ResourceModel("business.common.adresse.adresse1"))
@@ -245,7 +255,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                 new TextField<>("longitude", longitudeModel, Longitude.class)
                     .setLabel(new ResourceModel("business.site.longitude"))
                     .setRequired(true))
-            .setOutputMarkupId(true));
+            .setOutputMarkupPlaceholderTag(true));
 
     return body;
   }
@@ -330,9 +340,10 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
   protected void onShow(AjaxRequestTarget target) {
     super.onShow(target);
 
-    choicesSearchTermModel.setObject(null);
+    geocodeSearchTermModel.setObject(null);
     geocodeResponseBeanModel.setObject(null);
     geocodesResponseBeanModel.setObject(List.of());
+    geocodageErrorModel.setObject(Boolean.FALSE);
   }
 
   public void setUpAdd(Site site) {
@@ -350,13 +361,19 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
   }
 
   @Override
+  public IModel<String> getModalDialogCssClassModel() {
+    return Model.of("modal-dialog-scrollable");
+  }
+
+  @Override
   protected void onDetach() {
     super.onDetach();
     Detachables.detach(
-        choicesSearchTermModel,
+        geocodeSearchTermModel,
         geocodeResponseBeanModel,
         geocodesResponseBeanModel,
-        errorGeocodageModel,
+        geocodageNoResultModel,
+        geocodageErrorModel,
         formModeModel);
   }
 }

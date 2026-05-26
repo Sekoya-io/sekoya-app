@@ -1,0 +1,34 @@
+.list-group-radio {
+	gap: $spacer * .5;
+	
+	.list-group-item {
+		cursor: pointer;
+		border-radius: .5rem;
+		
+		&:hover,
+		&:focus {
+			background-color: $list-group-hover-bg;
+		}
+	}
+	
+	.form-check-input {
+		z-index: 2;
+		margin-top: -.5em;
+		
+		&:checked {
+			+ .list-group-item {
+				border-color: $list-group-active-bg;
+				box-shadow: 0 0 0 2px $list-group-active-bg;
+			}
+		}
+		
+		&[disabled],
+		&:disabled {
+			+ .list-group-item {
+				pointer-events: none;
+				filter: none;
+				opacity: .5;
+			}
+		}
+	}
+}

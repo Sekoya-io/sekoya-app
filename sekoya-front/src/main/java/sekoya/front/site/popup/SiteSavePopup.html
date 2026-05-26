@@ -7,7 +7,7 @@
 			<div class="row g-3">
 				<div class="col-12">
 					<div class="heading-section">
-						<wicket:message key="site.common.wording.localisation" />
+						<wicket:message key="site.common.wording.information" />
 					</div>
 					<div class="row row-form">
 						<div class="col-12">
@@ -53,34 +53,38 @@
 					</div>
 					<div class="row row-form">
 						<div class="col-12">
-							<form wicket:id="searchForm">
-								<label wicket:for="term" class="visually-hidden"><wicket:label /></label>
+							<form wicket:id="geocodageSearchForm">
 								<div class="input-group">
-									<span class="input-group-text"><span class="fa fa-fw fa-magnifying-glass" /></span>
-									<input wicket:id="term" class="form-control" type="text" />
+									<span class="input-group-text">
+										<span class="fa fa-fw fa-location-dot" />
+									</span>
+									<div class="form-floating">
+										<input wicket:id="term" class="form-control" type="text">
+										<label wicket:for="term"><wicket:label /></label>
+									</div>
 								</div>
 							</form>
 						</div>
-						<div wicket:id="adresseSearchResultsContainer" class="col-12">
+						<div wicket:id="geocodageChoicesContainer" class="col-12">
 							<div class="row row-form">
-								<div wicket:enclosure-component="adresseChoice" class="col-12">
-									<div wicket:id="adresseChoice" class="form-control-plaintext">
-										<ul class="list-group">
-											<li wicket:id="choices" class="list-group-item">
-												<input wicket:id=item class="form-check-input" type="radio" />
-												<label wicket:for="item" class="form-check-label"><wicket:label /></label>
-											</li>
-										</ul>
+								<div wicket:enclosure-component="choice" class="col-12">
+									<div wicket:id="choice">
+										<div class="list-group list-group-radio">
+											<div wicket:id="choices" class="position-relative">
+												<input wicket:id="item" class="form-check-input position-absolute top-50 start-0 ms-3 fs-5" type="radio">
+												<label wicket:for="item" class="list-group-item py-3 ps-7"><wicket:label /></label>
+											</div>
+										</div>
 									</div>
 								</div>
 								<div wicket:id="noResultContainer" class="col-12">
 									<div class="alert alert-light">
-										<wicket:message key="site.adresseSearch.choices.noResult" />
+										<wicket:message key="site.save.localisation.geocodage.choices.noResult" />
 									</div>
 								</div>
 								<div wicket:id="errorContainer" class="col-12">
 									<div class="alert alert-warning">
-										<wicket:message key="site.adresseSearch.choices.error" />
+										<wicket:message key="site.save.localisation.geocodage.choices.error" />
 									</div>
 								</div>
 							</div>
