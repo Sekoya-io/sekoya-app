@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.iglooproject.parents</groupId>
     <artifactId>igloo-parent-core-project</artifactId>
-    <version>7.1.0</version>
+    <version>7.2.0</version>
     <relativePath/>
   </parent>
   <groupId>sekoya</groupId>
@@ -19,7 +19,7 @@
     <module>sekoya-static</module>
   </modules>
   <properties>
-    <igloo.version>7.1.0</igloo.version>
+    <igloo.version>7.2.0</igloo.version>
     <revision>0.0.1-SNAPSHOT</revision>
     <commonmark.version>0.27.1</commonmark.version>
     <java.version>25</java.version>
