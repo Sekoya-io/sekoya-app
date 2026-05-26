@@ -32,6 +32,7 @@ import sekoya.front.SekoyaSession;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
 import sekoya.front.processus.component.ProcessusListSearchPanel;
+import sekoya.front.processus.component.ProcessusPrioriteRatingDisplayPanel;
 import sekoya.front.processus.model.ProcessusDataProvider;
 import sekoya.front.processus.template.ProcessusTemplate;
 import sekoya.front.site.page.SiteDetailPage;
@@ -68,22 +69,40 @@ public class ProcessusListPage extends ProcessusTemplate {
 
     DecoratedCoreDataTablePanel<Processus, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
-            .addLabelColumn(new ResourceModel("business.processus.nom"), Bindings.processus().nom())
-            .withLink(ProcessusDetailPage.MAPPER)
+            .addColumn(
+                new AbstractCoreColumn<Processus, ProcessusSort>(
+                    new ResourceModel("business.processus.nom")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Processus>> cellItem,
+                      String componentId,
+                      IModel<Processus> rowModel) {
+                    cellItem.add(new NomCellFragment(componentId, rowModel));
+                  }
+                })
             .withSort(ProcessusSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
-            .addLabelColumn(
-                new ResourceModel("business.processus.type"), Bindings.processus().type())
-            .withClass("cell-w-200")
-            .withClass(CssClassConstants.CELL_DISPLAY_XL)
             .addLabelColumn(
                 new ResourceModel("business.processus.thematique"),
                 Bindings.processus().thematique())
             .withSort(ProcessusSort.THEMATIQUE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-200")
             .withClass(CssClassConstants.CELL_DISPLAY_XL)
-            .addLabelColumn(
-                new ResourceModel("business.processus.priorite"), Bindings.processus().priorite())
+            .addColumn(
+                new AbstractCoreColumn<Processus, ProcessusSort>(
+                    new ResourceModel("business.processus.priorite")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Processus>> cellItem,
+                      String componentId,
+                      IModel<Processus> rowModel) {
+                    cellItem.add(new PrioriteCellFragment(componentId, rowModel));
+                  }
+                })
             .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
             .addColumn(
@@ -118,6 +137,34 @@ public class ProcessusListPage extends ProcessusTemplate {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(new ProcessusListSearchPanel("search", dataProvider, results), results);
+  }
+
+  private class NomCellFragment extends Fragment {
+    private static final long serialVersionUID = 1L;
+
+    public NomCellFragment(String id, IModel<Processus> processusModel) {
+      super(id, "nomCellFragment", ProcessusListPage.this);
+
+      add(
+          ProcessusDetailPage.MAPPER
+              .map(processusModel)
+              .link("processusLink")
+              .add(new CoreLabel("nom", BindingModel.of(processusModel, Bindings.processus()))),
+          new CoreLabel("type", BindingModel.of(processusModel, Bindings.processus().type())));
+    }
+  }
+
+  private class PrioriteCellFragment extends Fragment {
+    private static final long serialVersionUID = 1L;
+
+    public PrioriteCellFragment(String id, IModel<Processus> processusModel) {
+      super(id, "prioriteCellFragment", ProcessusListPage.this);
+
+      add(
+          new ProcessusPrioriteRatingDisplayPanel(
+                  "priorite", BindingModel.of(processusModel, Bindings.processus().priorite()))
+              .small());
+    }
   }
 
   private class SiteCellFragment extends Fragment {
