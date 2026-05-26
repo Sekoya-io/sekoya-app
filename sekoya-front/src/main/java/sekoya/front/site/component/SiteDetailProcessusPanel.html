@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div wicket:id="results" class="card card-main" />
+	
+	<wicket:fragment wicket:id="actionsGlobalesFragment">
+		<div class="row g-2 align-items-center">
+			<div wicket:enclosure-component="add" class="col-auto">
+				<a wicket:id="add" class="btn btn-primary btn-table-row-action">
+					<span class="fa fa-fw fa-plus" />
+					<wicket:message key="common.action.add" />
+				</a>
+			</div>
+		</div>
+	</wicket:fragment>
+</wicket:panel>
+</html>

@@ -24,7 +24,7 @@ public class UserAdministrateurFonctionnelDetailGeneralDescriptionPanel extends 
   private static final long serialVersionUID = 1L;
 
   public UserAdministrateurFonctionnelDetailGeneralDescriptionPanel(
-      String id, final IModel<User> userModel) {
+      String id, IModel<User> userModel) {
     super(id, userModel);
 
     UserAdministrateurFonctionnelSavePopup editPopup =

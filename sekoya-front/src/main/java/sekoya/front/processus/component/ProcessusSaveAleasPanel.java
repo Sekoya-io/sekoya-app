@@ -2,6 +2,7 @@ package sekoya.front.processus.component;
 
 import com.google.common.collect.Lists;
 import igloo.wicket.component.CoreLabel;
+import igloo.wicket.component.PlaceholderContainer;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import java.util.List;
@@ -48,17 +49,26 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
     Form<Void> form = new Form<>("form");
     add(form);
 
-    form.add(
+    BindableCollectionView<Alea> aleasCollectionView =
         new BindableCollectionView<Alea>(
             "aleas",
             processusBindableModel.bindCollectionAlreadyAdded(Bindings.processus().aleas())) {
-
           @Override
           protected void populateItem(
               SpecificModelCollectionView<Alea, IBindableModel<Alea>>.SpecificModelItem item) {
             item.add(new RowFragment("row", item.getSpecificModel()));
           }
-        }.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance()));
+        };
+
+    form.add(
+        aleasCollectionView
+            .setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance())
+            .add(
+                Condition.collectionModelNotEmpty(
+                        processusBindableModel.bindCollectionAlreadyAdded(
+                            Bindings.processus().aleas()))
+                    .thenShow()),
+        new PlaceholderContainer("placeholder").condition(Condition.visible(aleasCollectionView)));
 
     add(new AddFragment("add"));
   }

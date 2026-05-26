@@ -24,7 +24,7 @@ public class EnvironmentPanel extends GenericPanel<Environment> {
     this(id, SekoyaSession.get().getEnvironmentModel());
   }
 
-  public EnvironmentPanel(String id, final IModel<Environment> environmentModel) {
+  public EnvironmentPanel(String id, IModel<Environment> environmentModel) {
     super(id, environmentModel);
     setOutputMarkupId(true);
 

@@ -40,7 +40,6 @@ import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.user.model.User;
 import sekoya.back.business.user.model.atomic.UserType;
 import sekoya.back.business.user.predicate.UserPredicates;
-import sekoya.back.business.user.search.IUserSearchQuery;
 import sekoya.back.business.user.search.UserSort;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
@@ -60,8 +59,6 @@ public class UserOrganisationListPage extends UserTemplate {
         .validator(Condition.permission(GLOBAL_USER_READ))
         .page(UserOrganisationListPage.class);
   }
-
-  @SpringBean private IUserSearchQuery userSearchQuery;
 
   @SpringBean private IUserControllerService userControllerService;
 

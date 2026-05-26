@@ -1,27 +1,31 @@
-package sekoya.front.processus.component;
+package sekoya.front.site.component;
 
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.markup.html.form.PageableSearchForm;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.ResourceModel;
 import org.iglooproject.wicket.more.markup.html.form.EnumDropDownSingleChoice;
 import org.iglooproject.wicket.more.markup.html.form.LabelPlaceholderBehavior;
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.wicketstuff.wiquery.core.events.StateEvent;
-import sekoya.back.business.alea.model.Alea;
-import sekoya.back.business.alea.model.atomic.AleaSensibilite;
+import sekoya.back.business.processus.model.Processus;
+import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
+import sekoya.back.business.processus.model.atomic.ProcessusThematique;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.processus.model.AleaDataProvider;
+import sekoya.front.processus.model.ProcessusDataProvider;
 
-public class ProcessusDetailAleaListSearchPanel extends Panel {
+public class SiteDetailProcessusSearchPanel extends Panel {
 
   private static final long serialVersionUID = 1L;
 
-  public ProcessusDetailAleaListSearchPanel(
-      String id, AleaDataProvider dataProvider, DecoratedCoreDataTablePanel<Alea, ?> table) {
+  public SiteDetailProcessusSearchPanel(
+      String id,
+      ProcessusDataProvider dataProvider,
+      DecoratedCoreDataTablePanel<Processus, ?> table) {
     super(id);
 
     PageableSearchForm<Void> form = new PageableSearchForm<>("form", table);
@@ -41,12 +45,25 @@ public class ProcessusDetailAleaListSearchPanel extends Panel {
         });
 
     form.add(
-        new EnumDropDownSingleChoice<>(
-                "sensibilite",
+        new TextField<>(
+                "nom",
                 BindingModel.of(
-                    dataProvider.getDataModel(), Bindings.aleaSearchQueryData().sensibilite()),
-                AleaSensibilite.class)
-            .setLabel(new ResourceModel("business.alea.sensibilite"))
+                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().nom()))
+            .setLabel(new ResourceModel("business.processus.nom"))
+            .add(new LabelPlaceholderBehavior()),
+        new EnumDropDownSingleChoice<>(
+                "thematique",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().thematique()),
+                ProcessusThematique.class)
+            .setLabel(new ResourceModel("business.processus.thematique"))
+            .add(new LabelPlaceholderBehavior()),
+        new EnumDropDownSingleChoice<>(
+                "priorite",
+                BindingModel.of(
+                    dataProvider.getDataModel(), Bindings.processusSearchQueryData().priorite()),
+                ProcessusPriorite.class)
+            .setLabel(new ResourceModel("business.processus.priorite"))
             .add(new LabelPlaceholderBehavior()));
   }
 }

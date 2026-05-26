@@ -32,7 +32,6 @@ import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreCol
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.organisation.search.OrganisationSort;
-import sekoya.back.business.user.search.IUserSearchQuery;
 import sekoya.back.business.user.service.controller.IUserControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.component.HistoryEventSummaryPanel;
@@ -52,8 +51,6 @@ public class OrganisationListPage extends OrganisationTemplate {
         .validator(Condition.permission(GLOBAL_ORGANISATION_READ))
         .page(OrganisationListPage.class);
   }
-
-  @SpringBean private IUserSearchQuery userSearchQuery;
 
   @SpringBean private IUserControllerService userControllerService;
 

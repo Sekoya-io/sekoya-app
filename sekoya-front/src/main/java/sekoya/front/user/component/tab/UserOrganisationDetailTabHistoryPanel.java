@@ -9,7 +9,7 @@ public class UserOrganisationDetailTabHistoryPanel extends GenericPanel<User> {
 
   private static final long serialVersionUID = 1L;
 
-  public UserOrganisationDetailTabHistoryPanel(String id, final IModel<User> userModel) {
+  public UserOrganisationDetailTabHistoryPanel(String id, IModel<User> userModel) {
     super(id, userModel);
 
     add(new UserDetailHistoryHistoryLogsPanel("historyLogs", userModel));

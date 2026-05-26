@@ -67,6 +67,7 @@ public class ProcessusSaveDescriptionPanel extends AbstractProcessusSavePanel {
                 "site", processusBindableModel.bind(Bindings.processus().site()))
             .setLabel(new ResourceModel("business.processus.site"))
             .setRequired(true)
+            .add(Condition.modelNotNull(processusBindableModel.getSiteModel()).thenDisable())
             .add(
                 new UpdateOnChangeAjaxEventBehavior()
                     .onChange(writeAll())

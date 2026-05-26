@@ -21,7 +21,7 @@ public class SiteDetailDescriptionPanel extends GenericPanel<Site> {
 
   private static final long serialVersionUID = 1L;
 
-  public SiteDetailDescriptionPanel(String id, final IModel<Site> siteModel) {
+  public SiteDetailDescriptionPanel(String id, IModel<Site> siteModel) {
     super(id, siteModel);
 
     SiteSavePopup editPopup = new SiteSavePopup("editPopup");

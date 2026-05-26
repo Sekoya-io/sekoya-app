@@ -27,7 +27,7 @@ public class UserDetailHistoryHistoryLogsPanel extends GenericPanel<User> {
 
   @SpringBean private IPropertyService propertyService;
 
-  public UserDetailHistoryHistoryLogsPanel(String id, final IModel<? extends User> userModel) {
+  public UserDetailHistoryHistoryLogsPanel(String id, IModel<? extends User> userModel) {
     super(id, userModel);
     setOutputMarkupPlaceholderTag(true);
 

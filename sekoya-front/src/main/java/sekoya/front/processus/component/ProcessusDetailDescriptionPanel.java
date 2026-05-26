@@ -12,7 +12,7 @@ public class ProcessusDetailDescriptionPanel extends GenericPanel<Processus> {
 
   private static final long serialVersionUID = 1L;
 
-  public ProcessusDetailDescriptionPanel(String id, final IModel<Processus> processusModel) {
+  public ProcessusDetailDescriptionPanel(String id, IModel<Processus> processusModel) {
     super(id, processusModel);
 
     add(

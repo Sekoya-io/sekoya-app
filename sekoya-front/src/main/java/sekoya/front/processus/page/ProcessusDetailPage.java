@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.service.controller.IProcessusControllerService;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.processus.component.ProcessusDetailAleaListPanel;
+import sekoya.front.processus.component.ProcessusDetailAleasPanel;
 import sekoya.front.processus.component.ProcessusDetailDescriptionPanel;
 import sekoya.front.processus.renderer.ProcessusBootstrapRenderer;
 import sekoya.front.processus.template.ProcessusTemplate;
@@ -133,7 +133,7 @@ public class ProcessusDetailPage extends ProcessusTemplate {
 
     add(
         new ProcessusDetailDescriptionPanel("description", processusModel),
-        new ProcessusDetailAleaListPanel("aleas", processusModel));
+        new ProcessusDetailAleasPanel("aleas", processusModel));
   }
 
   @Override

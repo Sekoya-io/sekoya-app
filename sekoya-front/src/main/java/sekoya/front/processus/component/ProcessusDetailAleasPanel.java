@@ -25,13 +25,13 @@ import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.component.HistoryEventSummaryPanel;
 import sekoya.front.processus.model.AleaDataProvider;
 
-public class ProcessusDetailAleaListPanel extends GenericPanel<Processus> {
+public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
 
   private static final long serialVersionUID = 1L;
 
   @SpringBean private IPropertyService propertyService;
 
-  public ProcessusDetailAleaListPanel(String id, final IModel<Processus> processusModel) {
+  public ProcessusDetailAleasPanel(String id, IModel<Processus> processusModel) {
     super(id, processusModel);
 
     AleaDataProvider dataProvider = new AleaDataProvider();
@@ -95,7 +95,7 @@ public class ProcessusDetailAleaListPanel extends GenericPanel<Processus> {
             .addIn(
                 AddInPlacement.HEADING_MAIN,
                 (wicketId, table) ->
-                    new ProcessusDetailAleaListSearchPanel(wicketId, dataProvider, table))
+                    new ProcessusDetailAleasSearchPanel(wicketId, dataProvider, table))
             .ajaxPagers()
             .count("alea.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
@@ -107,7 +107,7 @@ public class ProcessusDetailAleaListPanel extends GenericPanel<Processus> {
     private static final long serialVersionUID = 1L;
 
     public SensibiliteCellFragment(String id, IModel<Alea> aleaModel) {
-      super(id, "sensibiliteCellFragment", ProcessusDetailAleaListPanel.this);
+      super(id, "sensibiliteCellFragment", ProcessusDetailAleasPanel.this);
 
       add(
           new AleaSensibiliteRatingDisplayPanel(
@@ -120,7 +120,7 @@ public class ProcessusDetailAleaListPanel extends GenericPanel<Processus> {
     private static final long serialVersionUID = 1L;
 
     public ImpactPotentielBrutCellFragment(String id, IModel<Alea> aleaModel) {
-      super(id, "impactPotentielBrutCellFragment", ProcessusDetailAleaListPanel.this);
+      super(id, "impactPotentielBrutCellFragment", ProcessusDetailAleasPanel.this);
 
       add(
           new AleaImpactPotentielBrutRatingDisplayPanel(

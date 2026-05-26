@@ -28,7 +28,6 @@ import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuild
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
-import sekoya.back.business.user.search.IUserSearchQuery;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.renderer.ActionRenderers;
@@ -46,8 +45,6 @@ public class SiteListPage extends SiteTemplate {
         .validator(Condition.permission(GLOBAL_SITE_READ))
         .page(SiteListPage.class);
   }
-
-  @SpringBean private IUserSearchQuery userSearchQuery;
 
   @SpringBean private IPropertyService propertyService;
 

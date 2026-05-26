@@ -9,8 +9,7 @@ public class UserAdministrateurFonctionnelDetailTabHistoryPanel extends GenericP
 
   private static final long serialVersionUID = 1L;
 
-  public UserAdministrateurFonctionnelDetailTabHistoryPanel(
-      String id, final IModel<User> userModel) {
+  public UserAdministrateurFonctionnelDetailTabHistoryPanel(String id, IModel<User> userModel) {
     super(id, userModel);
 
     add(new UserDetailHistoryHistoryLogsPanel("historyLogs", userModel));

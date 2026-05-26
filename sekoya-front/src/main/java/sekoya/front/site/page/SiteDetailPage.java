@@ -33,6 +33,7 @@ import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.site.component.SiteDetailDescriptionPanel;
+import sekoya.front.site.component.SiteDetailProcessusPanel;
 import sekoya.front.site.renderer.SiteBootstrapRenderer;
 import sekoya.front.site.template.SiteTemplate;
 import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
@@ -123,7 +124,9 @@ public class SiteDetailPage extends SiteTemplate {
                     .create("disable", siteModel)
                     .add(Condition.permission(siteModel, SITE_DISABLE).thenShow())));
 
-    add(new SiteDetailDescriptionPanel("description", siteModel));
+    add(
+        new SiteDetailDescriptionPanel("description", siteModel),
+        new SiteDetailProcessusPanel("processus", siteModel));
   }
 
   @Override

@@ -1,5 +1,6 @@
 package sekoya.front.processus.model;
 
+import igloo.wicket.model.Detachables;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.iglooproject.functional.Suppliers2;
@@ -9,13 +10,16 @@ import org.iglooproject.wicket.more.model.GenericEntityModel;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.model.comparator.AleaComparator;
 import sekoya.back.business.processus.model.Processus;
+import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 
 public class ProcessusBindableModel extends BindableModel<Processus> {
 
   private static final long serialVersionUID = 1L;
 
-  protected final IBindableModel<Alea> aleaAddBindableModel =
+  private final IModel<Site> siteModel = new GenericEntityModel<>();
+
+  private final IBindableModel<Alea> aleaAddBindableModel =
       new BindableModel<>(new GenericEntityModel<>());
 
   public ProcessusBindableModel(IModel<Processus> participationModel) {
@@ -41,6 +45,10 @@ public class ProcessusBindableModel extends BindableModel<Processus> {
     initAleaAddBindableModel();
   }
 
+  public IModel<Site> getSiteModel() {
+    return siteModel;
+  }
+
   public IBindableModel<Alea> getAleaAddBindableModel() {
     return aleaAddBindableModel;
   }
@@ -49,5 +57,11 @@ public class ProcessusBindableModel extends BindableModel<Processus> {
     Alea alea = new Alea();
     alea.setProcessus(getObject());
     aleaAddBindableModel.setObject(alea);
+  }
+
+  @Override
+  protected void onDetach() {
+    super.onDetach();
+    Detachables.detach(siteModel, aleaAddBindableModel);
   }
 }
