@@ -2,7 +2,7 @@ name: sekoya
 
 services:
   bdd:
-    image: "igloo-containers.tools.kobalt.fr/containers/postgres-igloo:18"
+    image: "igloo-containers.tools.kobalt.fr/containers/postgis-igloo:18-3.6"
     ports:
       - "127.0.0.1:2532:5432"
     volumes:

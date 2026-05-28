@@ -38,9 +38,15 @@ public class SiteDetailDescriptionPanel extends GenericPanel<Site> {
         new CoreLabel("adresse", BindingModel.of(siteModel, Bindings.site().adresse()))
             .showPlaceholder()
             .multiline(),
-        new CoreLabel("latitude", BindingModel.of(siteModel, Bindings.site().latitude()))
+        new CoreLabel("localisation", BindingModel.of(siteModel, Bindings.site().localisation()))
             .showPlaceholder(),
-        new CoreLabel("longitude", BindingModel.of(siteModel, Bindings.site().longitude()))
+        new CoreLabel(
+                "localisationLittoral",
+                BindingModel.of(siteModel, Bindings.site().littoral().localisationLittoral()))
+            .showPlaceholder(),
+        new CoreLabel(
+                "zoneSubmersible",
+                BindingModel.of(siteModel, Bindings.site().littoral().zoneSubmersible()))
             .showPlaceholder(),
         new CoreLabel("creation", BindingModel.of(siteModel, Bindings.site().creation()))
             .showPlaceholder(),

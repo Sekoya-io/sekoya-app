@@ -34,6 +34,7 @@ import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.site.component.SiteDetailDescriptionPanel;
 import sekoya.front.site.component.SiteDetailProcessusPanel;
+import sekoya.front.site.component.SiteDetailRisquePanel;
 import sekoya.front.site.renderer.SiteBootstrapRenderer;
 import sekoya.front.site.template.SiteTemplate;
 import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
@@ -126,6 +127,7 @@ public class SiteDetailPage extends SiteTemplate {
 
     add(
         new SiteDetailDescriptionPanel("description", siteModel),
+        new SiteDetailRisquePanel("risque", siteModel),
         new SiteDetailProcessusPanel("processus", siteModel));
   }
 

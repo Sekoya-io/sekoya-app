@@ -34,7 +34,7 @@
 	
 	> .btn-check:checked + .rating-badge-form-check-label,
 	> .btn-check:not(:checked) + .rating-badge-form-check-label:hover {
-		transform: scale(1.1);
+		transform: scale(1.05);
 	}
 	
 	&:hover > .btn-check:checked + .rating-badge-form-check-label:not(:hover) {
@@ -97,7 +97,7 @@
 			border-color: var(--rating-badge-color);
 			color: var(--rating-badge-text-color);
 			opacity: 1;
-			transform: scale(1.15);
+			transform: scale(1.1);
 		}
 	}
 	
@@ -169,6 +169,23 @@ $rating-badge-impact-potentiel-data: (
 @each $val, $color in $rating-badge-impact-potentiel-data {
 	.rating-badge-form-check-impact-potentiel > .rating-badge-form-check-label[data-val="#{$val}"],
 	.rating-badge-display-impact-potentiel > .rating-badge[data-val="#{$val}"] {
+		--rating-badge-color: #{$color};
+		--rating-badge-text-color: #{color-contrast($color)};
+	}
+}
+
+$rating-badge-risque-data: (
+	-1: #cbd5e1,
+	1:  #10b981,
+	2:  #4ade80,
+	3:  #facc15,
+	4:  #fb923c,
+	5:  #dc2626,
+) !default;
+
+@each $val, $color in $rating-badge-risque-data {
+	.rating-badge-form-check-risque > .rating-badge-form-check-label[data-val="#{$val}"],
+	.rating-badge-display-risque > .rating-badge[data-val="#{$val}"] {
 		--rating-badge-color: #{$color};
 		--rating-badge-text-color: #{color-contrast($color)};
 	}

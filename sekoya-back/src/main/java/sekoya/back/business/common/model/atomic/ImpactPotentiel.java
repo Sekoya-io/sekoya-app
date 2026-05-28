@@ -19,9 +19,9 @@ public enum ImpactPotentiel {
   }
 
   public static ImpactPotentiel fromScore(int score) {
-    for (ImpactPotentiel impact : values()) {
-      if (impact.score == score) {
-        return impact;
+    for (ImpactPotentiel impactPotentiel : values()) {
+      if (impactPotentiel.score == score) {
+        return impactPotentiel;
       }
     }
     throw new IllegalArgumentException("Score d'impact potentiel inconnu : " + score);

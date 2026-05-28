@@ -7,5 +7,5 @@ import sekoya.back.business.alea.model.Alea;
 
 public interface IAleaService extends IGenericEntityService<Long, Alea> {
 
-  void saveAlea(Alea alea) throws ServiceException, SecurityServiceException;
+  void refreshRisqueBrut(Alea alea) throws ServiceException, SecurityServiceException;
 }

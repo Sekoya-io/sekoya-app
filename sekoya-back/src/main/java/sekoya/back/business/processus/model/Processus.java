@@ -39,6 +39,7 @@ import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventS
 import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.model.comparator.AleaComparator;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
 import sekoya.back.business.processus.model.atomic.ProcessusThematique;
 import sekoya.back.business.processus.model.atomic.ProcessusType;
@@ -84,6 +85,22 @@ public class Processus extends GenericEntity<Long, Processus> {
   @Enumerated(EnumType.STRING)
   @GenericField(name = PRIORITE, sortable = Sortable.YES)
   private ProcessusPriorite priorite;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp45Annee2035;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp45Annee2055;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp85Annee2035;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp85Annee2055;
 
   @Basic(optional = false)
   @GenericField(name = ENABLED)
@@ -152,6 +169,38 @@ public class Processus extends GenericEntity<Long, Processus> {
 
   public void setPriorite(ProcessusPriorite priorite) {
     this.priorite = priorite;
+  }
+
+  public Risque getRisqueBrutRcp45Annee2035() {
+    return risqueBrutRcp45Annee2035;
+  }
+
+  public void setRisqueBrutRcp45Annee2035(Risque risqueBrutRcp45Annee2035) {
+    this.risqueBrutRcp45Annee2035 = risqueBrutRcp45Annee2035;
+  }
+
+  public Risque getRisqueBrutRcp45Annee2055() {
+    return risqueBrutRcp45Annee2055;
+  }
+
+  public void setRisqueBrutRcp45Annee2055(Risque risqueBrutRcp45Annee2055) {
+    this.risqueBrutRcp45Annee2055 = risqueBrutRcp45Annee2055;
+  }
+
+  public Risque getRisqueBrutRcp85Annee2035() {
+    return risqueBrutRcp85Annee2035;
+  }
+
+  public void setRisqueBrutRcp85Annee2035(Risque risqueBrutRcp85Annee2035) {
+    this.risqueBrutRcp85Annee2035 = risqueBrutRcp85Annee2035;
+  }
+
+  public Risque getRisqueBrutRcp85Annee2055() {
+    return risqueBrutRcp85Annee2055;
+  }
+
+  public void setRisqueBrutRcp85Annee2055(Risque risqueBrutRcp85Annee2055) {
+    this.risqueBrutRcp85Annee2055 = risqueBrutRcp85Annee2055;
   }
 
   public boolean isEnabled() {

@@ -18,8 +18,8 @@ import jakarta.persistence.OneToMany;
 import java.util.Collections;
 import java.util.SortedSet;
 import org.bindgen.Bindable;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SortComparator;
-import org.hibernate.annotations.Type;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
@@ -27,19 +27,20 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericFie
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+import org.hibernate.type.SqlTypes;
 import org.iglooproject.commons.util.collections.CollectionUtils;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
-import sekoya.back.business.common.model.Latitude;
-import sekoya.back.business.common.model.Longitude;
+import org.locationtech.jts.geom.Point;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.embeddable.Adresse;
+import sekoya.back.business.donneeclimatique.model.PointGeographique;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.model.comparator.ProcessusComparator;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
-import sekoya.back.hibernate.type.LatitudeType;
-import sekoya.back.hibernate.type.LongitudeType;
+import sekoya.back.business.site.model.embeddable.SiteLittoral;
 
 @Entity
 @Bindable
@@ -86,13 +87,29 @@ public class Site extends GenericEntity<Long, Site> {
       includePaths = {Adresse.COMMUNE, Adresse.COMMUNE_LABEL_SORT})
   private Adresse adresse;
 
-  @Basic(optional = false)
-  @Type(LatitudeType.class)
-  private Latitude latitude;
+  @JdbcTypeCode(SqlTypes.GEOGRAPHY)
+  private Point localisation;
+
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  private PointGeographique pointGeographique;
+
+  @Embedded private SiteLittoral littoral;
 
   @Basic(optional = false)
-  @Type(LongitudeType.class)
-  private Longitude longitude;
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp45Annee2035;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp45Annee2055;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp85Annee2035;
+
+  @Basic(optional = false)
+  @Enumerated(EnumType.STRING)
+  private Risque risqueBrutRcp85Annee2055;
 
   @Basic(optional = false)
   @GenericField(name = ENABLED)
@@ -159,20 +176,63 @@ public class Site extends GenericEntity<Long, Site> {
     this.adresse = adresse;
   }
 
-  public Latitude getLatitude() {
-    return latitude;
+  public Point getLocalisation() {
+    return localisation;
   }
 
-  public void setLatitude(Latitude latitude) {
-    this.latitude = latitude;
+  public void setLocalisation(Point localisation) {
+    this.localisation = localisation;
   }
 
-  public Longitude getLongitude() {
-    return longitude;
+  public PointGeographique getPointGeographique() {
+    return pointGeographique;
   }
 
-  public void setLongitude(Longitude longitude) {
-    this.longitude = longitude;
+  public void setPointGeographique(PointGeographique pointGeographique) {
+    this.pointGeographique = pointGeographique;
+  }
+
+  public SiteLittoral getLittoral() {
+    if (littoral == null) {
+      littoral = new SiteLittoral();
+    }
+    return littoral;
+  }
+
+  public void setLittoral(SiteLittoral littoral) {
+    this.littoral = littoral;
+  }
+
+  public Risque getRisqueBrutRcp45Annee2035() {
+    return risqueBrutRcp45Annee2035;
+  }
+
+  public void setRisqueBrutRcp45Annee2035(Risque risqueBrutRcp45Annee2035) {
+    this.risqueBrutRcp45Annee2035 = risqueBrutRcp45Annee2035;
+  }
+
+  public Risque getRisqueBrutRcp45Annee2055() {
+    return risqueBrutRcp45Annee2055;
+  }
+
+  public void setRisqueBrutRcp45Annee2055(Risque risqueBrutRcp45Annee2055) {
+    this.risqueBrutRcp45Annee2055 = risqueBrutRcp45Annee2055;
+  }
+
+  public Risque getRisqueBrutRcp85Annee2035() {
+    return risqueBrutRcp85Annee2035;
+  }
+
+  public void setRisqueBrutRcp85Annee2035(Risque risqueBrutRcp85Annee2035) {
+    this.risqueBrutRcp85Annee2035 = risqueBrutRcp85Annee2035;
+  }
+
+  public Risque getRisqueBrutRcp85Annee2055() {
+    return risqueBrutRcp85Annee2055;
+  }
+
+  public void setRisqueBrutRcp85Annee2055(Risque risqueBrutRcp85Annee2055) {
+    this.risqueBrutRcp85Annee2055 = risqueBrutRcp85Annee2055;
   }
 
   public boolean isEnabled() {
@@ -189,6 +249,14 @@ public class Site extends GenericEntity<Long, Site> {
 
   public void setProcessus(SortedSet<Processus> processus) {
     CollectionUtils.replaceAll(this.processus, processus);
+  }
+
+  public void addProcessus(Processus processus) {
+    this.processus.add(processus);
+  }
+
+  public void removeProcessus(Processus processus) {
+    this.processus.add(processus);
   }
 
   public HistoryEventSummary getCreation() {

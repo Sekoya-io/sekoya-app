@@ -17,13 +17,15 @@ public class ProcessusBindableModel extends BindableModel<Processus> {
 
   private static final long serialVersionUID = 1L;
 
-  private final IModel<Site> siteModel = new GenericEntityModel<>();
+  private final IModel<Site> siteModel;
 
   private final IBindableModel<Alea> aleaAddBindableModel =
       new BindableModel<>(new GenericEntityModel<>());
 
-  public ProcessusBindableModel(IModel<Processus> participationModel) {
-    super(participationModel);
+  public ProcessusBindableModel(IModel<Site> siteModel, IModel<Processus> processusModel) {
+    super(processusModel);
+
+    this.siteModel = siteModel;
 
     bindWithCache(Bindings.processus().site(), new GenericEntityModel<>());
     bindWithCache(Bindings.processus().type(), Model.of());
@@ -36,6 +38,7 @@ public class ProcessusBindableModel extends BindableModel<Processus> {
         Suppliers2.treeSetAsSortedSet(AleaComparator.get()),
         alea -> {
           var aleaBindableModel = new BindableModel<>(GenericEntityModel.of(alea));
+          aleaBindableModel.bindWithCache(Bindings.alea().processus(), new GenericEntityModel<>());
           aleaBindableModel.bindWithCache(Bindings.alea().type(), Model.of());
           aleaBindableModel.bindWithCache(Bindings.alea().sensibilite(), Model.of());
           aleaBindableModel.bindWithCache(Bindings.alea().impactPotentielBrut(), Model.of());

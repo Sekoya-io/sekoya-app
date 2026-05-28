@@ -11,6 +11,8 @@ public interface IProcessusService extends IGenericEntityService<Long, Processus
 
   void saveProcessus(Processus processus) throws ServiceException, SecurityServiceException;
 
+  void refreshRisqueBrut(Processus processus) throws ServiceException, SecurityServiceException;
+
   void enable(Processus processus) throws ServiceException, SecurityServiceException;
 
   void disable(Processus processus) throws ServiceException, SecurityServiceException;

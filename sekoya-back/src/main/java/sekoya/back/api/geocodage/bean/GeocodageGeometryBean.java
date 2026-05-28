@@ -3,7 +3,6 @@ package sekoya.back.api.geocodage.bean;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import sekoya.back.api.geocodage.bean.atomic.GeocodageGeometryType;
 import sekoya.back.api.geocodage.deserializer.GeocodageGeometryTypeDeserializer;
@@ -16,7 +15,7 @@ public class GeocodageGeometryBean implements Serializable {
   @JsonDeserialize(using = GeocodageGeometryTypeDeserializer.class)
   private GeocodageGeometryType type;
 
-  private List<BigDecimal> coordinates;
+  private List<Double> coordinates;
 
   public GeocodageGeometryType getType() {
     return type;
@@ -26,11 +25,11 @@ public class GeocodageGeometryBean implements Serializable {
     this.type = type;
   }
 
-  public List<BigDecimal> getCoordinates() {
+  public List<Double> getCoordinates() {
     return coordinates;
   }
 
-  public void setCoordinates(List<BigDecimal> coordinates) {
+  public void setCoordinates(List<Double> coordinates) {
     this.coordinates = coordinates;
   }
 }

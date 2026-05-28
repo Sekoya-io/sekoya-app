@@ -8,6 +8,7 @@ import igloo.wicket.markup.html.panel.DelegatedMarkupPanel;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Detachables;
 import org.apache.wicket.Component;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
@@ -27,6 +28,7 @@ import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.organisation.service.controller.IOrganisationControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.validator.OrganisationNomUnicityValidator;
+import sekoya.front.organisation.page.OrganisationListPage;
 
 public class OrganisationSavePopup extends AbstractAjaxModalPopupPanel<Organisation> {
 
@@ -92,8 +94,9 @@ public class OrganisationSavePopup extends AbstractAjaxModalPopupPanel<Organisat
 
               Session.get().success(getString("common.success"));
 
-              closePopup(target);
-              target.add(getPage());
+              throw OrganisationListPage.linkDescriptor().newRestartResponseException();
+            } catch (RestartResponseException e) { // NOSONAR
+              throw e;
             } catch (Exception e) {
               LOGGER.error("Erreur lors de la saisie d'une organisation", e);
               Session.get().error(getString("common.error.unexpected"));

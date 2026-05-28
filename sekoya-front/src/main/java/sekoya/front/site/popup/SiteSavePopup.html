@@ -134,21 +134,53 @@
 								<div class="col-12">
 									<div class="row row-form-group form-group">
 										<div class="col-md-4">
-											<label wicket:for="latitude" class="col-form-label form-label"><wicket:label /></label>
+											<label wicket:for="localisation" class="col-form-label form-label"><wicket:label /></label>
 										</div>
 										<div class="col-md-8">
-											<input wicket:id="latitude" class="form-control" type="text" />
+											<input wicket:id="localisation" class="form-control" type="text" />
+											<div class="form-text">
+												<wicket:message key="site.save.localisation.localisation.help" />
+											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-12">
-									<div class="row row-form-group form-group">
-										<div class="col-md-4">
-											<label wicket:for="longitude" class="col-form-label form-label"><wicket:label /></label>
-										</div>
-										<div class="col-md-8">
-											<input wicket:id="longitude" class="form-control" type="text" />
-										</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div wicket:id="littoral" class="col-12">
+					<div class="heading-section">
+						<wicket:message key="site.common.wording.littoral" />
+					</div>
+					<div class="row row-form">
+						<div class="col-12">
+							<div wicket:id="localisationLittoral" class="row row-form-group form-group">
+								<div class="col-md-8">
+									<span class="col-form-label form-label"><wicket:message key="business.site.littoral.localisationLittoral.long" /></span>
+								</div>
+								<div class="col-md-4">
+									<div class="form-check form-check-inline">
+										<input wicket:id="true" class="form-check-input" type="radio" />
+										<label wicket:for="true" class="form-check-label"><wicket:label /></label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input wicket:id="false" class="form-check-input" type="radio" />
+										<label wicket:for="false" class="form-check-label"><wicket:label /></label>
+									</div>
+								</div>
+							</div>
+							<div wicket:id="zoneSubmersible" class="row row-form-group form-group">
+								<div class="col-md-8">
+									<span class="col-form-label form-label"><wicket:message key="business.site.littoral.zoneSubmersible.long" /></span>
+								</div>
+								<div class="col-md-4">
+									<div class="form-check form-check-inline">
+										<input wicket:id="true" class="form-check-input" type="radio" />
+										<label wicket:for="true" class="form-check-label"><wicket:label /></label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input wicket:id="false" class="form-check-input" type="radio" />
+										<label wicket:for="false" class="form-check-label"><wicket:label /></label>
 									</div>
 								</div>
 							</div>

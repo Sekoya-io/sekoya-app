@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import java.util.List;
 import org.iglooproject.jpa.business.generic.dao.GenericEntityDaoImpl;
 import org.springframework.stereotype.Repository;
+import sekoya.back.business.donneeclimatique.model.PointGeographique;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.site.model.QSite;
 import sekoya.back.business.site.model.Site;
@@ -12,6 +13,22 @@ import sekoya.back.business.site.model.Site;
 public class SiteDaoImpl extends GenericEntityDaoImpl<Long, Site> implements ISiteDao {
 
   private static final QSite qSite = QSite.site;
+
+  @Override
+  public PointGeographique getPointGeographique(Site site) {
+    return (PointGeographique)
+        getEntityManager()
+            .createNativeQuery(
+                """
+                select pg.*
+                from pointgeographique pg
+                order by pg.localisation <-> :localisation
+                limit 1;
+                """,
+                PointGeographique.class)
+            .setParameter("localisation", site.getLocalisation())
+            .getSingleResult();
+  }
 
   @Override
   public Site getByOrganisationAndNomCaseInsensitive(Organisation organisation, String nom) {

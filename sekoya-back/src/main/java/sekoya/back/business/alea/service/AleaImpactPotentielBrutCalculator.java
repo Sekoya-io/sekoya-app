@@ -8,7 +8,7 @@ public class AleaImpactPotentielBrutCalculator {
   /**
    * Matrice du score d'impact potentiel brut.
    *
-   * <p>Indexation : MATRICE[priorite.score][sensibilite.score + 1]
+   * <p>Indexation : MATRICE[priorite.ordinal][sensibilite.ordinal]
    *
    * <ul>
    *   <li>Lignes : MINEUR(0), SECONDAIRE(1), IMPORTANT(2), MAJEUR(3), VITAL(4)
@@ -30,6 +30,6 @@ public class AleaImpactPotentielBrutCalculator {
     if (priorite == null || sensibilite == null) {
       return null;
     }
-    return ImpactPotentiel.fromScore(MATRICE[priorite.getScore()][sensibilite.getScore() + 1]);
+    return ImpactPotentiel.fromScore(MATRICE[priorite.ordinal()][sensibilite.ordinal()]);
   }
 }

@@ -13,12 +13,14 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import org.apache.wicket.Component;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.attributes.ThrottlingSettings;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.Radio;
 import org.apache.wicket.markup.html.form.RadioGroup;
@@ -31,6 +33,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.iglooproject.functional.Joiners;
 import org.iglooproject.spring.util.StringUtils;
 import org.iglooproject.wicket.more.ajax.SerializableListener;
 import org.iglooproject.wicket.more.common.behavior.UpdateOnChangeAjaxEventBehavior;
@@ -41,6 +44,7 @@ import org.iglooproject.wicket.more.markup.html.form.LabelPlaceholderBehavior;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
+import org.locationtech.jts.geom.Point;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sekoya.back.api.common.RestClientCommunicationException;
@@ -48,8 +52,6 @@ import sekoya.back.api.geocodage.bean.GeocodageGeocodeResponseBean;
 import sekoya.back.api.geocodage.bean.GeocodageResponseBean;
 import sekoya.back.api.geocodage.service.IGeocodageRestClientService;
 import sekoya.back.business.common.model.CodePostal;
-import sekoya.back.business.common.model.Latitude;
-import sekoya.back.business.common.model.Longitude;
 import sekoya.back.business.referencedata.model.Commune;
 import sekoya.back.business.referencedata.service.controller.ICommuneControllerService;
 import sekoya.back.business.site.model.Site;
@@ -57,8 +59,10 @@ import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
+import sekoya.front.common.converter.PointConverter;
 import sekoya.front.common.form.CommuneAjaxDropDownSingleChoice;
 import sekoya.front.common.validator.SiteNomUnicityValidator;
+import sekoya.front.site.page.SiteDetailPage;
 
 public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
@@ -132,8 +136,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
     IModel<CodePostal> codePostalModel =
         BindingModel.of(getModel(), Bindings.site().adresse().codePostal());
     IModel<Commune> communeModel = BindingModel.of(getModel(), Bindings.site().adresse().commune());
-    IModel<Latitude> latitudeModel = BindingModel.of(getModel(), Bindings.site().latitude());
-    IModel<Longitude> longitudeModel = BindingModel.of(getModel(), Bindings.site().longitude());
+    IModel<Point> localisationModel = BindingModel.of(getModel(), Bindings.site().localisation());
 
     EnclosureContainer geocodageChoicesContainer =
         new EnclosureContainer("geocodageChoicesContainer");
@@ -141,6 +144,8 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
     form = new Form<>("form", getModel());
     body.add(form);
+
+    WebMarkupContainer littoralContainer = new WebMarkupContainer("littoral");
 
     form.add(
         new TextField<>("nom", BindingModel.of(getModel(), Bindings.site().nom()))
@@ -219,8 +224,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                                         adresse2Model,
                                         codePostalModel,
                                         communeModel,
-                                        latitudeModel,
-                                        longitudeModel);
+                                        localisationModel);
                                     target.add(adresseContainer);
                                   }
                                 }))
@@ -249,13 +253,50 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
                 new CommuneAjaxDropDownSingleChoice("commune", communeModel)
                     .setLabel(new ResourceModel("business.common.adresse.commune"))
                     .setRequired(true),
-                new TextField<>("latitude", latitudeModel, Latitude.class)
-                    .setLabel(new ResourceModel("business.site.latitude"))
-                    .setRequired(true),
-                new TextField<>("longitude", longitudeModel, Longitude.class)
-                    .setLabel(new ResourceModel("business.site.longitude"))
+                new TextField<>("localisation", localisationModel, Point.class)
+                    .setLabel(
+                        new ResourceModel("business.site.localisation.coordonneesGeographiques"))
                     .setRequired(true))
-            .setOutputMarkupPlaceholderTag(true));
+            .setOutputMarkupPlaceholderTag(true),
+        littoralContainer
+            .add(
+                new RadioGroup<>(
+                        "localisationLittoral",
+                        BindingModel.of(
+                            getModel(), Bindings.site().littoral().localisationLittoral()))
+                    .setLabel(new ResourceModel(""))
+                    .add(
+                        new Radio<>("true", Model.of(true))
+                            .setLabel(new ResourceModel("common.yes")),
+                        new Radio<>("false", Model.of(false))
+                            .setLabel(new ResourceModel("common.no")))
+                    .add(
+                        new UpdateOnChangeAjaxEventBehavior()
+                            .onChange(
+                                new SerializableListener() {
+                                  @Override
+                                  public void onBeforeRespond(
+                                      Map<String, Component> map, AjaxRequestTarget target) {
+                                    getModelObject().getLittoral().setZoneSubmersible(false);
+                                    target.add(littoralContainer);
+                                  }
+                                }))
+                    .setRenderBodyOnly(false),
+                new RadioGroup<>(
+                        "zoneSubmersible",
+                        BindingModel.of(getModel(), Bindings.site().littoral().zoneSubmersible()))
+                    .add(
+                        new Radio<>("true", Model.of(true))
+                            .setLabel(new ResourceModel("common.yes")),
+                        new Radio<>("false", Model.of(false))
+                            .setLabel(new ResourceModel("common.no")))
+                    .add(
+                        Condition.isTrue(
+                                BindingModel.of(
+                                    getModel(), Bindings.site().littoral().localisationLittoral()))
+                            .thenShow())
+                    .setRenderBodyOnly(false))
+            .setOutputMarkupId(true));
 
     return body;
   }
@@ -271,7 +312,8 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
             try {
-              Site site = SiteSavePopup.this.getModelObject();
+              IModel<Site> siteModel = SiteSavePopup.this.getModel();
+              Site site = siteModel.getObject();
 
               if (site.getOrganisation() == null) {
                 site.setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
@@ -281,8 +323,9 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
               Session.get().success(getString("common.success"));
 
-              closePopup(target);
-              target.add(getPage());
+              throw SiteDetailPage.MAPPER.map(siteModel).newRestartResponseException();
+            } catch (RestartResponseException e) { // NOSONAR
+              throw e;
             } catch (Exception e) {
               LOGGER.error("Erreur saisie site", e);
               Session.get().error(getString("common.error.unexpected"));
@@ -309,8 +352,7 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
       IModel<String> adresse2Model,
       IModel<CodePostal> codePostalModel,
       IModel<Commune> communeModel,
-      IModel<Latitude> latitudeModel,
-      IModel<Longitude> longitudeModel) {
+      IModel<Point> localisationModel) {
     if (bean.getProperties() != null) {
       adresse1Model.setObject(bean.getProperties().getName());
       adresse2Model.setObject(null);
@@ -328,11 +370,16 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
     }
 
     if (bean.getGeometry() != null && !bean.getGeometry().getCoordinates().isEmpty()) {
-      latitudeModel.setObject(new Latitude(bean.getGeometry().getCoordinates().getLast()));
-      longitudeModel.setObject(new Longitude(bean.getGeometry().getCoordinates().getFirst()));
+      localisationModel.setObject(
+          PointConverter.get()
+              .convertToObject(
+                  Joiners.onComma()
+                      .join(
+                          bean.getGeometry().getCoordinates().getLast(),
+                          bean.getGeometry().getCoordinates().getFirst()),
+                  getLocale()));
     } else {
-      latitudeModel.setObject(null);
-      longitudeModel.setObject(null);
+      localisationModel.setObject(null);
     }
   }
 

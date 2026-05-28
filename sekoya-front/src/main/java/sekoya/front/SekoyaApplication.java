@@ -36,6 +36,7 @@ import org.iglooproject.wicket.more.security.page.LoginFailurePage;
 import org.iglooproject.wicket.more.security.page.LoginSuccessPage;
 import org.iglooproject.wicket.more.util.convert.HibernateProxyAwareConverterLocator;
 import org.iglooproject.wicket.more.util.listener.FormInvalidDecoratorListener;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.model.atomic.AleaType;
@@ -66,6 +67,7 @@ import sekoya.front.common.converter.LocalDateConverter;
 import sekoya.front.common.converter.LocalDateTimeConverter;
 import sekoya.front.common.converter.LocalTimeConverter;
 import sekoya.front.common.converter.LongitudeConverter;
+import sekoya.front.common.converter.PointConverter;
 import sekoya.front.common.renderer.AdresseRenderer;
 import sekoya.front.common.renderer.CommuneRenderer;
 import sekoya.front.common.renderer.HistoryEventSummaryRenderer;
@@ -92,6 +94,7 @@ import sekoya.front.processus.page.ProcessusAddPage;
 import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusEditPage;
 import sekoya.front.processus.page.ProcessusListPage;
+import sekoya.front.processus.page.ProcessusSiteAddPage;
 import sekoya.front.processus.renderer.AleaRenderer;
 import sekoya.front.processus.renderer.ProcessusRenderer;
 import sekoya.front.profile.page.ProfilePage;
@@ -178,6 +181,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(boolean.class, BooleanRenderer.get());
     converterLocator.set(Boolean.class, BooleanRenderer.get());
 
+    converterLocator.set(Point.class, PointConverter.get());
     converterLocator.set(EmailAddress.class, EmailAddressConverter.get());
     converterLocator.set(CodePostal.class, CodePostalConverter.get());
     converterLocator.set(Latitude.class, LatitudeConverter.get());
@@ -239,6 +243,8 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     // Site
     mountPage("/site/", SiteListPage.class);
     mountParameterizedPage("/site/${" + CommonParameters.ID + "}/", SiteDetailPage.class);
+    mountParameterizedPage(
+        "/site/${" + CommonParameters.ID + "}/processus/creation/", ProcessusSiteAddPage.class);
 
     // Processus
     mountPage("/processus/", ProcessusListPage.class);

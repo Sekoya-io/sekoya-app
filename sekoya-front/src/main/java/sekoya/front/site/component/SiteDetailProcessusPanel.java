@@ -28,9 +28,9 @@ import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
 import sekoya.front.processus.component.ProcessusPrioriteRatingDisplayPanel;
 import sekoya.front.processus.model.ProcessusDataProvider;
-import sekoya.front.processus.page.ProcessusAddPage;
 import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusEditPage;
+import sekoya.front.processus.page.ProcessusSiteAddPage;
 
 public class SiteDetailProcessusPanel extends GenericPanel<Site> {
 
@@ -119,7 +119,7 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
 
       add(Condition.anyChildVisible(this).thenShow());
 
-      add(ProcessusAddPage.MAPPER.map(siteModel).link("add").hideIfInvalid());
+      add(ProcessusSiteAddPage.MAPPER.map(siteModel).link("add").hideIfInvalid());
     }
   }
 }

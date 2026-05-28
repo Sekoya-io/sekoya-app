@@ -41,7 +41,8 @@ public class ProcessusEditPage extends ProcessusTemplate {
         .extractSafely(
             parameters, ProcessusListPage.linkDescriptor(), getString("common.error.unexpected"));
 
-    ProcessusBindableModel processusBindableModel = new ProcessusBindableModel(processusModel);
+    ProcessusBindableModel processusBindableModel =
+        new ProcessusBindableModel(new GenericEntityModel<>(), processusModel);
 
     add(new ProcessusSaveHeaderPanel("header", processusBindableModel));
 
