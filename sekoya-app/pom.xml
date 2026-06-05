@@ -7,7 +7,7 @@
     <version>${revision}</version>
   </parent>
   <artifactId>sekoya-app</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
   <name>Sekoya - Spring Application</name>
   <properties>
     <start-class>sekoya.app.SekoyaApplicationMain</start-class>
@@ -93,6 +93,27 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <docker>
+            <publishRegistry>
+              <username>${env.REGISTRY_USERNAME}</username>
+              <password>${env.REGISTRY_PASSWORD}</password>
+              <url>https://nexus.tools.kobalt.fr/sekoya-registry</url>
+            </publishRegistry>
+          </docker>
+          <image>
+            <name>nexus.tools.kobalt.fr/sekoya-registry/${project.artifactId}:latest</name>
+          </image>
+          <publish>true</publish>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build-image</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

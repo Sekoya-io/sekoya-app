@@ -14,5 +14,36 @@ services:
       - TZ=Europe/Paris
       - PGTZ=Europe/Paris
 
+  app-init:
+    profiles:
+      - app
+    image: busybox:latest
+    command:
+    - /bin/sh
+    - -c
+    - chown 1002:1001 /data/services
+    volumes:
+      - sekoya-app:/data/services
+
+  app:
+    profiles:
+      - app
+    image: "nexus.tools.kobalt.fr/sekoya-registry/sekoya-app:latest"
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - sekoya-app:/data/services
+    depends_on:
+      app-init:
+        condition: service_completed_successfully
+    environment:
+      SPRING_PROFILES_ACTIVE: qualification
+      DB_HOST: bdd
+      DB_PORT: 5432
+      DB_USERNAME: sekoya
+      DB_PASSWORD: sekoya
+      JDK_JAVA_OPTIONS: -Duser.language=fr -Duser.country=FR -Duser.timezone=Europe/Paris
+
 volumes:
- sekoya-bdd:
+  sekoya-bdd:
+  sekoya-app:
