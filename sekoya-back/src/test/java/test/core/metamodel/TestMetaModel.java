@@ -2,6 +2,7 @@ package test.core.metamodel;
 
 import java.util.Locale;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Point;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.common.model.Latitude;
@@ -17,6 +18,7 @@ class TestMetaModel extends AbstractSekoyaTestCase {
     // Class<?> est utilisé sur GenericEntityReference ; ATTENTION,
     // l'annotation @Type est nécessaire pour un traitement correct par Hibernate.
     super.testMetaModel(
+        Point.class,
         EmailAddress.class,
         CodePostal.class,
         Latitude.class,
