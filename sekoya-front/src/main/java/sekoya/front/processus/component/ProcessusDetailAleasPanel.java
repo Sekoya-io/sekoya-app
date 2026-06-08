@@ -89,8 +89,6 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
                   }
                 })
             .withClass("cell-w-80 cell-w-fit text-center")
-            .rows()
-            .end()
             .bootstrapCard()
             .addIn(
                 AddInPlacement.HEADING_MAIN,

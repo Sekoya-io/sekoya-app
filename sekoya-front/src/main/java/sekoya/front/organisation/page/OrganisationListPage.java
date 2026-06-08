@@ -128,8 +128,6 @@ public class OrganisationListPage extends OrganisationTemplate {
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
-            .rows()
-            .end()
             .bootstrapCard()
             .ajaxPagers()
             .count("organisation.common.count")

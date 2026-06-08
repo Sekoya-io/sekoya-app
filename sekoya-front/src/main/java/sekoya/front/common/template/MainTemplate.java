@@ -59,6 +59,8 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
 
   @SpringBean private ISekoyaAuthenticationService authenticationService;
 
+  private final Component bodyElement;
+
   protected MainTemplate(PageParameters parameters) {
     super(parameters);
 
@@ -72,13 +74,13 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
       throw SecurityPasswordExpirationPage.linkDescriptor().newRestartResponseException();
     }
 
+    bodyElement = new TransparentWebMarkupContainer("bodyElement");
+
     add(
         new TransparentWebMarkupContainer("htmlElement")
             .add(AttributeAppender.append("lang", SekoyaSession.get().getLocale().getLanguage())));
 
-    add(
-        new TransparentWebMarkupContainer("bodyElement")
-            .add(new ClassAttributeAppender(SekoyaSession.get().getEnvironmentModel())));
+    add(bodyElement.add(new ClassAttributeAppender(SekoyaSession.get().getEnvironmentModel())));
 
     addHeadPageTitlePrependedElement(
         new BreadCrumbElement(new ResourceModel("common.application.name")));
@@ -141,6 +143,10 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             .page(ConsoleMaintenanceSearchPage.class)
             .navigationMenuItem(new ResourceModel("navigation.console"))
             .iconClasses(Model.of("fa fa-fw fa-wrench")));
+  }
+
+  public Component getBodyElement() {
+    return bodyElement;
   }
 
   @Override

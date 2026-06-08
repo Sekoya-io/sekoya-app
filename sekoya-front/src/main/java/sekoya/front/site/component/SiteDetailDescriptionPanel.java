@@ -15,6 +15,7 @@ import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.renderer.CommonRenderers;
+import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.popup.SiteSavePopup;
 
 public class SiteDetailDescriptionPanel extends GenericPanel<Site> {
@@ -24,7 +25,13 @@ public class SiteDetailDescriptionPanel extends GenericPanel<Site> {
   public SiteDetailDescriptionPanel(String id, IModel<Site> siteModel) {
     super(id, siteModel);
 
-    SiteSavePopup editPopup = new SiteSavePopup("editPopup");
+    SiteSavePopup editPopup =
+        new SiteSavePopup("editPopup") {
+          @Override
+          protected void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel) {
+            throw SiteDetailPage.MAPPER.map(siteModel).newRestartResponseException();
+          }
+        };
     add(editPopup);
 
     add(

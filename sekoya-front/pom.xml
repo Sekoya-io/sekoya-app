@@ -181,6 +181,18 @@
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-devutils</artifactId>
     </dependency>
+    <!-- JS components -->
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>maplibre-gl</artifactId>
+      <version>${maplibre.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <!-- Misc. -->
     <dependency>
       <groupId>jakarta.servlet</groupId>

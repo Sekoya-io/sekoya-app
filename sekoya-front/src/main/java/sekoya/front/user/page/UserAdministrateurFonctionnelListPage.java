@@ -2,8 +2,8 @@ package sekoya.front.user.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_USER_WRITE;
-import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_2XL;
+import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
@@ -158,7 +158,7 @@ public class UserAdministrateurFonctionnelListPage extends UserTemplate {
             .withClass(
                 itemModel ->
                     Condition.predicate(itemModel, UserPredicates.disabled())
-                        .then(BTN_TABLE_ROW_ACTION)
+                        .then(TABLE_ROW_DISABLED)
                         .otherwise(""))
             .end()
             .bootstrapCard()

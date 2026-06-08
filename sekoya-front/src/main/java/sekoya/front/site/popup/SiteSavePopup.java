@@ -62,9 +62,8 @@ import sekoya.front.SekoyaSession;
 import sekoya.front.common.converter.PointConverter;
 import sekoya.front.common.form.CommuneAjaxDropDownSingleChoice;
 import sekoya.front.common.validator.SiteNomUnicityValidator;
-import sekoya.front.site.page.SiteDetailPage;
 
-public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
+public abstract class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
   private static final long serialVersionUID = 1L;
 
@@ -322,8 +321,9 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
               siteControllerService.saveSite(site);
 
               Session.get().success(getString("common.success"));
+              closePopup(target);
 
-              throw SiteDetailPage.MAPPER.map(siteModel).newRestartResponseException();
+              onSuccess(target, siteModel);
             } catch (RestartResponseException e) { // NOSONAR
               throw e;
             } catch (Exception e) {
@@ -345,6 +345,8 @@ public class SiteSavePopup extends AbstractAjaxModalPopupPanel<Site> {
 
     return footer;
   }
+
+  protected abstract void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel);
 
   private void updateAdresseFields(
       GeocodageGeocodeResponseBean bean,

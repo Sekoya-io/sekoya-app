@@ -2,6 +2,7 @@ package sekoya.front.processus.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_PROCESSUS_READ;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.wicket.component.CoreLabel;
@@ -16,6 +17,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.iglooproject.functional.Predicates2;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
@@ -130,6 +132,14 @@ public class ProcessusListPage extends ProcessusTemplate {
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
             .rows()
+            .withClass(
+                itemModel ->
+                    Condition.predicate(
+                            itemModel,
+                            Predicates2.compose(
+                                Predicates2.isFalse(), Bindings.processus().enabled()))
+                        .then(TABLE_ROW_DISABLED)
+                        .otherwise(""))
             .end()
             .bootstrapCard()
             .ajaxPagers()

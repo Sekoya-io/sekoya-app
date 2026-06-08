@@ -4,6 +4,7 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_R
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
@@ -16,6 +17,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.iglooproject.functional.Predicates2;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
@@ -58,7 +60,13 @@ public class SiteListPage extends SiteTemplate {
         .setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
 
-    SiteSavePopup savePopup = new SiteSavePopup("savePopup");
+    SiteSavePopup savePopup =
+        new SiteSavePopup("savePopup") {
+          @Override
+          protected void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel) {
+            throw SiteDetailPage.MAPPER.map(siteModel).newRestartResponseException();
+          }
+        };
     add(savePopup);
 
     EnclosureContainer headerElementsSection = new EnclosureContainer("headerElementsSection");
@@ -111,6 +119,13 @@ public class SiteListPage extends SiteTemplate {
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
             .rows()
+            .withClass(
+                itemModel ->
+                    Condition.predicate(
+                            itemModel,
+                            Predicates2.compose(Predicates2.isFalse(), Bindings.site().enabled()))
+                        .then(TABLE_ROW_DISABLED)
+                        .otherwise(""))
             .end()
             .bootstrapCard()
             .ajaxPagers()
