@@ -10,7 +10,8 @@ else
     stage_disabled spotless
 fi
 if [ "$STAGE_TEST" == "true" ]; then
-    MAVEN_OPTS="${MAVEN_OPTS} -DskipTests=false -fae"
+    MAVEN_OPTS="${MAVEN_OPTS} -DskipTests=false"
+    MAVEN_ARGS="${MAVEN_ARGS} -fae"
     stage_enabled test
 else
     MAVEN_OPTS="${MAVEN_OPTS} -DskipTests=true"
@@ -58,7 +59,7 @@ fi
 echo -e "Maven options: \e[34m${MAVEN_OPTS}\e[0m"
 
 section_start build Running maven build...
-MAVEN_OPTS="${MAVEN_OPTS}" mvn -U verify
+MAVEN_ARGS="${MAVEN_ARGS}" MAVEN_OPTS="${MAVEN_OPTS}" mvn -U verify
 section_end build
 
 
