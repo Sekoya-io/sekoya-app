@@ -65,16 +65,16 @@ section_end build
 
 if [ "$STAGE_TEST" == "true" ]; then
     stage_success test
-elif
+else
     stage_skipped test
 fi
 if [ "$STAGE_IMAGE" == "true" ]; then
     stage_success image
-elif
+else
     stage_skipped image
 fi
 if [ "$STAGE_PUBLISH" == "true" ]; then
     stage_success publish
-elif
+else
     stage_skipped publish
 fi
