@@ -120,8 +120,17 @@
         <artifactId>buildnumber-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <!-- setup add-opens -->
+        <!-- Prevent java.lang.reflect.InaccessibleObjectException: Unable to make public int java.util.Collections$UnmodifiableCollection.size() accessible -->
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Add-Opens>java.base/java.lang java.base/java.io java.base/java.util java.base/java.util.concurrent java.rmi/sun.rmi.transport</Add-Opens>
+            </manifestEntries>
+          </archive>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.owasp</groupId>
