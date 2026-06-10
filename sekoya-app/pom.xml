@@ -104,7 +104,6 @@
           <image>
             <name>nexus.tools.kobalt.fr/sekoya-registry/${project.artifactId}:latest</name>
           </image>
-          <publish>true</publish>
         </configuration>
         <executions>
           <execution>
