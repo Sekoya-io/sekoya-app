@@ -49,7 +49,7 @@ kubectl get deployment/sekoya-igloo
 section_end configuration
 
 section_start deploy "Deploy last version on ${KUBE_NAMESPACE}"
-job_name=sekoia-igloo-reset-$( date "+%Y%m%d-%H%M%S" )
+job_name=sekoya-igloo-reset-$( date "+%Y%m%d-%H%M%S" )
 kubectl "--context=deployment@${KUBE_CLUSTER_NAME}" -n "${KUBE_ENVIRONMENT}" scale deployment/sekoya-igloo --replicas=0
 if [ "$STAGE_RESET" == "true" ]; then
     kubectl "--context=deployment@${KUBE_CLUSTER_NAME}" -n "${KUBE_ENVIRONMENT}" create job --from cronjob/sekoya-igloo-reset "${job_name}"
