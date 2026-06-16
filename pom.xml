@@ -77,4 +77,32 @@
       <url>https://nexus.tools.kobalt.fr/repository/igloo-snapshots/</url>
     </repository>
   </repositories>
+  <profiles>
+    <profile>
+      <!-- override runImage for spring-boot-maven-plugin:build-image -->
+      <!-- provided image contains minimal shell (/bin/bash, ...) -->
+      <id>image-shell</id>
+      <activation>
+        <property>
+          <name>image.shell.enabled</name>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                <image>
+                  <!-- use ubuntu-noble-run in place of ubuntu-noble-run-tiny -->
+                  <runImage>docker.io/paketobuildpacks/ubuntu-noble-run:latest</runImage>
+                </image>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>

@@ -102,7 +102,13 @@
             </publishRegistry>
           </docker>
           <image>
+            <!-- <verboseLogging>true</verboseLogging> -->
             <name>nexus.tools.kobalt.fr/sekoya-registry/${project.artifactId}:latest</name>
+            <env>
+              <!-- see manifestEntries/Add-Opens -->
+              <!-- image launch an exploded JAR, so it does not read MANIFEST.MF for Add-Opens -->
+              <BPE_PREPEND_JDK_JAVA_OPTIONS>--add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED</BPE_PREPEND_JDK_JAVA_OPTIONS>
+            </env>
           </image>
         </configuration>
         <executions>
@@ -126,6 +132,8 @@
         <configuration>
           <archive>
             <manifestEntries>
+              <!-- This setting run only when application is run with java -jar app.jar -->
+              <!-- See spring-boot:build-image configuration for container image setup (JDK_JAVA_OPTIONS) -->
               <Add-Opens>java.base/java.lang java.base/java.io java.base/java.util java.base/java.util.concurrent java.rmi/sun.rmi.transport</Add-Opens>
             </manifestEntries>
           </archive>
