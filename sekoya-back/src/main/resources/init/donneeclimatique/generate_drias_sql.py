@@ -294,10 +294,12 @@ def ecrire_points(sortie: TextIO, groupe: Groupe) -> int:
     # Casts dans le SELECT (et non via l'inférence du VALUES): coordonnées en
     # float8 pour ST_MakePoint quelles que soient les valeurs (ex. lon entier).
     en_tete = (
-        "INSERT INTO PointGeographique (id, idDrias, localisation)\n"
+        "INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude))\n"
         f"SELECT nextval('{SEQ_POINT}'), v.idDrias,\n"
         "       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), "
         f"{SRID})::geography\n"
+        "       v.lon::decimal(9,6),\n"
+        "       v.lat::decimal(8,6)\n""
         "FROM (VALUES\n"
     )
     pied = (

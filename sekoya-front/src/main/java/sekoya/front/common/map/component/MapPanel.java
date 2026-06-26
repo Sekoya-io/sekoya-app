@@ -2,6 +2,8 @@ package sekoya.front.common.map.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import igloo.wicket.behavior.ClassAttributeAppender;
+import igloo.wicket.condition.Condition;
 import igloo.wicket.model.Detachables;
 import java.io.Serializable;
 import java.util.Collection;
@@ -54,7 +56,12 @@ public class MapPanel extends Panel {
 
     this.mapContainer = new WebMarkupContainer("map");
     this.mapContainer.setOutputMarkupId(true);
-    add(this.mapContainer);
+    add(
+        this.mapContainer.add(
+            new ClassAttributeAppender(
+                Condition.collectionModelNotEmpty(pointsModel)
+                    .then(Model.of())
+                    .otherwise(Model.of("map-blur")))));
 
     this.clickBehavior =
         new AbstractDefaultAjaxBehavior() {

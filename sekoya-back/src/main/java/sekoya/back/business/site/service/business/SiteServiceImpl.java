@@ -1,5 +1,6 @@
 package sekoya.back.business.site.service.business;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -11,6 +12,8 @@ import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import sekoya.back.business.common.model.Latitude;
+import sekoya.back.business.common.model.Longitude;
 import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.atomic.Scenario;
@@ -61,6 +64,7 @@ public class SiteServiceImpl extends GenericEntityServiceImpl<Long, Site> implem
   public void saveSite(Site site) throws ServiceException, SecurityServiceException {
     Objects.requireNonNull(site);
 
+    refreshLatitudeLongitude(site);
     refreshPointGeographique(site);
     refreshRisqueBrut(site);
 
@@ -69,6 +73,11 @@ public class SiteServiceImpl extends GenericEntityServiceImpl<Long, Site> implem
     } else {
       update(site);
     }
+  }
+
+  private void refreshLatitudeLongitude(Site site) {
+    site.setLongitude(new Longitude(BigDecimal.valueOf(site.getLocalisation().getX())));
+    site.setLatitude(new Latitude(BigDecimal.valueOf(site.getLocalisation().getY())));
   }
 
   @Override

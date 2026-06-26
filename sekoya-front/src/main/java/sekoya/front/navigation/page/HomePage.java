@@ -77,18 +77,20 @@ public class HomePage extends MainTemplate {
           }
         };
 
+    BlankLink siteAdd = new BlankLink("siteAdd");
+
     SiteSavePopup siteAddPopup =
         new SiteSavePopup("siteAddPopup") {
           @Override
           protected void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel) {
-            target.add(map);
+            target.add(map, siteAdd);
           }
         };
     add(siteAddPopup);
 
     add(
         map,
-        new BlankLink("siteAdd")
+        siteAdd
             .add(
                 new AjaxModalOpenBehavior(siteAddPopup, MouseEvent.CLICK) {
                   private static final long serialVersionUID = 1L;
@@ -97,7 +99,12 @@ public class HomePage extends MainTemplate {
                   protected void onShow(AjaxRequestTarget target) {
                     siteAddPopup.setUpAdd(new Site());
                   }
-                }));
+                })
+            .add(
+                new ClassAttributeAppender(
+                    Condition.collectionModelNotEmpty(pointsModel)
+                        .then(Model.of("map-btn-fab-bottom"))
+                        .otherwise(Model.of("map-btn-fab-center")))));
   }
 
   @Override

@@ -62,7 +62,7 @@ public enum ProcessusSort implements ISort<Function<SearchSortFactory, SortFinal
 
     @Override
     public SortOrder getDefaultOrder() {
-      return SortOrder.ASC;
+      return SortOrder.DESC;
     }
   };
 }

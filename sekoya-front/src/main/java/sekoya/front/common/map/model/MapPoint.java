@@ -24,7 +24,7 @@ public record MapPoint(Long id, double lng, double lat, String color, String lab
             site.getId(),
             site.getLocalisation().getX(),
             site.getLocalisation().getY(),
-            sitePointColor(site.getRisqueBrutRcp85Annee2055()),
+            sitePointColor(site.getRisqueBrutRcp45Annee2055()),
             site.getNom()));
   }
 

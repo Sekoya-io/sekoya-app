@@ -1,9 +1,11 @@
 -- Indicateurs: ATAV, ATRAV, ATXQ90, APN20MM, APXCDD, AFFQ98, ARPQ99
 -- Fichiers source: DRIAS_Annuel_RCP4.5_7-indicateurs_ATAV_ATRAV_ATXQ90_APN20MM_APXCDD_AFFQ98_ARPQ99.txt, DRIAS_Annuel_RCP8.5_7-indicateurs_ATAV_ATRAV_ATXQ90_APN20MM_APXCDD_AFFQ98_ARPQ99.txt
 
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (422, 8.8808, 41.4985),
 (423, 8.9759, 41.4925),
@@ -1007,9 +1009,11 @@ FROM (VALUES
 (4194, 0.3072, 43.6238)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (4195, 0.4062, 43.6256),
 (4196, 0.5051, 43.6274),
@@ -2013,9 +2017,11 @@ FROM (VALUES
 (5785, 2.0855, 44.4337)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (5786, 2.186, 44.4339),
 (5787, 2.2864, 44.434),
@@ -3019,9 +3025,11 @@ FROM (VALUES
 (7524, 4.4264, 45.2779)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (7525, 4.5283, 45.2759),
 (7526, 4.6302, 45.2739),
@@ -4025,9 +4033,11 @@ FROM (VALUES
 (9263, 6.8374, 46.0715)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (9264, 6.9406, 46.0674),
 (9326, -1.4462, 46.1699),
@@ -5031,9 +5041,11 @@ FROM (VALUES
 (11061, 0.4926, 47.082)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (11062, 0.5979, 47.0837),
 (11063, 0.7033, 47.0852),
@@ -6037,9 +6049,11 @@ FROM (VALUES
 (12548, 6.5518, 47.7402)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (12549, 6.6583, 47.7363),
 (12550, 6.7648, 47.7323),
@@ -7043,9 +7057,11 @@ FROM (VALUES
 (13823, 5.309, 48.4264)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (13824, 5.417, 48.4237),
 (13825, 5.525, 48.4208),
@@ -8049,9 +8065,11 @@ FROM (VALUES
 (15220, 1.7334, 49.1813)
 ) AS v(idDrias, lon, lat)
 ON CONFLICT (idDrias) DO NOTHING;
-INSERT INTO PointGeographique (id, idDrias, localisation)
+INSERT INTO PointGeographique (id, idDrias, localisation, longitude, latitude)
 SELECT nextval('PointGeographique_id_seq'), v.idDrias,
-       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography
+       ST_SetSRID(ST_MakePoint(v.lon::float8, v.lat::float8), 4326)::geography,
+       v.lon::decimal(9,6),
+       v.lat::decimal(8,6)
 FROM (VALUES
 (15221, 1.8431, 49.1818),
 (15222, 1.9527, 49.1822),

@@ -13,7 +13,9 @@ import org.apache.wicket.model.IModel;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.site.model.Site;
+import sekoya.back.business.user.predicate.UserPredicates;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.SekoyaSession;
 import sekoya.front.common.renderer.CommonRenderers;
 import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.popup.SiteSavePopup;
@@ -47,6 +49,14 @@ public class SiteDetailDescriptionPanel extends GenericPanel<Site> {
             .multiline(),
         new CoreLabel("localisation", BindingModel.of(siteModel, Bindings.site().localisation()))
             .showPlaceholder(),
+        new CoreLabel(
+                "pointGeographique",
+                BindingModel.of(siteModel, Bindings.site().pointGeographique().localisation()))
+            .showPlaceholder()
+            .add(
+                Condition.predicate(
+                        SekoyaSession.get().getUserModel(), UserPredicates.administrateur())
+                    .thenShow()),
         new CoreLabel(
                 "localisationLittoral",
                 BindingModel.of(siteModel, Bindings.site().littoral().localisationLittoral()))

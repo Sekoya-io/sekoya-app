@@ -11,11 +11,13 @@ import java.util.function.Supplier;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.iglooproject.wicket.more.markup.html.template.model.NavigationMenuItem;
 
 public class SidebarMenuPanel extends Panel {
@@ -141,6 +143,7 @@ public class SidebarMenuPanel extends Panel {
                                 .then(Model.of("active"))
                                 .otherwise(Model.of()))));
           }
-        }.setVisibilityAllowed(!menuItems.isEmpty()));
+        }.setVisibilityAllowed(!menuItems.isEmpty()),
+        new ExternalLink("contact", new ResourceModel("sidebar.menu.contact.email")));
   }
 }

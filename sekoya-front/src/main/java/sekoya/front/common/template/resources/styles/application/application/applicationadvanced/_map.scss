@@ -31,6 +31,10 @@ body:has(.content-body-section-map) {
 					.map-container {
 						height: 100%;
 
+						&.map-blur {
+							filter: blur(2px);
+						}
+
 						.map-marker-label {
 							position: absolute;
 							top: 100%;
@@ -49,18 +53,22 @@ body:has(.content-body-section-map) {
 
 				.map-btn-fab {
 					position: absolute;
-					bottom: 20px;
-					inset-inline: 0;
-					margin-inline: auto;
+					left: 50%;
+					transform: translateX(-50%);
 					z-index: 10;
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					width: 48px;
-					height: 48px;
-					border-radius: 50%;
-					padding: 0;
 					box-shadow: $box-shadow;
+
+					&.map-btn-fab-bottom {
+						bottom: 20px;
+					}
+
+					&.map-btn-fab-center {
+						top: 50%;
+						transform: translate(-50%, -50%);
+					}
 				}
 			}
 		}

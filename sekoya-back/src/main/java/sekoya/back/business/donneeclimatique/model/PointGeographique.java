@@ -8,9 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import org.bindgen.Bindable;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
 import org.hibernate.type.SqlTypes;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.locationtech.jts.geom.Point;
+import sekoya.back.business.common.model.Latitude;
+import sekoya.back.business.common.model.Longitude;
+import sekoya.back.hibernate.type.LatitudeType;
+import sekoya.back.hibernate.type.LongitudeType;
 
 @Entity
 @Bindable
@@ -27,6 +32,16 @@ public class PointGeographique extends GenericEntity<Long, PointGeographique> {
 
   @JdbcTypeCode(SqlTypes.GEOGRAPHY)
   private Point localisation;
+
+  // DO NOT USE : uniquement pour Metabase
+  @Basic(optional = false)
+  @Type(LatitudeType.class)
+  private Latitude latitude;
+
+  // DO NOT USE : uniquement pour Metabase
+  @Basic(optional = false)
+  @Type(LongitudeType.class)
+  private Longitude longitude;
 
   @Override
   public Long getId() {
@@ -52,5 +67,21 @@ public class PointGeographique extends GenericEntity<Long, PointGeographique> {
 
   public void setLocalisation(Point localisation) {
     this.localisation = localisation;
+  }
+
+  public Latitude getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(Latitude latitude) {
+    this.latitude = latitude;
+  }
+
+  public Longitude getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(Longitude longitude) {
+    this.longitude = longitude;
   }
 }

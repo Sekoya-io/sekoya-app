@@ -20,6 +20,7 @@ import java.util.SortedSet;
 import org.bindgen.Bindable;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.SortComparator;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
@@ -33,6 +34,8 @@ import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import org.locationtech.jts.geom.Point;
+import sekoya.back.business.common.model.Latitude;
+import sekoya.back.business.common.model.Longitude;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.embeddable.Adresse;
 import sekoya.back.business.donneeclimatique.model.PointGeographique;
@@ -41,6 +44,8 @@ import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.model.comparator.ProcessusComparator;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.business.site.model.embeddable.SiteLittoral;
+import sekoya.back.hibernate.type.LatitudeType;
+import sekoya.back.hibernate.type.LongitudeType;
 
 @Entity
 @Bindable
@@ -89,6 +94,16 @@ public class Site extends GenericEntity<Long, Site> {
 
   @JdbcTypeCode(SqlTypes.GEOGRAPHY)
   private Point localisation;
+
+  // DO NOT USE : uniquement pour Metabase
+  @Basic(optional = false)
+  @Type(LatitudeType.class)
+  private Latitude latitude;
+
+  // DO NOT USE : uniquement pour Metabase
+  @Basic(optional = false)
+  @Type(LongitudeType.class)
+  private Longitude longitude;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   private PointGeographique pointGeographique;
@@ -182,6 +197,22 @@ public class Site extends GenericEntity<Long, Site> {
 
   public void setLocalisation(Point localisation) {
     this.localisation = localisation;
+  }
+
+  public Latitude getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(Latitude latitude) {
+    this.latitude = latitude;
+  }
+
+  public Longitude getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(Longitude longitude) {
+    this.longitude = longitude;
   }
 
   public PointGeographique getPointGeographique() {

@@ -1,6 +1,12 @@
 package sekoya.back.business.site.model.atomic;
 
 public enum SiteTypologie {
-  TYPOLOGIE1,
-  TYPOLOGIE2;
+  BUREAUX,
+  DATA_CENTER,
+  ENTREPOT,
+  LABORATOIRE_RECHERCHE_ET_DEVELOPPEMENT,
+  POINT_DE_VENTE,
+  SIEGE,
+  SITE_EXPLOITATION,
+  SITE_PRODUCTION;
 }
