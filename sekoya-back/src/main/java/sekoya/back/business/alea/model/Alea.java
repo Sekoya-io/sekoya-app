@@ -70,6 +70,7 @@ public class Alea extends GenericEntity<Long, Alea> {
       sortable = Sortable.YES)
   private ImpactPotentiel impactPotentielBrut;
 
+  // TODO supprimer la dénormalisation ?
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
   private Evolution evolutionRcp45Annee2035;

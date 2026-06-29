@@ -21,6 +21,7 @@ import sekoya.back.business.referencedata.search.DepartementSearchQueryDataBindi
 import sekoya.back.business.referencedata.search.IBasicReferenceDataSearchQueryDataBindingInterfaceBinding;
 import sekoya.back.business.referencedata.search.RegionSearchQueryDataBinding;
 import sekoya.back.business.role.model.RoleBinding;
+import sekoya.back.business.simulation.dto.SimulationSearchDtoBinding;
 import sekoya.back.business.site.model.SiteBinding;
 import sekoya.back.business.site.search.SiteSearchQueryDataBinding;
 import sekoya.back.business.user.model.UserBinding;
@@ -46,6 +47,9 @@ public final class Bindings {
   private static final AleaBinding ALEA = new AleaBinding();
   private static final AleaSearchQueryDataBinding ALEA_SEARCH_QUERY_DATA =
       new AleaSearchQueryDataBinding();
+
+  private static final SimulationSearchDtoBinding SIMULATION_SEARCH_DTO =
+      new SimulationSearchDtoBinding();
 
   private static final IReferenceDataBindingInterfaceBinding REFERENCE_DATA =
       new IReferenceDataBindingInterfaceBinding();
@@ -113,6 +117,10 @@ public final class Bindings {
 
   public static AleaSearchQueryDataBinding aleaSearchQueryData() {
     return ALEA_SEARCH_QUERY_DATA;
+  }
+
+  public static SimulationSearchDtoBinding simulationSearchDto() {
+    return SIMULATION_SEARCH_DTO;
   }
 
   public static IReferenceDataBindingInterfaceBinding referenceData() {

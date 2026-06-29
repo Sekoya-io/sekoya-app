@@ -7,7 +7,7 @@ import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement
 import sekoya.front.common.template.MainTemplate;
 import sekoya.front.navigation.page.HomePage;
 
-// TODO : permissions
+// TODO : permissions ?
 public abstract class SimulationTemplate extends MainTemplate {
 
   private static final long serialVersionUID = 1L;

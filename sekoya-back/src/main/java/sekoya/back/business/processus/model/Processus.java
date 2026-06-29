@@ -86,6 +86,7 @@ public class Processus extends GenericEntity<Long, Processus> {
   @GenericField(name = PRIORITE, sortable = Sortable.YES)
   private ProcessusPriorite priorite;
 
+  // TODO supprimer la dénormalisation ?
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
   private Risque risqueBrutRcp45Annee2035;

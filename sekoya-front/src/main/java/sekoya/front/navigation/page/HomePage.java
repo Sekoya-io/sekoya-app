@@ -5,6 +5,7 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_W
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.condition.Condition;
+import igloo.wicket.model.Detachables;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,28 +21,35 @@ import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
 import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
-import org.iglooproject.wicket.more.model.GenericEntityModel;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.organisation.model.Organisation;
+import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.service.business.ISiteService;
+import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
+import sekoya.front.simulation.component.SimulationMapSearchPanel;
+import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
 import sekoya.front.simulation.template.SimulationTemplate;
-import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.popup.SiteSavePopup;
 
 public class HomePage extends SimulationTemplate {
 
   private static final long serialVersionUID = -6767518941118385548L;
 
+  @SpringBean private ISiteControllerService siteControllerService;
+
   public static final IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start().page(HomePage.class);
   }
 
   @SpringBean private ISiteService siteService;
+
+  private IModel<SimulationSearchDto> simulationSearchDtoModel =
+      Model.of(new SimulationSearchDto());
 
   public HomePage(PageParameters parameters) {
     super(parameters);
@@ -63,19 +71,25 @@ public class HomePage extends SimulationTemplate {
 
               return organisation.getSites().stream()
                   .filter(Predicates2.compose(Predicates2.isTrue(), Bindings.site().enabled()))
-                  .map(MapPoint::of)
+                  .map(
+                      s ->
+                          MapPoint.of(
+                              s,
+                              siteControllerService.getRisqueBrut(
+                                  s, simulationSearchDtoModel.getObject())))
                   .flatMap(Optional::stream)
                   .toList();
             });
+
+    SimulationSiteOffcanvasPanel offcanvasPanel =
+        new SimulationSiteOffcanvasPanel("offcanvas", simulationSearchDtoModel);
 
     MapPanel map =
         new MapPanel("map", pointsModel) {
           @Override
           protected void onPointClick(AjaxRequestTarget target, Long pointId) {
             Site site = siteService.getById(pointId);
-            throw SiteDetailPage.MAPPER
-                .map(GenericEntityModel.of(site))
-                .newRestartResponseException();
+            offcanvasPanel.onShow(target, site);
           }
         };
 
@@ -92,7 +106,9 @@ public class HomePage extends SimulationTemplate {
     add(siteAddPopup);
 
     add(
+        offcanvasPanel,
         map,
+        new SimulationMapSearchPanel("search", simulationSearchDtoModel),
         siteAdd
             .add(
                 new AjaxModalOpenBehavior(siteAddPopup, MouseEvent.CLICK) {
@@ -114,5 +130,11 @@ public class HomePage extends SimulationTemplate {
   @Override
   protected Condition displayBreadcrumb() {
     return Condition.alwaysFalse();
+  }
+
+  @Override
+  protected void onDetach() {
+    super.onDetach();
+    Detachables.detach(simulationSearchDtoModel);
   }
 }

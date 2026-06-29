@@ -4,10 +4,19 @@
 <wicket:panel>
 	<div wicket:id="offcanvas" class="offcanvas offcanvas-end" tabindex="-1">
 		<div class="offcanvas-header">
-			<div wicket:id="nom" class="offcanvas-title fs-5" />
+			<div class="offcanvas-title fs-2">
+				<a wicket:id="link">
+					<span wicket:id="nom" />
+				</a>
+			</div>
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="offcanvas-body beautiful-scrollbar">Toto</div>
+		<div class="offcanvas-body beautiful-scrollbar">
+			<div class="row g-3">
+				<div wicket:id="processus" class="col-12" />
+				<div wicket:id="aleaGeographique" class="col-12" />
+			</div>
+		</div>
 	</div>
 </wicket:panel>
 </html>

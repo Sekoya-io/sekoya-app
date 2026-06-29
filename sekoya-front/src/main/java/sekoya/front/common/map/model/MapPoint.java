@@ -14,7 +14,7 @@ public record MapPoint(Long id, double lng, double lat, String color, String lab
     label = label == null ? "" : Jsoup.clean(label, Safelist.none());
   }
 
-  public static Optional<MapPoint> of(Site site) {
+  public static Optional<MapPoint> of(Site site, Risque risque) {
     if (site == null || site.getLocalisation() == null) {
       return Optional.empty();
     }
@@ -24,7 +24,7 @@ public record MapPoint(Long id, double lng, double lat, String color, String lab
             site.getId(),
             site.getLocalisation().getX(),
             site.getLocalisation().getY(),
-            sitePointColor(site.getRisqueBrutRcp45Annee2055()),
+            sitePointColor(risque),
             site.getNom()));
   }
 

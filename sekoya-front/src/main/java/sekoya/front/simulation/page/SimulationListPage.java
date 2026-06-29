@@ -33,11 +33,11 @@ import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTable
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
-import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Risque;
-import sekoya.back.business.common.model.atomic.Scenario;
+import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
+import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.component.RisqueRatingDisplayPanel;
@@ -51,10 +51,10 @@ public class SimulationListPage extends SimulationTemplate {
 
   private static final long serialVersionUID = 1L;
 
-  // TODO : utiliser un bean ?
-  private IModel<Scenario> scenarioModel = Model.of(Scenario.RCP_4_5);
-  private IModel<Horizon> horizonModel = Model.of(Horizon.ANNEE_2055);
-  private IModel<Boolean> applyProcessusModel = Model.of(Boolean.TRUE);
+  @SpringBean private ISiteControllerService siteControllerService;
+
+  private IModel<SimulationSearchDto> simulationSearchDtoModel =
+      Model.of(new SimulationSearchDto());
 
   // TODO : permissions ? Permissions HomePage ?
   public static IPageLinkDescriptor linkDescriptor() {
@@ -78,7 +78,7 @@ public class SimulationListPage extends SimulationTemplate {
         .setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
 
-    // TODO : refresh
+    // TODO : refresh plus fin ?
     SiteSavePopup savePopup =
         new SiteSavePopup("savePopup") {
           @Override
@@ -108,7 +108,7 @@ public class SimulationListPage extends SimulationTemplate {
                     .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow())));
 
     SimulationSiteOffcanvasPanel offcanvasPanel =
-        new SimulationSiteOffcanvasPanel("offcanvasPanel");
+        new SimulationSiteOffcanvasPanel("offcanvas", simulationSearchDtoModel);
 
     DecoratedCoreDataTablePanel<Site, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
@@ -143,12 +143,7 @@ public class SimulationListPage extends SimulationTemplate {
                       String componentId,
                       IModel<Site> rowModel) {
                     cellItem.add(
-                        new RisqueCellFragment(
-                            componentId,
-                            rowModel,
-                            scenarioModel,
-                            horizonModel,
-                            applyProcessusModel));
+                        new RisqueCellFragment(componentId, rowModel, simulationSearchDtoModel));
                   }
                 })
             .withClass("cell-w-250")
@@ -160,8 +155,7 @@ public class SimulationListPage extends SimulationTemplate {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(
-        new SimulationListSearchPanel(
-            "search", dataProvider, results, scenarioModel, horizonModel, applyProcessusModel),
+        new SimulationListSearchPanel("search", dataProvider, results, simulationSearchDtoModel),
         results,
         offcanvasPanel);
   }
@@ -183,15 +177,7 @@ public class SimulationListPage extends SimulationTemplate {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
-              offcanvasPanel.setUp(siteModel.getObject());
-              // TODO : à valider
-              target.add(offcanvasPanel);
-              target.appendJavaScript(
-                  """
-                  bootstrap.Offcanvas
-                      .getOrCreateInstance(document.getElementById('offcanvas-simulation-site'))
-                      .show();
-                  """);
+              offcanvasPanel.onShow(target, siteModel.getObject());
             }
           }.add(new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom()))));
     }
@@ -201,20 +187,14 @@ public class SimulationListPage extends SimulationTemplate {
     private static final long serialVersionUID = 1L;
 
     public RisqueCellFragment(
-        String id,
-        IModel<Site> siteModel,
-        IModel<Scenario> scenarioModel,
-        IModel<Horizon> horizonModel,
-        IModel<Boolean> applyProcessusModel) {
+        String id, IModel<Site> siteModel, IModel<SimulationSearchDto> simulationSearchDtoModel) {
       super(id, "risqueCellFragment", SimulationListPage.this);
 
-      // TODO : voir comment traiter applyProcessus
       IModel<Risque> risqueModel =
           LoadableDetachableModel.of(
               () ->
-                  siteModel
-                      .getObject()
-                      .getRisque(scenarioModel.getObject(), horizonModel.getObject()));
+                  siteControllerService.getRisqueBrut(
+                      siteModel.getObject(), simulationSearchDtoModel.getObject()));
 
       add(new RisqueRatingDisplayPanel("risque", risqueModel).small());
     }
@@ -223,6 +203,6 @@ public class SimulationListPage extends SimulationTemplate {
   @Override
   protected void onDetach() {
     super.onDetach();
-    Detachables.detach(scenarioModel, horizonModel, applyProcessusModel);
+    Detachables.detach(simulationSearchDtoModel);
   }
 }

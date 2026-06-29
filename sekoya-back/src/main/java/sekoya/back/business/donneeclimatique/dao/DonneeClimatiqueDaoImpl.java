@@ -5,7 +5,10 @@ import java.util.Comparator;
 import org.iglooproject.jpa.business.generic.dao.GenericEntityDaoImpl;
 import org.springframework.stereotype.Repository;
 import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.alea.model.atomic.AleaType;
+import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.Horizon;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.atomic.Scenario;
 import sekoya.back.business.donneeclimatique.model.DonneeClimatique;
 import sekoya.back.business.donneeclimatique.model.PointGeographique;
@@ -46,5 +49,21 @@ public class DonneeClimatiqueDaoImpl extends GenericEntityDaoImpl<Long, DonneeCl
             .stream()
             .max(Comparator.comparingInt(dc -> dc.getEvolution().getScore()))
             .orElseThrow();
+  }
+
+  @Override
+  public Risque getRisqueByAleaTypeAndPointGeographique(
+      AleaType aleaType, PointGeographique pointGeographique, Scenario scenario, Horizon horizon) {
+    Evolution evolution =
+        new JPAQuery<>(getEntityManager())
+            .select(qDonneeClimatique.evolution)
+            .from(qDonneeClimatique)
+            .where(qDonneeClimatique.aleaType.eq(aleaType))
+            .where(qDonneeClimatique.pointGeographique.eq(pointGeographique))
+            .where(qDonneeClimatique.scenario.eq(scenario))
+            .where(qDonneeClimatique.horizon.eq(horizon))
+            .orderBy(qDonneeClimatique.id.asc())
+            .fetchFirst();
+    return evolution.getRisque();
   }
 }

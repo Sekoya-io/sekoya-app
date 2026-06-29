@@ -2,7 +2,9 @@ package sekoya.back.business.donneeclimatique.service;
 
 import org.iglooproject.jpa.business.generic.service.IGenericEntityService;
 import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Horizon;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.atomic.Scenario;
 import sekoya.back.business.donneeclimatique.model.DonneeClimatique;
 import sekoya.back.business.donneeclimatique.model.PointGeographique;
@@ -13,4 +15,7 @@ public interface IDonneeClimatiqueService extends IGenericEntityService<Long, Do
 
   DonneeClimatique getPlusDefavorableByPointGeographique(
       PointGeographique pointGeographique, Scenario scenario, Horizon horizon);
+
+  Risque getRisqueByAleaTypeAndPointGeographique(
+      AleaType aleaType, PointGeographique pointGeographique, Scenario scenario, Horizon horizon);
 }

@@ -1,5 +1,5 @@
 {
-    const FIT_PADDING_POINTS = 100;
+    const FIT_PADDING_POINTS = 150;
     const FIT_PADDING_FALLBACK = 20;
     const FIT_MAX_ZOOM = 15;
 

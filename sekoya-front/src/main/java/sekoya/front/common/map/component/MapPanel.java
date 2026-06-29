@@ -56,6 +56,9 @@ public class MapPanel extends Panel {
 
     this.mapContainer = new WebMarkupContainer("map");
     this.mapContainer.setOutputMarkupId(true);
+
+    setOutputMarkupId(true);
+
     add(
         this.mapContainer.add(
             new ClassAttributeAppender(

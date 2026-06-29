@@ -27,8 +27,8 @@ public class SiteDataProvider
       new CompositeSortModel<>(
           CompositingStrategy.LAST_ONLY,
           ImmutableMap.of(
-              SiteSort.ADRESSE_COMMUNE_LABEL, SiteSort.ADRESSE_COMMUNE_LABEL.getDefaultOrder(),
               SiteSort.NOM, SiteSort.NOM.getDefaultOrder(),
+              SiteSort.ADRESSE_COMMUNE_LABEL, SiteSort.ADRESSE_COMMUNE_LABEL.getDefaultOrder(),
               SiteSort.ID, SiteSort.ID.getDefaultOrder()),
           ImmutableMap.of(SiteSort.ID, SiteSort.ID.getDefaultOrder()));
 

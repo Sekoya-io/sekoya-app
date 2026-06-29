@@ -120,6 +120,7 @@ public class Site extends GenericEntity<Long, Site> {
 
   @Embedded private SiteLittoral littoral;
 
+  // TODO supprimer la dénormalisation ?
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
   private Risque risqueBrutRcp45Annee2035;

@@ -1,7 +1,7 @@
 package sekoya.back.business.alea.service;
 
-import com.google.common.base.Objects;
 import java.util.List;
+import java.util.Objects;
 import org.iglooproject.jpa.business.generic.service.GenericEntityServiceImpl;
 import org.iglooproject.jpa.exception.SecurityServiceException;
 import org.iglooproject.jpa.exception.ServiceException;
@@ -12,10 +12,12 @@ import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.Horizon;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.atomic.Scenario;
 import sekoya.back.business.donneeclimatique.model.DonneeClimatique;
 import sekoya.back.business.donneeclimatique.service.IDonneeClimatiqueService;
 import sekoya.back.business.history.service.IHistoryEventSummaryService;
+import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.util.binding.Bindings;
 
 @Service
@@ -73,7 +75,7 @@ public class AleaServiceImpl extends GenericEntityServiceImpl<Long, Alea> implem
                 Horizon.ANNEE_2055))) {
       Evolution evolution;
 
-      if (Objects.equal(alea.getType(), AleaType.INONDATION_COTIERE)) {
+      if (Objects.equals(alea.getType(), AleaType.INONDATION_COTIERE)) {
         evolution =
             alea.getProcessus() != null
                     && alea.getProcessus().getSite() != null
@@ -94,5 +96,26 @@ public class AleaServiceImpl extends GenericEntityServiceImpl<Long, Alea> implem
               AleaRisqueBrutCalculator.generer(
                   alea.getImpactPotentielBrut(), data.getValue0().getSafelyWithRoot(alea)));
     }
+  }
+
+  @Override
+  public Risque getRisqueBrut(Alea alea, SimulationSearchDto simulationSearchDto) {
+    Objects.requireNonNull(alea);
+
+    Evolution evolution;
+
+    if (Objects.equals(alea.getType(), AleaType.INONDATION_COTIERE)) {
+      evolution =
+          alea.getProcessus().getSite().getLittoral().isZoneSubmersible()
+              ? Evolution.FORTEMENT_DEFAVORABLE
+              : Evolution.PAS_EVOLUTION;
+    } else {
+      DonneeClimatique donneeClimatique =
+          donneeClimatiqueService.getByAlea(
+              alea, simulationSearchDto.getScenario(), simulationSearchDto.getHorizon());
+      evolution = donneeClimatique != null ? donneeClimatique.getEvolution() : Evolution.FAVORABLE;
+    }
+
+    return AleaRisqueBrutCalculator.generer(alea.getImpactPotentielBrut(), evolution);
   }
 }
