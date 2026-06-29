@@ -26,6 +26,8 @@ public class Adresse implements Serializable {
   public static final String COMMUNE = "commune";
   public static final String COMMUNE_EMBEDDED = COMMUNE + "Embedded";
   public static final String COMMUNE_LABEL_SORT = COMMUNE_EMBEDDED + "." + Commune.LABEL_SORT;
+  public static final String COMMUNE_DEPARTEMENT_REGION =
+      COMMUNE_EMBEDDED + "." + Commune.DEPARTEMENT_REGION;
 
   @Basic(optional = false)
   private String adresse1;
@@ -38,7 +40,9 @@ public class Adresse implements Serializable {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @GenericField(name = COMMUNE, valueBridge = @ValueBridgeRef(type = GenericEntityIdBridge.class))
-  @IndexedEmbedded(name = COMMUNE_EMBEDDED, includePaths = Commune.LABEL_SORT)
+  @IndexedEmbedded(
+      name = COMMUNE_EMBEDDED,
+      includePaths = {Commune.LABEL_SORT, Commune.DEPARTEMENT_REGION})
   @IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
   private Commune commune;
 

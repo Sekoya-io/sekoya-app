@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:extend>
+	<div wicket:id="savePopup" />
+	<div wicket:id="offcanvasPanel" />
+	
+	<div class="content-header-section">
+		<div class="content-header-container">
+			<div class="content-header">
+				<h1 class="content-header-title">
+					<wicket:message key="site.list.title" />
+				</h1>
+				<div wicket:id="headerElementsSection" class="content-header-elements-section">
+					<div class="row g-2 align-items-center">
+						<div wicket:id="actionsContainer" class="col-auto ms-auto">
+							<div class="row g-2 align-items-center">
+								<div wicket:enclosure-component="add" class="col-auto">
+									<button wicket:id="add" class="btn btn-primary" type="button">
+										<span class="fa fa-fw fa-plus" />
+										<wicket:message key="common.action.create" />
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="content-lead-section">
+		<div class="content-lead-container">
+			<div wicket:id="search" />
+		</div>
+	</div>
+	<div class="content-body-section">
+		<div class="content-body-container">
+			<div class="content-body">
+				<div wicket:id="results" class="card card-main" />
+			</div>
+		</div>
+	</div>
+	
+	<wicket:fragment wicket:id="nomCellFragment">
+		<a wicket:id="offcanvasLink" data-bs-toggle="offcanvas" role="button" aria-controls="offcanvas-simulation-site">
+			<span wicket:id="nom" />
+		</a>
+	</wicket:fragment>
+	
+	<wicket:fragment wicket:id="risqueCellFragment">
+		<div wicket:id="risque" />
+	</wicket:fragment>
+</wicket:extend>
+</html>

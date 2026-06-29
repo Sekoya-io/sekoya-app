@@ -5,6 +5,7 @@ import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.jpa.more.search.query.ISearchQueryData;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.referencedata.model.Commune;
+import sekoya.back.business.referencedata.model.Region;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
 
@@ -18,6 +19,8 @@ public class SiteSearchQueryData implements ISearchQueryData<Site> {
   private SiteTypologie typologie;
 
   private Commune commune;
+
+  private Region region;
 
   private EnabledFilter enabledFilter = EnabledFilter.ENABLED_ONLY;
 
@@ -51,6 +54,14 @@ public class SiteSearchQueryData implements ISearchQueryData<Site> {
 
   public void setCommune(Commune commune) {
     this.commune = commune;
+  }
+
+  public Region getRegion() {
+    return region;
+  }
+
+  public void setRegion(Region region) {
+    this.region = region;
   }
 
   public EnabledFilter getEnabledFilter() {

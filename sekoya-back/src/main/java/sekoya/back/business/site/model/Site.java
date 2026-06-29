@@ -15,6 +15,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import java.util.Collections;
 import java.util.SortedSet;
 import org.bindgen.Bindable;
@@ -30,13 +31,16 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmb
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 import org.hibernate.type.SqlTypes;
 import org.iglooproject.commons.util.collections.CollectionUtils;
+import org.iglooproject.commons.util.exception.IllegalSwitchValueException;
 import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import org.locationtech.jts.geom.Point;
 import sekoya.back.business.common.model.Latitude;
 import sekoya.back.business.common.model.Longitude;
+import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Risque;
+import sekoya.back.business.common.model.atomic.Scenario;
 import sekoya.back.business.common.model.embeddable.Adresse;
 import sekoya.back.business.donneeclimatique.model.PointGeographique;
 import sekoya.back.business.organisation.model.Organisation;
@@ -64,6 +68,8 @@ public class Site extends GenericEntity<Long, Site> {
   public static final String ADRESSE_COMMUNE = ADRESSE_EMBEDDED + "." + Adresse.COMMUNE;
   public static final String ADRESSE_COMMUNE_LABEL_SORT =
       ADRESSE_EMBEDDED + "." + Adresse.COMMUNE_LABEL_SORT;
+  public static final String ADRESSE_COMMUNE_DEPARTEMENT_REGION =
+      ADRESSE_EMBEDDED + "." + Adresse.COMMUNE_DEPARTEMENT_REGION;
   public static final String ENABLED = "enabled";
 
   @Id @GeneratedValue private Long id;
@@ -89,7 +95,11 @@ public class Site extends GenericEntity<Long, Site> {
   @Embedded
   @IndexedEmbedded(
       name = ADRESSE_EMBEDDED,
-      includePaths = {Adresse.COMMUNE, Adresse.COMMUNE_LABEL_SORT})
+      includePaths = {
+        Adresse.COMMUNE,
+        Adresse.COMMUNE_LABEL_SORT,
+        Adresse.COMMUNE_DEPARTEMENT_REGION
+      })
   private Adresse adresse;
 
   @JdbcTypeCode(SqlTypes.GEOGRAPHY)
@@ -264,6 +274,25 @@ public class Site extends GenericEntity<Long, Site> {
 
   public void setRisqueBrutRcp85Annee2055(Risque risqueBrutRcp85Annee2055) {
     this.risqueBrutRcp85Annee2055 = risqueBrutRcp85Annee2055;
+  }
+
+  @Transient
+  public Risque getRisque(Scenario scenario, Horizon horizon) {
+    return switch (scenario) {
+      case RCP_4_5 ->
+          switch (horizon) {
+            case ANNEE_2035 -> getRisqueBrutRcp45Annee2035();
+            case ANNEE_2055 -> getRisqueBrutRcp45Annee2055();
+            default -> throw new IllegalSwitchValueException(horizon);
+          };
+      case RCP_8_5 ->
+          switch (horizon) {
+            case ANNEE_2035 -> getRisqueBrutRcp85Annee2035();
+            case ANNEE_2055 -> getRisqueBrutRcp85Annee2055();
+            default -> throw new IllegalSwitchValueException(horizon);
+          };
+      default -> throw new IllegalSwitchValueException(scenario);
+    };
   }
 
   public boolean isEnabled() {

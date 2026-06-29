@@ -112,6 +112,7 @@ import sekoya.front.security.password.page.SecurityPasswordCreationPage;
 import sekoya.front.security.password.page.SecurityPasswordExpirationPage;
 import sekoya.front.security.password.page.SecurityPasswordRecoveryRequestResetPage;
 import sekoya.front.security.password.page.SecurityPasswordResetPage;
+import sekoya.front.simulation.page.SimulationListPage;
 import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.page.SiteListPage;
 import sekoya.front.site.renderer.SiteRenderer;
@@ -236,6 +237,9 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
 
     // Profile
     mountPage("/profil/", ProfilePage.class);
+
+    // Simulation
+    mountPage("/simulation-liste/", SimulationListPage.class);
 
     // Organisation
     mountPage("/organisation/", OrganisationListPage.class);

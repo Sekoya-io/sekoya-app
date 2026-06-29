@@ -3,11 +3,17 @@
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 <wicket:panel>
 	<div class="container-fluid">
-		<div class="navbar-header">
-			<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+		<div class="row g-2 align-items-center flex-grow-1">
+			<button class="navbar-toggler col-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand" wicket:id="home"><wicket:message key="common.application.name" /></a>
+			<div class="col-auto">
+				<a class="navbar-brand" wicket:id="home"><wicket:message key="common.application.name" /></a>
+			</div>
+			<div wicket:id="simulationModeContainer" class="col-auto ms-auto">
+				<a wicket:id="homePageLink" class="btn btn-light rounded-pill" wicket:message="title:navigation.simulation.map"><span class="fa fa-fw fa-map-location-dot" /></a>
+				<a wicket:id="simlationListLink" class="btn btn-light rounded-pill" wicket:message="title:navigation.simulation.list"><span class="fa fa-fw fa-list" /></a>
+			</div>
 		</div>
 	</div>
 </wicket:panel>

@@ -44,6 +44,7 @@ public class SiteDataProvider
                 .bind(Bindings.siteSearchQueryData().nom(), Model.of())
                 .bind(Bindings.siteSearchQueryData().typologie(), Model.of())
                 .bind(Bindings.siteSearchQueryData().commune(), new GenericEntityModel<>())
+                .bind(Bindings.siteSearchQueryData().region(), new GenericEntityModel<>())
                 .bind(Bindings.siteSearchQueryData().enabledFilter(), Model.of())));
   }
 

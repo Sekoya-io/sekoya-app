@@ -79,6 +79,10 @@ public class SiteSearchQueryImpl implements ISiteSearchQuery {
       if (data.getCommune() != null) {
         root.add(f.match().field(Site.ADRESSE_COMMUNE).matching(data.getCommune()));
       }
+      if (data.getRegion() != null) {
+        root.add(
+            f.match().field(Site.ADRESSE_COMMUNE_DEPARTEMENT_REGION).matching(data.getRegion()));
+      }
       if (data.getEnabledFilter() != null
           && !Objects.equals(data.getEnabledFilter(), EnabledFilter.ALL)) {
         boolean enabled =

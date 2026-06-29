@@ -1,5 +1,7 @@
 package sekoya.front.navigation.page;
 
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
+
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.condition.Condition;
@@ -7,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -28,11 +29,11 @@ import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
-import sekoya.front.common.template.MainTemplate;
+import sekoya.front.simulation.template.SimulationTemplate;
 import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.popup.SiteSavePopup;
 
-public class HomePage extends MainTemplate {
+public class HomePage extends SimulationTemplate {
 
   private static final long serialVersionUID = -6767518941118385548L;
 
@@ -46,7 +47,8 @@ public class HomePage extends MainTemplate {
     super(parameters);
 
     addBreadCrumbElement(
-        new BreadCrumbElement(new ResourceModel("navigation.home"), HomePage.linkDescriptor()));
+        new BreadCrumbElement(
+            new ResourceModel("navigation.simulation.map"), HomePage.linkDescriptor()));
 
     getBodyElement().add(new ClassAttributeAppender(Model.of("sidebar-expand-0")));
 
@@ -77,6 +79,7 @@ public class HomePage extends MainTemplate {
           }
         };
 
+    // TODO : check orga renseignée ?
     BlankLink siteAdd = new BlankLink("siteAdd");
 
     SiteSavePopup siteAddPopup =
@@ -104,16 +107,12 @@ public class HomePage extends MainTemplate {
                 new ClassAttributeAppender(
                     Condition.collectionModelNotEmpty(pointsModel)
                         .then(Model.of("map-btn-fab-bottom"))
-                        .otherwise(Model.of("map-btn-fab-center")))));
+                        .otherwise(Model.of("map-btn-fab-center"))))
+            .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow()));
   }
 
   @Override
   protected Condition displayBreadcrumb() {
     return Condition.alwaysFalse();
-  }
-
-  @Override
-  protected Class<? extends WebPage> getFirstMenuPage() {
-    return HomePage.class;
   }
 }
