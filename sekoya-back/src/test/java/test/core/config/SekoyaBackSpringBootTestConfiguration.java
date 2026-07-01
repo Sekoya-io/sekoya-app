@@ -1,6 +1,5 @@
 package test.core.config;
 
-import igloo.test.listener.postgresql.PsqlTestContainerConfiguration;
 import org.iglooproject.jpa.more.rendering.service.EmptyRendererServiceImpl;
 import org.iglooproject.jpa.more.rendering.service.IRendererService;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,7 @@ import test.core.TestBackPackage;
   SekoyaBackReferenceDataConfiguration.class,
   SekoyaBackDifferenceConfiguration.class,
   SekoyaBackTestBaseConfiguration.class,
-  PsqlTestContainerConfiguration.class
+  PostgisTestContainerConfiguration.class
 })
 @ComponentScan(basePackageClasses = TestBackPackage.class)
 public class SekoyaBackSpringBootTestConfiguration {
