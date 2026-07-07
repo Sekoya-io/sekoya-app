@@ -103,9 +103,11 @@ public class UserServiceImpl extends GenericEntityServiceImpl<Long, User> implem
   @Override
   public void saveUserOrganisation(User user, String password)
       throws SecurityServiceException, ServiceException {
+    Objects.requireNonNull(user);
+    Objects.requireNonNull(user.getUserOrganisation());
+
     user.setUsername(user.getEmailAddress().getValue());
     user.setType(UserType.ORGANISATION);
-    // TODO CBV : check null ?
     user.getUserOrganisation().setUser(user);
     User author = getAuthenticatedUser();
     addRoleForNewUser(user, RoleEnumKey.ORGANISATION);

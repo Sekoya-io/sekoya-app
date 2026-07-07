@@ -95,13 +95,16 @@ public class HomePage extends MainTemplate {
           }
         };
 
+    SimulationMapSearchPanel search =
+        new SimulationMapSearchPanel("search", simulationSearchDtoModel);
+
     BlankLink siteAdd = new BlankLink("siteAdd");
 
     SiteSavePopup siteAddPopup =
         new SiteSavePopup("siteAddPopup") {
           @Override
           protected void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel) {
-            target.add(map, siteAdd);
+            target.add(map, search, siteAdd);
           }
         };
     add(siteAddPopup);
@@ -109,7 +112,9 @@ public class HomePage extends MainTemplate {
     add(
         offcanvasPanel,
         map,
-        new SimulationMapSearchPanel("search", simulationSearchDtoModel),
+        search
+            .setOutputMarkupPlaceholderTag(true)
+            .add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
         siteAdd
             .add(
                 new AjaxModalOpenBehavior(siteAddPopup, MouseEvent.CLICK) {

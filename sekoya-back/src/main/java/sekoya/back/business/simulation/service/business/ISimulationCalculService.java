@@ -10,7 +10,6 @@ import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
 
-// TODO permissions des méthodes
 @Transactional(readOnly = true)
 public interface ISimulationCalculService {
 

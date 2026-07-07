@@ -1,5 +1,6 @@
 package sekoya.front.simulation.component;
 
+import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.markup.html.form.PageableSearchForm;
 import igloo.wicket.model.BindingModel;
@@ -21,6 +22,7 @@ import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.SekoyaSession;
 import sekoya.front.common.form.ReferenceDataDropDownSingleChoice;
 import sekoya.front.site.model.SiteDataProvider;
 
@@ -68,14 +70,26 @@ public class SimulationListSearchPanel extends Panel {
             .setLabel(new ResourceModel("business.common.horizon"))
             .setRequired(true)
             .add(new LabelPlaceholderBehavior()),
-        // TODO : disable si pas de processus avec aléa ?
         new CheckBox(
                 "applyProcessus",
                 BindingModel.of(
                     simulationSearchDtoModel, Bindings.simulationSearchDto().applyProcessus()))
             .setLabel(new ResourceModel("simulation.common.applyProcessus"))
             .setRequired(true)
-            .setOutputMarkupId(true),
+            .setOutputMarkupId(true)
+            .add(
+                Condition.isFalse(
+                        () ->
+                            SekoyaSession.get()
+                                .getOrganisationModel()
+                                .getObject()
+                                .getSites()
+                                .stream()
+                                .anyMatch(
+                                    s ->
+                                        s.getProcessus().stream()
+                                            .anyMatch(p -> !p.getAleas().isEmpty())))
+                    .thenDisable()),
         new TextField<>(
                 "nom",
                 BindingModel.of(dataProvider.getDataModel(), Bindings.siteSearchQueryData().nom()))
