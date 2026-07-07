@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.panel.Fragment;
@@ -147,9 +147,10 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
                 return List.copyOf(aleaTypesDisponibles);
               });
 
+      IndependentNestedForm<Void> form = new IndependentNestedForm<>("add");
+
       add(
-          new IndependentNestedForm<>("add")
-              .add(
+          form.add(
                   new EnumDropDownSingleChoice<>(
                           "type",
                           processusBindableModel
@@ -161,7 +162,7 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
                       .add(
                           new UpdateOnChangeAjaxEventBehavior()
                               .onChange(writeAll())
-                              .onChange(AjaxListeners.refresh(ProcessusSaveAleasPanel.this))
+                              .onChange(AjaxListeners.refresh(form))
                               .onChange(readAll())),
                   new RadioGroup<>(
                           "sensibilite",
@@ -191,37 +192,52 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
                                     }
                                   })
                               .onChange(readAll()))
-                      .setRenderBodyOnly(false),
-                  new AjaxButton("add") {
-                    private static final long serialVersionUID = 1L;
+                      .add(
+                          new AjaxFormSubmitBehavior("change") {
+                            private static final long serialVersionUID = 1L;
 
-                    @Override
-                    protected void onSubmit(AjaxRequestTarget target) {
-                      AjaxListeners.add(target, writeAll());
-                      AjaxListeners.add(
-                          target,
-                          new SerializableListener() {
                             @Override
-                            public void onBeforeRespond(
-                                Map<String, Component> map, AjaxRequestTarget target) {
-                              Processus processus = processusBindableModel.getObject();
-                              processus.addAlea(
-                                  processusBindableModel.getAleaAddBindableModel().getObject());
-                              processusBindableModel.initAleaAddBindableModel();
-                              typesDisponiblesModel.detach();
-                              target.add(ProcessusSaveAleasPanel.this);
+                            protected void onSubmit(AjaxRequestTarget target) {
+                              AjaxListeners.add(target, writeAll());
+                              AjaxListeners.add(
+                                  target,
+                                  new SerializableListener() {
+                                    @Override
+                                    public void onBeforeRespond(
+                                        Map<String, Component> map, AjaxRequestTarget target) {
+                                      Processus processus = processusBindableModel.getObject();
+                                      Alea alea =
+                                          processusBindableModel
+                                              .getAleaAddBindableModel()
+                                              .getObject();
+                                      alea.setImpactPotentielBrut(
+                                          AleaImpactPotentielBrutCalculator.generer(
+                                              processus.getPriorite(), alea.getSensibilite()));
+                                      processus.addAlea(alea);
+                                      processusBindableModel.initAleaAddBindableModel();
+                                      typesDisponiblesModel.detach();
+                                      target.add(ProcessusSaveAleasPanel.this);
+                                    }
+                                  });
+                              AjaxListeners.add(target, readAll());
                             }
-                          });
-                      AjaxListeners.add(target, readAll());
-                    }
 
-                    @Override
-                    protected void onError(AjaxRequestTarget target) {
-                      AjaxListeners.add(target, AjaxListeners.clearInput(getForm()));
-                      FeedbackUtils.refreshFeedback(target, getPage());
-                    }
-                  })
-              .add(Condition.collectionModelNotEmpty(typesDisponiblesModel).thenShow()));
+                            @Override
+                            protected void onError(AjaxRequestTarget target) {
+                              AjaxListeners.add(target, AjaxListeners.clearInput(getForm()));
+                              FeedbackUtils.refreshFeedback(target, getPage());
+                            }
+                          })
+                      .add(
+                          Condition.modelNotNull(
+                                  processusBindableModel
+                                      .getAleaAddBindableModel()
+                                      .bind(Bindings.alea().type()))
+                              .thenShow())
+                      .setRenderBodyOnly(false))
+              .setOutputMarkupId(true));
+
+      add(Condition.collectionModelNotEmpty(typesDisponiblesModel).thenShow());
     }
   }
 }

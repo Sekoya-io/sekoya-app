@@ -60,16 +60,10 @@
 				<div class="col-lg-5 col-2xl-4">
 					<select wicket:id="type" class="form-control" />
 				</div>
-				<div class="col-lg-auto">
+				<div wicket:enclosure-component="sensibilite" class="col-lg-auto">
 					<div wicket:id="sensibilite" class="rating-badge-form-check rating-badge-form-check-alea-sensibilite">
 						<wicket:container wicket:id="values" />
 					</div>
-				</div>
-				<div class="col-lg-auto">
-					<button wicket:id="add" class="btn btn-primary" type="button">
-						<span class="fa fa-fw fa-plus" />
-						<wicket:message key="common.action.add" />
-					</button>
 				</div>
 			</div>
 		</form>
