@@ -23,7 +23,6 @@ import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventS
 import org.iglooproject.jpa.search.bridge.GenericEntityIdBridge;
 import sekoya.back.business.alea.model.atomic.AleaSensibilite;
 import sekoya.back.business.alea.model.atomic.AleaType;
-import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.ImpactPotentiel;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.hibernate.search.bridge.EnumOrdinalValueBridge;
@@ -69,22 +68,6 @@ public class Alea extends GenericEntity<Long, Alea> {
       sortable = Sortable.YES)
   private ImpactPotentiel impactPotentielBrut;
 
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Evolution evolutionRcp45Annee2035;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Evolution evolutionRcp45Annee2055;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Evolution evolutionRcp85Annee2035;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Evolution evolutionRcp85Annee2055;
-
   @Embedded private HistoryEventSummary creation;
 
   @Embedded private HistoryEventSummary modification;
@@ -129,38 +112,6 @@ public class Alea extends GenericEntity<Long, Alea> {
 
   public void setImpactPotentielBrut(ImpactPotentiel impactPotentielBrut) {
     this.impactPotentielBrut = impactPotentielBrut;
-  }
-
-  public Evolution getEvolutionRcp45Annee2035() {
-    return evolutionRcp45Annee2035;
-  }
-
-  public void setEvolutionRcp45Annee2035(Evolution evolutionRcp45Annee2035) {
-    this.evolutionRcp45Annee2035 = evolutionRcp45Annee2035;
-  }
-
-  public Evolution getEvolutionRcp45Annee2055() {
-    return evolutionRcp45Annee2055;
-  }
-
-  public void setEvolutionRcp45Annee2055(Evolution evolutionRcp45Annee2055) {
-    this.evolutionRcp45Annee2055 = evolutionRcp45Annee2055;
-  }
-
-  public Evolution getEvolutionRcp85Annee2035() {
-    return evolutionRcp85Annee2035;
-  }
-
-  public void setEvolutionRcp85Annee2035(Evolution evolutionRcp85Annee2035) {
-    this.evolutionRcp85Annee2035 = evolutionRcp85Annee2035;
-  }
-
-  public Evolution getEvolutionRcp85Annee2055() {
-    return evolutionRcp85Annee2055;
-  }
-
-  public void setEvolutionRcp85Annee2055(Evolution evolutionRcp85Annee2055) {
-    this.evolutionRcp85Annee2055 = evolutionRcp85Annee2055;
   }
 
   public HistoryEventSummary getCreation() {
