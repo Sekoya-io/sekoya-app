@@ -25,7 +25,6 @@ import sekoya.back.business.alea.model.atomic.AleaSensibilite;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.ImpactPotentiel;
-import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.hibernate.search.bridge.EnumOrdinalValueBridge;
 
@@ -70,7 +69,6 @@ public class Alea extends GenericEntity<Long, Alea> {
       sortable = Sortable.YES)
   private ImpactPotentiel impactPotentielBrut;
 
-  // TODO supprimer la dénormalisation ?
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
   private Evolution evolutionRcp45Annee2035;
@@ -86,22 +84,6 @@ public class Alea extends GenericEntity<Long, Alea> {
   @Basic(optional = false)
   @Enumerated(EnumType.STRING)
   private Evolution evolutionRcp85Annee2055;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Risque risqueBrutRcp45Annee2035;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Risque risqueBrutRcp45Annee2055;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Risque risqueBrutRcp85Annee2035;
-
-  @Basic(optional = false)
-  @Enumerated(EnumType.STRING)
-  private Risque risqueBrutRcp85Annee2055;
 
   @Embedded private HistoryEventSummary creation;
 
@@ -179,38 +161,6 @@ public class Alea extends GenericEntity<Long, Alea> {
 
   public void setEvolutionRcp85Annee2055(Evolution evolutionRcp85Annee2055) {
     this.evolutionRcp85Annee2055 = evolutionRcp85Annee2055;
-  }
-
-  public Risque getRisqueBrutRcp45Annee2035() {
-    return risqueBrutRcp45Annee2035;
-  }
-
-  public void setRisqueBrutRcp45Annee2035(Risque risqueBrutRcp45Annee2035) {
-    this.risqueBrutRcp45Annee2035 = risqueBrutRcp45Annee2035;
-  }
-
-  public Risque getRisqueBrutRcp45Annee2055() {
-    return risqueBrutRcp45Annee2055;
-  }
-
-  public void setRisqueBrutRcp45Annee2055(Risque risqueBrutRcp45Annee2055) {
-    this.risqueBrutRcp45Annee2055 = risqueBrutRcp45Annee2055;
-  }
-
-  public Risque getRisqueBrutRcp85Annee2035() {
-    return risqueBrutRcp85Annee2035;
-  }
-
-  public void setRisqueBrutRcp85Annee2035(Risque risqueBrutRcp85Annee2035) {
-    this.risqueBrutRcp85Annee2035 = risqueBrutRcp85Annee2035;
-  }
-
-  public Risque getRisqueBrutRcp85Annee2055() {
-    return risqueBrutRcp85Annee2055;
-  }
-
-  public void setRisqueBrutRcp85Annee2055(Risque risqueBrutRcp85Annee2055) {
-    this.risqueBrutRcp85Annee2055 = risqueBrutRcp85Annee2055;
   }
 
   public HistoryEventSummary getCreation() {

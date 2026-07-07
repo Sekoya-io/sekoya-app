@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -24,23 +25,23 @@ import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.service.business.ISiteService;
-import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
+import sekoya.front.common.template.MainTemplate;
 import sekoya.front.simulation.component.SimulationMapSearchPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
-import sekoya.front.simulation.template.SimulationTemplate;
 import sekoya.front.site.popup.SiteSavePopup;
 
-public class HomePage extends SimulationTemplate {
+public class HomePage extends MainTemplate {
 
   private static final long serialVersionUID = -6767518941118385548L;
 
-  @SpringBean private ISiteControllerService siteControllerService;
+  @SpringBean private ISimulationCalculControllerService simulationCalculControllerService;
 
   public static final IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start().page(HomePage.class);
@@ -54,6 +55,7 @@ public class HomePage extends SimulationTemplate {
   public HomePage(PageParameters parameters) {
     super(parameters);
 
+    addBreadCrumbElement(new BreadCrumbElement(new ResourceModel("navigation.simulation")));
     addBreadCrumbElement(
         new BreadCrumbElement(
             new ResourceModel("navigation.simulation.map"), HomePage.linkDescriptor()));
@@ -75,7 +77,7 @@ public class HomePage extends SimulationTemplate {
                       s ->
                           MapPoint.of(
                               s,
-                              siteControllerService.getRisqueBrut(
+                              simulationCalculControllerService.getSiteRisqueBrut(
                                   s, simulationSearchDtoModel.getObject())))
                   .flatMap(Optional::stream)
                   .toList();
@@ -93,7 +95,6 @@ public class HomePage extends SimulationTemplate {
           }
         };
 
-    // TODO : check orga renseignée ?
     BlankLink siteAdd = new BlankLink("siteAdd");
 
     SiteSavePopup siteAddPopup =
@@ -125,6 +126,11 @@ public class HomePage extends SimulationTemplate {
                         .then(Model.of("map-btn-fab-bottom"))
                         .otherwise(Model.of("map-btn-fab-center"))))
             .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow()));
+  }
+
+  @Override
+  protected Class<? extends WebPage> getFirstMenuPage() {
+    return HomePage.class;
   }
 
   @Override

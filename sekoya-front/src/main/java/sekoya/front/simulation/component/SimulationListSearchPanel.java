@@ -69,7 +69,6 @@ public class SimulationListSearchPanel extends Panel {
             .setRequired(true)
             .add(new LabelPlaceholderBehavior()),
         // TODO : disable si pas de processus avec aléa ?
-        // Comment gérer le refresh ?
         new CheckBox(
                 "applyProcessus",
                 BindingModel.of(

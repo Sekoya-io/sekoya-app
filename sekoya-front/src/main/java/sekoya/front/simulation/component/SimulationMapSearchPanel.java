@@ -35,6 +35,8 @@ public class SimulationMapSearchPanel extends Panel {
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
             // TODO : refresh plus fin ?
+            // Voir avec JBE si on veut passer du temps à essayer de refresh les pins en JS
+            // Sans garantie de résultat
             target.addChildren(getPage(), MapPanel.class);
             target.addChildren(getPage(), SimulationSiteOffcanvasPanel.class);
             FeedbackUtils.refreshFeedback(target, getPage());
@@ -57,8 +59,7 @@ public class SimulationMapSearchPanel extends Panel {
             .setLabel(new ResourceModel("business.common.horizon"))
             .setRequired(true)
             .add(new LabelPlaceholderBehavior()),
-        // TODO : disable si pas de processus avec aléa ?
-        // Comment gérer le refresh ?
+        // TODO : disable si pas de processus avec aléa
         new CheckBox(
                 "applyProcessus",
                 BindingModel.of(

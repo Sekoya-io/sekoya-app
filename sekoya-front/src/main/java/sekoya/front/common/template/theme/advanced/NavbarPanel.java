@@ -8,7 +8,6 @@ import sekoya.front.SekoyaApplication;
 import sekoya.front.common.template.theme.common.AbstractNavbarPanel;
 import sekoya.front.navigation.page.HomePage;
 import sekoya.front.simulation.page.SimulationListPage;
-import sekoya.front.simulation.template.SimulationTemplate;
 
 public class NavbarPanel extends AbstractNavbarPanel {
 
@@ -21,7 +20,10 @@ public class NavbarPanel extends AbstractNavbarPanel {
 
     add(
         new EnclosureContainer("simulationModeContainer")
-            .condition(Condition.isTrue(() -> getPage() instanceof SimulationTemplate))
+            .condition(
+                Condition.or(
+                    Condition.isTrue(() -> getPage() instanceof HomePage),
+                    Condition.isTrue(() -> getPage() instanceof SimulationListPage)))
             .add(
                 HomePage.linkDescriptor()
                     .link("homePageLink")

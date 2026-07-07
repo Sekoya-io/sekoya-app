@@ -50,7 +50,6 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
     setModelObject(site);
 
     target.add(SimulationSiteOffcanvasPanel.this);
-    // TODO : JS à valider
     target.appendJavaScript(
         """
         bootstrap.Offcanvas

@@ -1,5 +1,6 @@
 package sekoya.front.simulation.page;
 
+import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
@@ -9,6 +10,7 @@ import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Detachables;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
@@ -35,9 +37,9 @@ import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreCol
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
-import sekoya.back.business.site.service.controller.ISiteControllerService;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.component.RisqueRatingDisplayPanel;
@@ -51,14 +53,15 @@ public class SimulationListPage extends SimulationTemplate {
 
   private static final long serialVersionUID = 1L;
 
-  @SpringBean private ISiteControllerService siteControllerService;
+  @SpringBean private ISimulationCalculControllerService simulationCalculControllerService;
 
   private IModel<SimulationSearchDto> simulationSearchDtoModel =
       Model.of(new SimulationSearchDto());
 
-  // TODO : permissions ? Permissions HomePage ?
   public static IPageLinkDescriptor linkDescriptor() {
-    return LinkDescriptorBuilder.start().page(SimulationListPage.class);
+    return LinkDescriptorBuilder.start()
+        .validator(Condition.permission(GLOBAL_SITE_READ))
+        .page(SimulationListPage.class);
   }
 
   @SpringBean private IPropertyService propertyService;
@@ -78,7 +81,6 @@ public class SimulationListPage extends SimulationTemplate {
         .setOrganisation(SekoyaSession.get().getOrganisationModel().getObject());
     dataProvider.getDataModel().getObject().setEnabledFilter(EnabledFilter.ENABLED_ONLY);
 
-    // TODO : refresh plus fin ?
     SiteSavePopup savePopup =
         new SiteSavePopup("savePopup") {
           @Override
@@ -179,7 +181,8 @@ public class SimulationListPage extends SimulationTemplate {
             public void onClick(AjaxRequestTarget target) {
               offcanvasPanel.onShow(target, siteModel.getObject());
             }
-          }.add(new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom()))));
+          }.add(new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom())))
+              .add(new AttributeModifier("href", "#offcanvas-simulation-site")));
     }
   }
 
@@ -193,7 +196,7 @@ public class SimulationListPage extends SimulationTemplate {
       IModel<Risque> risqueModel =
           LoadableDetachableModel.of(
               () ->
-                  siteControllerService.getRisqueBrut(
+                  simulationCalculControllerService.getSiteRisqueBrut(
                       siteModel.getObject(), simulationSearchDtoModel.getObject()));
 
       add(new RisqueRatingDisplayPanel("risque", risqueModel).small());

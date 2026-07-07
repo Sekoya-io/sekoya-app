@@ -4,14 +4,14 @@
 <wicket:panel>
 	<div class="row g-3">
 		<div class="col-12">
-			<span class="fw-bold fs-4"><wicket:message key="simulation.common.offcanvas.aleaGeographique.title" /></span>
+			<span class="fw-semibold fs-4 text-brand"><wicket:message key="simulation.common.offcanvas.aleaGeographique.title" /></span>
 		</div>
 		<div class="col-12">
 			<ul class="list-group">
-				<li wicket:id="values" class="list-group-item">
-					<div class="row g-2">
-						<div class="col-12"><span wicket:id="aleaType" class="fw-bold" /></div>
-						<div wicket:id="risque" class="col-12" />
+				<li wicket:id="values" class="list-group-item d-flex justify-content-between align-items-center">
+					<span wicket:id="aleaType" />
+					<div class="rating-badge-display rating-badge-display-risque rating-badge-display-sm">
+						<span wicket:id="risque" class="badge rating-badge rating-badge-active" />
 					</div>
 				</li>
 			</ul>
