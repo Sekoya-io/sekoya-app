@@ -97,6 +97,7 @@ public class Site extends GenericEntity<Long, Site> {
       })
   private Adresse adresse;
 
+  @Basic(optional = false)
   @JdbcTypeCode(SqlTypes.GEOGRAPHY)
   private Point localisation;
 

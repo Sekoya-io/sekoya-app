@@ -30,6 +30,7 @@ public class PointGeographique extends GenericEntity<Long, PointGeographique> {
   @Column(unique = true)
   private Long idDrias;
 
+  @Basic(optional = false)
   @JdbcTypeCode(SqlTypes.GEOGRAPHY)
   private Point localisation;
 
