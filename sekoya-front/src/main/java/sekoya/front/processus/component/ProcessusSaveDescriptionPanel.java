@@ -22,10 +22,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sekoya.back.business.alea.service.AleaImpactPotentielBrutCalculator;
 import sekoya.back.business.processus.model.Processus;
+import sekoya.back.business.processus.model.atomic.ProcessusPriorite;
 import sekoya.back.business.processus.model.atomic.ProcessusThematique;
 import sekoya.back.business.processus.model.atomic.ProcessusType;
 import sekoya.back.business.processus.service.controller.IProcessusControllerService;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.common.component.ScoreRatingFormCheckValuesPanel;
 import sekoya.front.processus.model.ProcessusBindableModel;
 import sekoya.front.site.form.SiteDropDownSingleChoice;
 
@@ -125,7 +127,7 @@ public class ProcessusSaveDescriptionPanel extends AbstractProcessusSavePanel {
         new RadioGroup<>("priorite", processusBindableModel.bind(Bindings.processus().priorite()))
             .setLabel(new ResourceModel("business.processus.priorite"))
             .setRequired(true)
-            .add(new ProcessusPrioriteRatingFormCheckValuesPanel("values"))
+            .add(new ScoreRatingFormCheckValuesPanel<>("values", ProcessusPriorite.class))
             .add(
                 new UpdateOnChangeAjaxEventBehavior()
                     .onChange(writeAll())

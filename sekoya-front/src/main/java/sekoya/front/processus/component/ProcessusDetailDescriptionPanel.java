@@ -6,6 +6,7 @@ import igloo.wicket.model.BindingModel;
 import org.apache.wicket.model.IModel;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.site.page.SiteDetailPage;
 
 public class ProcessusDetailDescriptionPanel extends GenericPanel<Processus> {
@@ -31,7 +32,7 @@ public class ProcessusDetailDescriptionPanel extends GenericPanel<Processus> {
                 "description", BindingModel.of(processusModel, Bindings.processus().description()))
             .showPlaceholder()
             .multiline(),
-        new ProcessusPrioriteRatingDisplayPanel(
+        new ScoreRatingDisplayPanel<>(
                 "priorite", BindingModel.of(processusModel, Bindings.processus().priorite()))
             .small(),
         new CoreLabel("creation", BindingModel.of(processusModel, Bindings.processus().creation()))

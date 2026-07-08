@@ -26,9 +26,9 @@ import sekoya.back.business.processus.search.ProcessusSort;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
-import sekoya.front.processus.component.ProcessusPrioriteRatingDisplayPanel;
 import sekoya.front.processus.model.ProcessusDataProvider;
 import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusEditPage;
@@ -77,7 +77,7 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
                       String componentId,
                       IModel<Processus> rowModel) {
                     cellItem.add(
-                        new ProcessusPrioriteRatingDisplayPanel(
+                        new ScoreRatingDisplayPanel<>(
                                 componentId,
                                 BindingModel.of(rowModel, Bindings.processus().priorite()))
                             .small());

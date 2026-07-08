@@ -30,10 +30,13 @@ import org.iglooproject.wicket.more.markup.repeater.collection.SpecificModelColl
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.alea.model.atomic.AleaSensibilite;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.alea.service.AleaImpactPotentielBrutCalculator;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
+import sekoya.front.common.component.ScoreRatingFormCheckValuesPanel;
 import sekoya.front.processus.model.ProcessusBindableModel;
 
 public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
@@ -85,7 +88,7 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
           new RadioGroup<>("sensibilite", aleaBindableModel.bind(Bindings.alea().sensibilite()))
               .setLabel(new ResourceModel("business.alea.sensibilite"))
               .setRequired(true)
-              .add(new AleaSensibiliteRatingFormCheckValuesPanel("values"))
+              .add(new ScoreRatingFormCheckValuesPanel<>("values", AleaSensibilite.class))
               .add(
                   new UpdateOnChangeAjaxEventBehavior()
                       .onChange(writeAll())
@@ -104,7 +107,7 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
                           })
                       .onChange(readAll()))
               .setRenderBodyOnly(false),
-          new AleaImpactPotentielBrutRatingDisplayPanel(
+          new ScoreRatingDisplayPanel<>(
               "impactPotentielBrut", aleaBindableModel.bind(Bindings.alea().impactPotentielBrut())),
           new AjaxLink<>("delete") {
             private static final long serialVersionUID = 1L;
@@ -171,7 +174,7 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
                               .bind(Bindings.alea().sensibilite()))
                       .setLabel(new ResourceModel("business.alea.sensibilite"))
                       .setRequired(true)
-                      .add(new AleaSensibiliteRatingFormCheckValuesPanel("values"))
+                      .add(new ScoreRatingFormCheckValuesPanel<>("values", AleaSensibilite.class))
                       .add(
                           new UpdateOnChangeAjaxEventBehavior()
                               .onChange(writeAll())

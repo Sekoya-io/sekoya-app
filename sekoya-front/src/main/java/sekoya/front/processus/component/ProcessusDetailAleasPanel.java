@@ -23,6 +23,7 @@ import sekoya.back.business.alea.search.AleaSort;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.component.HistoryEventSummaryPanel;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.processus.model.AleaDataProvider;
 
 public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
@@ -108,7 +109,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
       super(id, "sensibiliteCellFragment", ProcessusDetailAleasPanel.this);
 
       add(
-          new AleaSensibiliteRatingDisplayPanel(
+          new ScoreRatingDisplayPanel<>(
                   "sensibilite", BindingModel.of(aleaModel, Bindings.alea().sensibilite()))
               .small());
     }
@@ -121,7 +122,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
       super(id, "impactPotentielBrutCellFragment", ProcessusDetailAleasPanel.this);
 
       add(
-          new AleaImpactPotentielBrutRatingDisplayPanel(
+          new ScoreRatingDisplayPanel<>(
                   "impactPotentielBrut",
                   BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut()))
               .small());

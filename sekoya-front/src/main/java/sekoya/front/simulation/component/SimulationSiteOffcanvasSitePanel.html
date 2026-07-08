@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div class="row g-5">
+		<div wicket:enclosure-component="processus" class="col-12">
+			<div class="row g-3">
+				<div class="col-12">
+					<div class="fw-semibold fs-4 text-brand">
+						<span class="fa fa-fw fa-diagram-project text-secondary" />
+						<wicket:message key="simulation.common.offcanvas.site.processus.title" />
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="list-group list-group-radio">
+						<div wicket:id="processus" class="position-relative">
+							<div class="list-group-item py-3 px-3">
+								<div class="row g-3 align-items-center">
+									<div class="col-auto">
+										<div class="bg-body-secondary p-2 rounded-3">
+											<span wicket:id="icon" class="fa fa-fw fa-lg text-brand" />
+										</div>
+									</div>
+									<div class="col">
+										<div wicket:id="processus" class="fw-bold fs-5" />
+										<div wicket:id="thematique" class="text-secondary text-uppercase small" />
+									</div>
+									<div class="col-auto">
+										<div wicket:id="risque" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div wicket:id="aleasGeographiques" class="col-12" />
+	</div>
+</wicket:panel>
+</html>

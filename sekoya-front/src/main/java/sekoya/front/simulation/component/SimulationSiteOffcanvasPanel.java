@@ -1,21 +1,26 @@
 package sekoya.front.simulation.component;
 
 import igloo.wicket.component.CoreLabel;
-import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
-import igloo.wicket.model.BindingModel;
+import igloo.wicket.model.Detachables;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
+import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
-import sekoya.back.util.binding.Bindings;
 import sekoya.front.site.page.SiteDetailPage;
 
 public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
 
   private static final long serialVersionUID = 1L;
+
+  private final IModel<Processus> processusModel = new GenericEntityModel<>();
+  private final IModel<Alea> aleaModel = new GenericEntityModel<>();
+  private final IModel<Boolean> impactPotentielBrutModeModel = Model.of();
 
   public SimulationSiteOffcanvasPanel(
       String id, IModel<SimulationSearchDto> simulationSearchDtoModel) {
@@ -32,22 +37,29 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
             .add(
                 SiteDetailPage.MAPPER
                     .map(siteModel)
-                    .link("link")
-                    .add(new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom()))),
-                new SimulationSiteOffcanvasProcessusPanel("processus", siteModel)
-                    .add(
-                        Condition.isTrue(
-                                BindingModel.of(
-                                    simulationSearchDtoModel,
-                                    Bindings.simulationSearchDto().applyProcessus()))
-                            .thenShow()),
-                new SimulationSiteOffcanvasAleaGeographiquePanel(
-                    "aleaGeographique", siteModel, simulationSearchDtoModel))
+                    .link("siteLink")
+                    .add(new CoreLabel("site", siteModel).showPlaceholder()),
+                new SimulationSiteOffcanvasBreadcrumbPanel(
+                    "breadcrumb",
+                    siteModel,
+                    processusModel,
+                    aleaModel,
+                    impactPotentielBrutModeModel),
+                new SimulationSiteOffcanvasContentPanel(
+                    "content",
+                    siteModel,
+                    processusModel,
+                    aleaModel,
+                    impactPotentielBrutModeModel,
+                    simulationSearchDtoModel))
             .setMarkupId("offcanvas-simulation-site"));
   }
 
   public void onShow(AjaxRequestTarget target, Site site) {
     setModelObject(site);
+    processusModel.setObject(null);
+    aleaModel.setObject(null);
+    impactPotentielBrutModeModel.setObject(null);
 
     target.add(SimulationSiteOffcanvasPanel.this);
     target.appendJavaScript(
@@ -56,5 +68,11 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
             .getOrCreateInstance(document.getElementById('offcanvas-simulation-site'))
             .show();
         """);
+  }
+
+  @Override
+  protected void onDetach() {
+    super.onDetach();
+    Detachables.detach(processusModel, aleaModel);
   }
 }

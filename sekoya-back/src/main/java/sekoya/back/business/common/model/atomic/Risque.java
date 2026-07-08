@@ -1,6 +1,6 @@
 package sekoya.back.business.common.model.atomic;
 
-public enum Risque {
+public enum Risque implements IScore {
   OPPORTUNITE(-1),
   FAIBLE(0),
   MODERE(1),
@@ -14,8 +14,14 @@ public enum Risque {
     this.score = score;
   }
 
+  @Override
   public int getScore() {
     return score;
+  }
+
+  @Override
+  public String getRatingCssClass() {
+    return "rating-badge-display-risque";
   }
 
   public static Risque fromScore(int score) {

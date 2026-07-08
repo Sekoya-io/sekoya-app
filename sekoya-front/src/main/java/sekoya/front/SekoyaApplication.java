@@ -39,11 +39,15 @@ import org.iglooproject.wicket.more.util.listener.FormInvalidDecoratorListener;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import sekoya.back.business.alea.model.Alea;
+import sekoya.back.business.alea.model.atomic.AleaSensibilite;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.CodePostal;
 import sekoya.back.business.common.model.EmailAddress;
 import sekoya.back.business.common.model.Latitude;
 import sekoya.back.business.common.model.Longitude;
+import sekoya.back.business.common.model.atomic.Evolution;
+import sekoya.back.business.common.model.atomic.ImpactPotentiel;
+import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.common.model.embeddable.Adresse;
 import sekoya.back.business.history.model.atomic.HistoryLogEventType;
 import sekoya.back.business.organisation.model.Organisation;
@@ -196,6 +200,10 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Departement.class, ReferenceDataRenderer.get());
     converterLocator.set(Region.class, ReferenceDataRenderer.get());
 
+    converterLocator.set(ImpactPotentiel.class, EnumRenderer.get());
+    converterLocator.set(Evolution.class, EnumRenderer.get());
+    converterLocator.set(Risque.class, EnumRenderer.get());
+
     converterLocator.set(Organisation.class, OrganisationRenderer.get());
     converterLocator.set(Site.class, SiteRenderer.get());
     converterLocator.set(SiteTypologie.class, EnumRenderer.get());
@@ -205,6 +213,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(ProcessusPriorite.class, EnumRenderer.get());
     converterLocator.set(Alea.class, AleaRenderer.get());
     converterLocator.set(AleaType.class, EnumRenderer.get());
+    converterLocator.set(AleaSensibilite.class, EnumRenderer.get());
 
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());

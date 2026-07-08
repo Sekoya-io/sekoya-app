@@ -2,6 +2,41 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 <wicket:panel>
-	TODO
+	<div class="row g-3">
+		<div class="col-12">
+			<div class="fw-semibold fs-4 text-brand">
+				<span class="fa fa-fw fa-triangle-exclamation text-secondary" />
+				<wicket:message key="simulation.common.offcanvas.processus.aleas.title" />
+			</div>
+			<div class="text-secondary text-uppercase small">
+				<wicket:message key="simulation.common.offcanvas.processus.aleas.subtitle" />
+			</div>
+		</div>
+		<div class="col-12">
+			<div wicket:enclosure-component="aleas" class="list-group list-group-radio">
+				<div wicket:id="aleas" class="position-relative">
+					<div class="list-group-item py-2 px-3">
+						<div class="row g-3 align-items-center">
+							<div class="col">
+								<div wicket:id="alea" class="fw-bold" />
+							</div>
+							<div class="col-auto">
+								<div wicket:id="risque" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div wicket:id="placeholder" class="alert alert-warning">
+				<div class="mb-2">
+					<wicket:message key="simulation.common.offcanvas.processus.help.empty" />
+				</div>
+				<a wicket:id="add" class="btn btn-primary">
+					<span class="fa fa-fw fa-plus" />
+					<wicket:message key="simulation.common.offcanvas.processus.help.empty.add" />
+				</a>
+			</div>
+		</div>
+	</div>
 </wicket:panel>
 </html>

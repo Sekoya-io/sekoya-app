@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<wicket:panel>
+	<div class="row g-3 justify-content-center">
+		<div class="col-sm-8 text-center">
+			<div class="card card-main">
+				<div class="card-header bg-body-tertiary">
+					<div class="fs-5 fw-bold">
+						<span wicket:id="alea" />
+					</div>
+					<div class="text-secondary">
+						<wicket:message key="business.alea.impactPotentielBrut" />
+					</div>
+				</div>
+				<div class="card-body">
+					<div wicket:id="impactPotentielBrut" class="mb-2" />
+					<div wicket:id="impactPotentielBrutLabel" class="fw-bold text-uppercase" />
+				</div>
+			</div>
+		</div>
+		<div class="col-12 text-center">
+			<span class="fa fa-fw fa-equals fa-3x text-secondary" />
+		</div>
+		<div class="col-sm-8 text-center">
+			<div class="card card-main">
+				<div class="card-header">
+					<span class="text-secondary fw-bold">
+						<wicket:message key="business.processus.priorite" />
+					</span>
+				</div>
+				<div class="card-body">
+					<div wicket:id="priorite" class="mb-2" />
+					<div wicket:id="prioriteLabel" class="fw-bold text-uppercase" />
+				</div>
+			</div>
+		</div>
+		<div class="col-12 text-center">
+			<span class="fa fa-fw fa-xmark fa-3x text-secondary" />
+		</div>
+		<div class="col-sm-8 text-center">
+			<div class="card card-main">
+				<div class="card-header">
+					<span class="text-secondary fw-bold">
+						<wicket:message key="business.alea.sensibilite" />
+					</span>
+				</div>
+				<div class="card-body">
+					<div wicket:id="sensibilite" class="mb-2" />
+					<div wicket:id="sensibiliteLabel" class="fw-bold text-uppercase" />
+				</div>
+			</div>
+		</div>
+	</div>
+</wicket:panel>
+</html>

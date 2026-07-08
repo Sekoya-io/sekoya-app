@@ -37,7 +37,19 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
     List<Processus> processus =
         site.getProcessus().stream().filter(ProcessusPredicates.enabled()).toList();
 
-    if (processus.isEmpty() || !simulationSearchDto.isApplyProcessus()) {
+    if (simulationSearchDto.isApplyProcessus()) {
+      if (!processus.isEmpty()) {
+        List<Risque> processusRisques = Lists.newArrayList();
+        for (Processus p : processus) {
+          processusRisques.add(getProcessusRisqueBrut(p, simulationSearchDto));
+        }
+        return processusRisques.stream()
+            .max(Comparator.comparingInt(Risque::getScore))
+            .orElseThrow();
+      } else {
+        return Risque.OPPORTUNITE;
+      }
+    } else {
       Risque risqueInondationCotiere =
           site.getLittoral().isZoneSubmersible()
               ? Evolution.FORTEMENT_DEFAVORABLE.getRisque()
@@ -59,12 +71,6 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
           Math.max(
               risqueInondationCotiere.getScore(),
               risquePlusDefavorableByPointGeographique.getScore()));
-    } else {
-      List<Risque> processusRisques = Lists.newArrayList();
-      for (Processus p : processus) {
-        processusRisques.add(getProcessusRisqueBrut(p, simulationSearchDto));
-      }
-      return processusRisques.stream().max(Comparator.comparingInt(Risque::getScore)).orElseThrow();
     }
   }
 
@@ -105,24 +111,27 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
   }
 
   @Override
-  public Risque getAleaRisqueBrut(Alea alea, SimulationSearchDto simulationSearchDto) {
+  public Evolution getAleaEvolution(Alea alea, SimulationSearchDto simulationSearchDto) {
     Objects.requireNonNull(alea);
 
-    Evolution evolution;
-
     if (Objects.equals(alea.getType(), AleaType.INONDATION_COTIERE)) {
-      evolution =
-          alea.getProcessus().getSite().getLittoral().isZoneSubmersible()
-              ? Evolution.FORTEMENT_DEFAVORABLE
-              : Evolution.PAS_EVOLUTION;
+      return alea.getProcessus().getSite().getLittoral().isZoneSubmersible()
+          ? Evolution.FORTEMENT_DEFAVORABLE
+          : Evolution.PAS_EVOLUTION;
     } else {
       DonneeClimatique donneeClimatique =
           donneeClimatiqueService.getByAlea(
               alea, simulationSearchDto.getScenario(), simulationSearchDto.getHorizon());
-      evolution = donneeClimatique != null ? donneeClimatique.getEvolution() : Evolution.FAVORABLE;
+      return donneeClimatique != null ? donneeClimatique.getEvolution() : Evolution.FAVORABLE;
     }
+  }
 
-    return AleaRisqueBrutCalculator.generer(alea.getImpactPotentielBrut(), evolution);
+  @Override
+  public Risque getAleaRisqueBrut(Alea alea, SimulationSearchDto simulationSearchDto) {
+    Objects.requireNonNull(alea);
+
+    return AleaRisqueBrutCalculator.generer(
+        alea.getImpactPotentielBrut(), getAleaEvolution(alea, simulationSearchDto));
   }
 
   @Override

@@ -130,6 +130,14 @@
 			@include border-radius($input-border-radius-lg);
 		}
 	}
+	
+	&.rating-badge-display-mono-value {
+		> .rating-badge {
+			&.rating-badge-active {
+				transform: none;
+			}
+		}
+	}
 }
 
 $rating-badge-processus-priorite-data: (
@@ -182,13 +190,30 @@ $rating-badge-impact-potentiel-data: (
 	}
 }
 
-$rating-badge-risque-data: (
+$rating-badge-evolution-data: (
 	-1: #cbd5e1,
 	1:  #10b981,
 	2:  #4ade80,
 	3:  #facc15,
 	4:  #fb923c,
 	5:  #dc2626,
+) !default;
+
+@each $val, $color in $rating-badge-evolution-data {
+	.rating-badge-form-check-evolution > .rating-badge-form-check-label[data-val="#{$val}"],
+	.rating-badge-display-evolution > .rating-badge[data-val="#{$val}"] {
+		--rating-badge-color: #{$color};
+		--rating-badge-text-color: #{color-contrast($color)};
+	}
+}
+
+$rating-badge-risque-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
 ) !default;
 
 @each $val, $color in $rating-badge-risque-data {

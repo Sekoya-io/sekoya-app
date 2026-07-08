@@ -1,6 +1,6 @@
 package sekoya.back.business.common.model.atomic;
 
-public enum Evolution {
+public enum Evolution implements IScore {
   FAVORABLE(-1, Risque.OPPORTUNITE),
   PAS_EVOLUTION(1, Risque.FAIBLE),
   LEGEREMENT_DEFAVORABLE(2, Risque.MODERE),
@@ -17,12 +17,18 @@ public enum Evolution {
     this.risque = risque;
   }
 
+  @Override
   public int getScore() {
     return score;
   }
 
   public Risque getRisque() {
     return risque;
+  }
+
+  @Override
+  public String getRatingCssClass() {
+    return "rating-badge-display-evolution";
   }
 
   public static Evolution fromScore(int score) {

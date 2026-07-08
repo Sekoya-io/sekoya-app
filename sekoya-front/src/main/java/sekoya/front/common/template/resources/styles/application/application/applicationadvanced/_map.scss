@@ -77,17 +77,6 @@ body:has(.content-body-section-map) {
 					left: 10px;
 					right: 50px;
 					z-index: 10;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					box-shadow: $box-shadow;
-					padding: 7px 14px;
-					
-					backdrop-filter: blur(4px) saturate(180%);
-					
-					> form {
-						width: 100%;
-					}
 				}
 			}
 		}

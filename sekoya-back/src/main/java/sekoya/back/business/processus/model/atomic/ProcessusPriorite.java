@@ -1,6 +1,8 @@
 package sekoya.back.business.processus.model.atomic;
 
-public enum ProcessusPriorite {
+import sekoya.back.business.common.model.atomic.IScore;
+
+public enum ProcessusPriorite implements IScore {
   MINEUR(0, 0),
   SECONDAIRE(1, 1),
   IMPORTANT(2, 1),
@@ -15,8 +17,14 @@ public enum ProcessusPriorite {
     this.pourcentageChiffreAffaires = pourcentageChiffreAffaires;
   }
 
+  @Override
   public int getScore() {
     return score;
+  }
+
+  @Override
+  public String getRatingCssClass() {
+    return "rating-badge-display-processus-priorite";
   }
 
   public int getPourcentageChiffreAffaires() {

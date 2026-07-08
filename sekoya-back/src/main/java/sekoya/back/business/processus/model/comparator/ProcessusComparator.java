@@ -21,8 +21,10 @@ public class ProcessusComparator extends AbstractGenericEntityComparator<Long, P
     int order =
         ComparisonChain.start()
             .compare(left.getSite(), right.getSite(), SiteComparator.get())
-            .compare(left.getType(), right.getType(), Ordering.natural().nullsFirst())
-            .compare(left.getNom(), right.getNom(), Ordering.natural().nullsFirst())
+            .compare(
+                left.getPriorite(), right.getPriorite(), Ordering.natural().nullsLast().reversed())
+            .compare(left.getType(), right.getType(), Ordering.natural().nullsLast())
+            .compare(left.getNom(), right.getNom(), Ordering.natural().nullsLast())
             .result();
 
     if (order == 0) {

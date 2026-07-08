@@ -42,7 +42,7 @@ import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
-import sekoya.front.common.component.RisqueRatingDisplayPanel;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.simulation.component.SimulationListSearchPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
 import sekoya.front.simulation.template.SimulationTemplate;
@@ -199,7 +199,7 @@ public class SimulationListPage extends SimulationTemplate {
                   simulationCalculControllerService.getSiteRisqueBrut(
                       siteModel.getObject(), simulationSearchDtoModel.getObject()));
 
-      add(new RisqueRatingDisplayPanel("risque", risqueModel).small());
+      add(new ScoreRatingDisplayPanel<>("risque", risqueModel).small());
     }
   }
 

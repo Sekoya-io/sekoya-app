@@ -31,10 +31,10 @@ import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.search.ProcessusSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
+import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
 import sekoya.front.processus.component.ProcessusListSearchPanel;
-import sekoya.front.processus.component.ProcessusPrioriteRatingDisplayPanel;
 import sekoya.front.processus.model.ProcessusDataProvider;
 import sekoya.front.processus.template.ProcessusTemplate;
 import sekoya.front.site.page.SiteDetailPage;
@@ -171,7 +171,7 @@ public class ProcessusListPage extends ProcessusTemplate {
       super(id, "prioriteCellFragment", ProcessusListPage.this);
 
       add(
-          new ProcessusPrioriteRatingDisplayPanel(
+          new ScoreRatingDisplayPanel<>(
                   "priorite", BindingModel.of(processusModel, Bindings.processus().priorite()))
               .small());
     }

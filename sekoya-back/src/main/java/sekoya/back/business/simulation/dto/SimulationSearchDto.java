@@ -20,7 +20,7 @@ public class SimulationSearchDto implements Serializable {
     super();
     this.scenario = Scenario.RCP_4_5;
     this.horizon = Horizon.ANNEE_2055;
-    this.applyProcessus = Boolean.FALSE;
+    this.applyProcessus = true;
   }
 
   public Scenario getScenario() {
