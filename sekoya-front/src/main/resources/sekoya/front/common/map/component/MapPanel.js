@@ -1,7 +1,7 @@
 {
-    const FIT_PADDING_POINTS = 150;
+    const FIT_PADDING_POINTS = 170;
     const FIT_PADDING_FALLBACK = 20;
-    const FIT_MAX_ZOOM = 15;
+    const FIT_MAX_ZOOM = 12;
 
     const instances = new Map();
 
@@ -52,7 +52,7 @@
 
         const el = marker.getElement();
         const label = document.createElement('div');
-        label.className = 'map-marker-label bg-glass';
+        label.className = 'map-marker-label';
         label.textContent = point.label ?? '';
         el.appendChild(label);
 
@@ -68,6 +68,23 @@
 
         return marker;
     };
+
+    const clearMarkers = (instance) => {
+        for (const marker of instance.markers) {
+            marker.remove();
+        }
+        instance.markers = [];
+    };
+
+    const applyPoints = (instance) => {
+        clearMarkers(instance);
+        for (const p of instance.points) {
+            instance.markers.push(
+                addMarker(instance.map, p, instance.callbackUrl, instance.abort.signal)
+            );
+        }
+    };
+
 
     const installWicketHook = () => {
         if (!globalThis.Wicket?.Event || globalThis.MapPanel.isWicketHooked) { 
@@ -151,9 +168,15 @@
             renderWorldCopies: false
         });
 
-        instances.set(config.containerId, { map, abort });
+        const instance = {
+            map,
+            abort,
+            markers: [],
+            points,
+            callbackUrl: config.callbackUrl,
+        };
+        instances.set(config.containerId, instance);
 
-        map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
         map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
         map.on('load', () => {
@@ -162,13 +185,39 @@
                 attrib.removeAttribute('open');
                 attrib.classList.remove('maplibregl-compact-show');
             }
-            for (const p of points) {
-                addMarker(map, p, config.callbackUrl, abort.signal);
-            }
+            applyPoints(instance);
         });
 
         map.on('error', (e) => console.error('[MapPanel] map error:', e?.error));
 
         return map;
+    };
+
+    globalThis.MapPanel.updatePoints = (containerId, points, callbackUrl) => {
+        const instance = instances.get(containerId);
+        if (!instance) {
+            return;
+        }
+
+        instance.points = points ?? [];
+        if (callbackUrl) {
+            instance.callbackUrl = callbackUrl;
+        }
+
+        applyPoints(instance);
+    };
+
+    globalThis.MapPanel.centerOnPoint = (containerId, pointId) => {
+        const instance = instances.get(containerId);
+        if (!instance) {
+            return;
+        }
+
+        const point = instance.points.find((p) => String(p.id) === String(pointId));
+        if (!point) {
+            return;
+        }
+
+        instance.map.easeTo({ center: [point.lng, point.lat] });
     };
 }

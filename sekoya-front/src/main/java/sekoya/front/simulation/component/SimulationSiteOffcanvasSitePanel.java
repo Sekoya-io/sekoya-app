@@ -81,7 +81,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                         Condition.isTrue(
                             BindingModel.of(
                                 simulationSearchDtoModel,
-                                Bindings.simulationSearchDto().applyProcessus())))
+                                Bindings.simulationSearchDto().enableProcessus())))
                     .thenShow()));
 
     add(

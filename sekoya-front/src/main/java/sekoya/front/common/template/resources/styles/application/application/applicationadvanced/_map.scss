@@ -42,11 +42,13 @@ body:has(.content-body-section-map) {
 							transform: translateX(-50%);
 							margin-top: 4px;
 							padding: 2px 8px;
-							@include border-radius($border-radius-xl);
 							white-space: nowrap;
 							max-width: 240px;
 							overflow: hidden;
 							text-overflow: ellipsis;
+							font-weight: bold;
+							@include border-radius($border-radius-lg);
+							@include bg-glass();
 						}
 					}
 				}
@@ -60,6 +62,7 @@ body:has(.content-body-section-map) {
 					align-items: center;
 					justify-content: center;
 					box-shadow: $box-shadow;
+					@include border-radius($border-radius-xl);
 
 					&.map-btn-fab-bottom {
 						bottom: 20px;
@@ -69,14 +72,6 @@ body:has(.content-body-section-map) {
 						top: 50%;
 						transform: translate(-50%, -50%);
 					}
-				}
-
-				.map-search {
-					position: absolute;
-					top : 20px;
-					left: 10px;
-					right: 50px;
-					z-index: 10;
 				}
 			}
 		}

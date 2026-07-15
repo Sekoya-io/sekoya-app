@@ -3,15 +3,23 @@ package sekoya.front.simulation.component;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.model.BindingModel;
+import igloo.wicket.model.Models;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.Radio;
+import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
-import org.iglooproject.wicket.more.markup.html.form.EnumDropDownSingleChoice;
-import org.iglooproject.wicket.more.markup.html.form.LabelPlaceholderBehavior;
+import org.apache.wicket.util.visit.IVisit;
+import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
+import org.iglooproject.wicket.more.rendering.BooleanRenderer;
+import org.iglooproject.wicket.more.rendering.EnumRenderer;
 import org.wicketstuff.wiquery.core.events.StateEvent;
 import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Scenario;
@@ -26,6 +34,7 @@ public class SimulationMapSearchPanel extends Panel {
 
   public SimulationMapSearchPanel(String id, IModel<SimulationSearchDto> simulationSearchDtoModel) {
     super(id);
+    setOutputMarkupId(true);
 
     Form<Void> form = new Form<>("form");
     add(form);
@@ -36,38 +45,78 @@ public class SimulationMapSearchPanel extends Panel {
 
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
-            // TODO : refresh plus fin ?
-            // Voir avec JBE si on veut passer du temps à essayer de refresh les pins en JS
-            // Sans garantie de résultat
-            target.addChildren(getPage(), MapPanel.class);
+            getPage()
+                .visitChildren(
+                    MapPanel.class,
+                    (MapPanel mapPanel, IVisit<Void> visit) -> {
+                      mapPanel.updatePoints(target);
+                      visit.dontGoDeeper();
+                    });
             target.addChildren(getPage(), SimulationSiteOffcanvasPanel.class);
             FeedbackUtils.refreshFeedback(target, getPage());
           }
         });
 
     form.add(
-        new EnumDropDownSingleChoice<>(
+        new RadioGroup<>(
                 "scenario",
                 BindingModel.of(
-                    simulationSearchDtoModel, Bindings.simulationSearchDto().scenario()),
-                Scenario.class)
+                    simulationSearchDtoModel, Bindings.simulationSearchDto().scenario()))
             .setLabel(new ResourceModel("business.common.scenario"))
             .setRequired(true)
-            .add(new LabelPlaceholderBehavior()),
-        new EnumDropDownSingleChoice<>(
+            .add(
+                new CollectionView<>(
+                    "values",
+                    Model.of(Arrays.asList(Scenario.values())),
+                    Models.serializableModelFactory()) {
+
+                  @Override
+                  protected void populateItem(Item<Scenario> item) {
+                    item.add(
+                        new Radio<>("value", item.getModel())
+                            .setLabel(EnumRenderer.get().asModel(item.getModel())));
+                  }
+                })
+            .setRenderBodyOnly(false),
+        new RadioGroup<>(
                 "horizon",
-                BindingModel.of(simulationSearchDtoModel, Bindings.simulationSearchDto().horizon()),
-                Horizon.class)
+                BindingModel.of(simulationSearchDtoModel, Bindings.simulationSearchDto().horizon()))
             .setLabel(new ResourceModel("business.common.horizon"))
             .setRequired(true)
-            .add(new LabelPlaceholderBehavior()),
-        new CheckBox(
-                "applyProcessus",
+            .add(
+                new CollectionView<>(
+                    "values",
+                    Model.of(Arrays.asList(Horizon.values())),
+                    Models.serializableModelFactory()) {
+
+                  @Override
+                  protected void populateItem(Item<Horizon> item) {
+                    item.add(
+                        new Radio<>("value", item.getModel())
+                            .setLabel(EnumRenderer.get().asModel(item.getModel())));
+                  }
+                })
+            .setRenderBodyOnly(false),
+        new RadioGroup<>(
+                "enableProcessus",
                 BindingModel.of(
-                    simulationSearchDtoModel, Bindings.simulationSearchDto().applyProcessus()))
-            .setLabel(new ResourceModel("simulation.common.applyProcessus"))
+                    simulationSearchDtoModel, Bindings.simulationSearchDto().enableProcessus()))
+            .setLabel(new ResourceModel("simulation.common.wording.enableProcessus"))
             .setRequired(true)
-            .setOutputMarkupId(true)
+            .add(
+                new CollectionView<>(
+                    "values",
+                    Model.of(List.of(Boolean.TRUE, Boolean.FALSE)),
+                    Models.serializableModelFactory()) {
+
+                  @Override
+                  protected void populateItem(Item<Boolean> item) {
+                    item.add(
+                        new Radio<>("value", item.getModel())
+                            .setLabel(BooleanRenderer.yesNo().asModel(item.getModel())));
+                  }
+                })
+            .setRenderBodyOnly(false)
             .add(
                 Condition.isFalse(
                         () ->

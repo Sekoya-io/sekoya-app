@@ -15,6 +15,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.TransparentWebMarkupContainer;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -97,13 +98,20 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
     add(new BootstrapTooltipBehavior(getBootstrapTooltipOptionsModel()));
 
     add(
-        new NavbarPanel(
-            "navbar", (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage),
+        new WebMarkupContainer("headerSection")
+            .add(
+                new NavbarPanel(
+                    "navbar",
+                    (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage))
+            .add(displayNavbar().thenShow()),
         new SidebarPanel(
-            "sidebar",
-            (SerializableSupplier2<List<NavigationMenuItem>>) this::getMainNav,
-            (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage,
-            (SerializableSupplier2<Class<? extends WebPage>>) this::getSecondMenuPage));
+                "sidebar",
+                (SerializableSupplier2<List<NavigationMenuItem>>) this::getMainNav,
+                (SerializableSupplier2<Class<? extends WebPage>>) this::getFirstMenuPage,
+                (SerializableSupplier2<Class<? extends WebPage>>) this::getSecondMenuPage)
+            .add(
+                new ClassAttributeAppender(
+                    () -> isHomePage() ? "home-offcanvas home-offcanvas-sidebar" : "")));
   }
 
   protected List<NavigationMenuItem> getMainNav() {
@@ -145,6 +153,10 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             .iconClasses(Model.of("fa fa-fw fa-wrench")));
   }
 
+  protected boolean isHomePage() {
+    return false;
+  }
+
   public Component getBodyElement() {
     return bodyElement;
   }
@@ -164,6 +176,10 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             wicketId, bodyBreadCrumbPrependedElementsModel, breadCrumbElementsModel, 1)
         .setDividerModel(Model.of(""))
         .setTrailingSeparator(true);
+  }
+
+  protected Condition displayNavbar() {
+    return Condition.alwaysTrue();
   }
 
   protected Condition displayBreadcrumb() {

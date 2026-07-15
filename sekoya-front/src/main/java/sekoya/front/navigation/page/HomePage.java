@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -32,12 +31,13 @@ import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
-import sekoya.front.common.template.MainTemplate;
+import sekoya.front.navigation.template.HomeTemplate;
 import sekoya.front.simulation.component.SimulationMapSearchPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
+import sekoya.front.simulation.page.SimulationListPage;
 import sekoya.front.site.popup.SiteSavePopup;
 
-public class HomePage extends MainTemplate {
+public class HomePage extends HomeTemplate {
 
   private static final long serialVersionUID = -6767518941118385548L;
 
@@ -59,8 +59,6 @@ public class HomePage extends MainTemplate {
     addBreadCrumbElement(
         new BreadCrumbElement(
             new ResourceModel("navigation.simulation.map"), HomePage.linkDescriptor()));
-
-    getBodyElement().add(new ClassAttributeAppender(Model.of("sidebar-expand-0")));
 
     IModel<Collection<MapPoint>> pointsModel =
         LoadableDetachableModel.of(
@@ -92,6 +90,7 @@ public class HomePage extends MainTemplate {
           protected void onPointClick(AjaxRequestTarget target, Long pointId) {
             Site site = siteService.getById(pointId);
             offcanvasPanel.onShow(target, site);
+            centerOnPoint(target, pointId);
           }
         };
 
@@ -104,7 +103,7 @@ public class HomePage extends MainTemplate {
         new SiteSavePopup("siteAddPopup") {
           @Override
           protected void onSuccess(AjaxRequestTarget target, IModel<Site> siteModel) {
-            target.add(map, search, siteAdd);
+            target.add(getPage());
           }
         };
     add(siteAddPopup);
@@ -112,9 +111,8 @@ public class HomePage extends MainTemplate {
     add(
         offcanvasPanel,
         map,
-        search
-            .setOutputMarkupPlaceholderTag(true)
-            .add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
+        SimulationListPage.linkDescriptor().link("simulationListLink"),
+        search.add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
         siteAdd
             .add(
                 new AjaxModalOpenBehavior(siteAddPopup, MouseEvent.CLICK) {
@@ -131,16 +129,6 @@ public class HomePage extends MainTemplate {
                         .then(Model.of("map-btn-fab-bottom"))
                         .otherwise(Model.of("map-btn-fab-center"))))
             .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow()));
-  }
-
-  @Override
-  protected Class<? extends WebPage> getFirstMenuPage() {
-    return HomePage.class;
-  }
-
-  @Override
-  protected Condition displayBreadcrumb() {
-    return Condition.alwaysFalse();
   }
 
   @Override

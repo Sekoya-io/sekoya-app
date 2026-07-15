@@ -37,7 +37,7 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
     List<Processus> processus =
         site.getProcessus().stream().filter(ProcessusPredicates.enabled()).toList();
 
-    if (simulationSearchDto.isApplyProcessus()) {
+    if (simulationSearchDto.isEnableProcessus()) {
       if (!processus.isEmpty()) {
         List<Risque> processusRisques = Lists.newArrayList();
         for (Processus p : processus) {

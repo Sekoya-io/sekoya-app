@@ -7,8 +7,30 @@
 	
 	<div class="content-body-section content-body-section-map">
 		<div wicket:id="map" class="map-wrapper" />
-		<div wicket:id="search" class="map-search p-2 bg-glass rounded" />
-		<button wicket:id="siteAdd" class="btn btn-lg btn-glass map-btn-fab rounded-pill" type="button">
+		<div class="home-toolbar">
+			<div class="home-toolbar-start">
+				<div class="navbar">
+					<div class="row g-2 align-items-center">
+						<div class="col-auto">
+							<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+								<span class="navbar-toggler-icon"></span>
+							</button>
+						</div>
+						<div class="col-auto">
+							<span class="fa fa-fw fa-lg fa-map-location-dot text-success" />
+							<span class="fw-bold"><wicket:message key="common.application.name" /></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div wicket:id="search" class="home-toolbar-simulation" />
+			<div class="home-toolbar-end">
+				<a wicket:id="simulationListLink" class="btn btn-outline-dark btn-outline-bg-white rounded-pill" wicket:message="title:navigation.simulation.list">
+					<span class="fa fa-fw fa-list" />
+				</a>
+			</div>
+		</div>
+		<button wicket:id="siteAdd" class="btn btn-lg btn-glass map-btn-fab" type="button">
 			<span class="fa fa-fw fa-plus" />
 			<wicket:message key="home.site.add" />
 		</button>

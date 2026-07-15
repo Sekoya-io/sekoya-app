@@ -82,6 +82,21 @@ public class MapPanel extends Panel {
     // no-op
   }
 
+  public void updatePoints(AjaxRequestTarget target) {
+    target.appendJavaScript(
+        "MapPanel.updatePoints(%s, %s, %s);"
+            .formatted(
+                serialize(mapContainer.getMarkupId()),
+                serialize(pointsModel.getObject()),
+                serialize(clickBehavior.getCallbackUrl().toString())));
+  }
+
+  public void centerOnPoint(AjaxRequestTarget target, Long pointId) {
+    target.appendJavaScript(
+        "MapPanel.centerOnPoint(%s, %s);"
+            .formatted(serialize(mapContainer.getMarkupId()), serialize(pointId)));
+  }
+
   @Override
   public void renderHead(IHeaderResponse response) {
     super.renderHead(response);

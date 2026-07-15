@@ -14,13 +14,13 @@ public class SimulationSearchDto implements Serializable {
 
   private Horizon horizon;
 
-  private boolean applyProcessus;
+  private boolean enableProcessus;
 
   public SimulationSearchDto() {
     super();
     this.scenario = Scenario.RCP_4_5;
     this.horizon = Horizon.ANNEE_2055;
-    this.applyProcessus = true;
+    this.enableProcessus = false;
   }
 
   public Scenario getScenario() {
@@ -39,11 +39,11 @@ public class SimulationSearchDto implements Serializable {
     this.horizon = horizon;
   }
 
-  public boolean isApplyProcessus() {
-    return applyProcessus;
+  public boolean isEnableProcessus() {
+    return enableProcessus;
   }
 
-  public void setApplyProcessus(boolean applyProcessus) {
-    this.applyProcessus = applyProcessus;
+  public void setEnableProcessus(boolean enableProcessus) {
+    this.enableProcessus = enableProcessus;
   }
 }

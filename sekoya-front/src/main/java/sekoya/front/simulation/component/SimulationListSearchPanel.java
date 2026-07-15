@@ -71,10 +71,10 @@ public class SimulationListSearchPanel extends Panel {
             .setRequired(true)
             .add(new LabelPlaceholderBehavior()),
         new CheckBox(
-                "applyProcessus",
+                "enableProcessus",
                 BindingModel.of(
-                    simulationSearchDtoModel, Bindings.simulationSearchDto().applyProcessus()))
-            .setLabel(new ResourceModel("simulation.common.applyProcessus"))
+                    simulationSearchDtoModel, Bindings.simulationSearchDto().enableProcessus()))
+            .setLabel(new ResourceModel("simulation.common.wording.enableProcessus"))
             .setRequired(true)
             .setOutputMarkupId(true)
             .add(

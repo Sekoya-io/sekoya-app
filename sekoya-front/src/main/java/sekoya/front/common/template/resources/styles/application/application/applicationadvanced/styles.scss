@@ -19,13 +19,14 @@
 @import "../common/announcement";
 @import "../common/historylog";
 
+@import "glass";
 @import "common";
 @import "layout";
 @import "navbar";
 @import "sidenav";
 @import "map";
 @import "rating-badge";
-@import "glass";
+@import "home";
 
 
 $dashborard-iframe-heights: (
