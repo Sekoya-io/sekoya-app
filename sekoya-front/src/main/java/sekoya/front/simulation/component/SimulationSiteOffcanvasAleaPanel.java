@@ -1,11 +1,13 @@
 package sekoya.front.simulation.component;
 
+import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -50,29 +52,49 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
                     aleaModel.getObject(), simulationSearchDtoModel.getObject()));
 
     add(
-        new ScoreRatingDisplayPanel<>("risqueBrut", risqueModel),
-        new CoreLabel("risqueBrutLabel", risqueModel).showPlaceholder());
+        new WebMarkupContainer("risqueBrutContainer")
+            .add(
+                new ScoreRatingDisplayPanel<>("risqueBrut", risqueModel),
+                new CoreLabel("risqueBrutLabel", risqueModel).showPlaceholder())
+            .add(
+                new ClassAttributeAppender(
+                    () -> "rating-card-risque-%s".formatted(risqueModel.getObject().getScore()))));
 
     add(
-        new ScoreRatingDisplayPanel<>(
-            "impactPotentielBrut",
-            BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut())),
-        new CoreLabel(
-                "impactPotentielBrutLabel",
-                BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut()))
-            .showPlaceholder(),
-        new AjaxLink<>("view") {
+        new WebMarkupContainer("impactPotentielBrutContainer")
+            .add(
+                new ScoreRatingDisplayPanel<>(
+                    "impactPotentielBrut",
+                    BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut())),
+                new CoreLabel(
+                        "impactPotentielBrutLabel",
+                        BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut()))
+                    .showPlaceholder(),
+                new AjaxLink<>("view") {
 
-          @Override
-          public void onClick(AjaxRequestTarget target) {
-            impactPotentielBrutModeModel.setObject(true);
-            target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
-          }
-        });
+                  @Override
+                  public void onClick(AjaxRequestTarget target) {
+                    impactPotentielBrutModeModel.setObject(true);
+                    target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
+                  }
+                })
+            .add(
+                new ClassAttributeAppender(
+                    () ->
+                        "rating-card-impact-potentiel-%s"
+                            .formatted(
+                                aleaModel.getObject().getImpactPotentielBrut().getScore()))));
 
     add(
-        new ScoreRatingDisplayPanel<>("evolution", evolutionModel),
-        new CoreLabel("evolutionLabel", evolutionModel).showPlaceholder());
+        new WebMarkupContainer("evolutionContainer")
+            .add(
+                new ScoreRatingDisplayPanel<>("evolution", evolutionModel),
+                new CoreLabel("evolutionLabel", evolutionModel).showPlaceholder())
+            .add(
+                new ClassAttributeAppender(
+                    () ->
+                        "rating-card-evolution-%s"
+                            .formatted(evolutionModel.getObject().getScore()))));
 
     add(
         Condition.and(

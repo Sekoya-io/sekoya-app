@@ -1,2 +1,46 @@
 $sidebar-expand:										xl !default;
 $sidebar-width:											270px !default;
+
+$rating-badge-processus-priorite-data: (
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+$rating-badge-alea-sensibilite-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+$rating-badge-impact-potentiel-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;
+
+$rating-badge-evolution-data: (
+	-1: #cbd5e1,
+	1:  #10b981,
+	2:  #4ade80,
+	3:  #facc15,
+	4:  #fb923c,
+	5:  #dc2626,
+) !default;
+
+$rating-badge-risque-data: (
+	-1: #cbd5e1,
+	0:  #10b981,
+	1:  #4ade80,
+	2:  #facc15,
+	3:  #fb923c,
+	4:  #dc2626,
+) !default;

@@ -4,9 +4,9 @@
 <wicket:panel>
 	<div class="row g-3 justify-content-center">
 		<div class="col-sm-8 text-center">
-			<div class="card card-main">
-				<div class="card-header bg-body-tertiary">
-					<span class="text-secondary fw-bold">
+			<div wicket:id="risqueBrutContainer" class="card card-main rating-card">
+				<div class="card-header">
+					<span class="fw-bold">
 						<wicket:message key="business.alea.risqueBrut" />
 					</span>
 				</div>
@@ -17,12 +17,12 @@
 			</div>
 		</div>
 		<div class="col-12 text-center">
-			<span class="fa fa-fw fa-equals fa-3x text-secondary" />
+			<span class="fa fa-fw fa-equals fa-3x" />
 		</div>
 		<div class="col-sm-8 text-center">
-			<div class="card card-main">
+			<div wicket:id="impactPotentielBrutContainer" class="card card-main rating-card">
 				<div class="card-header">
-					<span class="text-secondary fw-bold">
+					<span class="fw-bold">
 						<wicket:message key="business.alea.impactPotentielBrut" />
 					</span>
 				</div>
@@ -37,12 +37,12 @@
 			</div>
 		</div>
 		<div class="col-12 text-center">
-			<span class="fa fa-fw fa-xmark fa-3x text-secondary" />
+			<span class="fa fa-fw fa-xmark fa-3x" />
 		</div>
 		<div class="col-sm-8 text-center">
-			<div class="card card-main">
+			<div wicket:id="evolutionContainer" class="card card-main rating-card">
 				<div class="card-header">
-					<span class="text-secondary fw-bold">
+					<span class="fw-bold">
 						<wicket:message key="business.alea.evolution" />
 					</span>
 				</div>
