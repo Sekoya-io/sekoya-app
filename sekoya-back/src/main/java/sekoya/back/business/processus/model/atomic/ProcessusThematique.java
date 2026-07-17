@@ -1,11 +1,21 @@
 package sekoya.back.business.processus.model.atomic;
 
 public enum ProcessusThematique {
-  APPROVISIONNEMENTS,
-  INFRASTRUCTURE_EQUIPEMENTS,
-  OPERATIONS_PROCESSUS,
-  ENERGIE_TELECOMS,
-  EAU,
-  LOGISTIQUE_TRANSPORTS,
-  DEMANDE;
+  APPROVISIONNEMENTS("fa-dolly"),
+  INFRASTRUCTURE_EQUIPEMENTS("fa-building"),
+  OPERATIONS_PROCESSUS("fa-shapes"),
+  ENERGIE_TELECOMS("fa-bolt"),
+  EAU("fa-droplet"),
+  LOGISTIQUE_TRANSPORTS("fa-truck"),
+  DEMANDE("fa-store");
+
+  private final String iconCssClass;
+
+  ProcessusThematique(String iconCssClass) {
+    this.iconCssClass = iconCssClass;
+  }
+
+  public String getIconCssClass() {
+    return iconCssClass;
+  }
 }

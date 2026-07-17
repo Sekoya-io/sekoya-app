@@ -66,7 +66,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                                     new ClassAttributeAppender(
                                         BindingModel.of(
                                             item.getModel(),
-                                            Bindings.processus().type().iconCssClass()))),
+                                            Bindings.processus().thematique().iconCssClass()))),
                             new CoreLabel("processus", item.getModel()).showPlaceholder(),
                             new CoreLabel(
                                     "thematique",
