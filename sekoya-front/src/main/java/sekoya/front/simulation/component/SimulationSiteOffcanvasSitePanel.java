@@ -49,7 +49,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
             .add(
                 new CollectionView<>(
                     "processus",
-                    BindingModel.of(siteModel, Bindings.site().processus()),
+                    BindingModel.of(siteModel, Bindings.site().processusEnabled()),
                     GenericEntityModel.factory()) {
 
                   @Override
@@ -89,12 +89,12 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                 }.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance())
                     .add(
                         Condition.collectionModelNotEmpty(
-                                BindingModel.of(siteModel, Bindings.site().processus()))
+                                BindingModel.of(siteModel, Bindings.site().processusEnabled()))
                             .thenShow()),
                 new PlaceholderContainer("placeholder")
                     .condition(
                         Condition.collectionModelNotEmpty(
-                            BindingModel.of(siteModel, Bindings.site().processus())))
+                            BindingModel.of(siteModel, Bindings.site().processusEnabled())))
                     .add(ProcessusSiteAddPage.MAPPER.map(siteModel).link("add"))));
 
     add(

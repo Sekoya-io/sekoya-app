@@ -1,6 +1,7 @@
 package sekoya.back.business.site.model;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import igloo.hibernateconfig.api.HibernateSearchAnalyzer;
 import igloo.hibernateconfig.api.HibernateSearchNormalizer;
@@ -41,6 +42,7 @@ import sekoya.back.business.donneeclimatique.model.PointGeographique;
 import sekoya.back.business.organisation.model.Organisation;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.model.comparator.ProcessusComparator;
+import sekoya.back.business.processus.predicate.ProcessusPredicates;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.business.site.model.embeddable.SiteLittoral;
 import sekoya.back.hibernate.type.LatitudeType;
@@ -238,6 +240,12 @@ public class Site extends GenericEntity<Long, Site> {
 
   public void setProcessus(SortedSet<Processus> processus) {
     CollectionUtils.replaceAll(this.processus, processus);
+  }
+
+  public SortedSet<Processus> getProcessusEnabled() {
+    return processus.stream()
+        .filter(ProcessusPredicates.enabled())
+        .collect(ImmutableSortedSet.toImmutableSortedSet(ProcessusComparator.get()));
   }
 
   public void addProcessus(Processus processus) {

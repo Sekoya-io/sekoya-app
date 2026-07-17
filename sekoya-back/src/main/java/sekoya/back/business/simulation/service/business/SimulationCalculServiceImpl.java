@@ -16,7 +16,6 @@ import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.donneeclimatique.model.DonneeClimatique;
 import sekoya.back.business.donneeclimatique.service.IDonneeClimatiqueService;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.processus.predicate.ProcessusPredicates;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
 
@@ -34,8 +33,7 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
   public Risque getSiteRisqueBrut(Site site, SimulationSearchDto simulationSearchDto) {
     Objects.requireNonNull(site);
 
-    List<Processus> processus =
-        site.getProcessus().stream().filter(ProcessusPredicates.enabled()).toList();
+    SortedSet<Processus> processus = site.getProcessusEnabled();
 
     if (simulationSearchDto.isEnableProcessus()) {
       if (!processus.isEmpty()) {
