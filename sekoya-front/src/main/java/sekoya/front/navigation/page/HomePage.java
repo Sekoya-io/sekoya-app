@@ -16,7 +16,6 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.iglooproject.functional.Predicates2;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
 import org.iglooproject.wicket.more.link.descriptor.builder.LinkDescriptorBuilder;
 import org.iglooproject.wicket.more.markup.html.link.BlankLink;
@@ -27,7 +26,6 @@ import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.service.business.ISiteService;
-import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
@@ -69,8 +67,7 @@ public class HomePage extends HomeTemplate {
                 return List.of();
               }
 
-              return organisation.getSites().stream()
-                  .filter(Predicates2.compose(Predicates2.isTrue(), Bindings.site().enabled()))
+              return organisation.getSiteEnabled().stream()
                   .map(
                       s ->
                           MapPoint.of(

@@ -66,7 +66,6 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
           @Override
           public void onClick(AjaxRequestTarget target) {
             impactPotentielBrutModeModel.setObject(true);
-            target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
             target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
           }
         });

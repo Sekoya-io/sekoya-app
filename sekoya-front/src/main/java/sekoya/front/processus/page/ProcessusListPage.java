@@ -17,7 +17,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.iglooproject.functional.Predicates2;
 import org.iglooproject.jpa.more.business.generic.model.search.EnabledFilter;
 import org.iglooproject.spring.property.service.IPropertyService;
 import org.iglooproject.wicket.more.link.descriptor.IPageLinkDescriptor;
@@ -28,6 +27,7 @@ import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTable
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
 import sekoya.back.business.processus.model.Processus;
+import sekoya.back.business.processus.predicate.ProcessusPredicates;
 import sekoya.back.business.processus.search.ProcessusSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
@@ -134,10 +134,7 @@ public class ProcessusListPage extends ProcessusTemplate {
             .rows()
             .withClass(
                 itemModel ->
-                    Condition.predicate(
-                            itemModel,
-                            Predicates2.compose(
-                                Predicates2.isFalse(), Bindings.processus().enabled()))
+                    Condition.predicate(itemModel, ProcessusPredicates.disabled())
                         .then(TABLE_ROW_DISABLED)
                         .otherwise(""))
             .end()

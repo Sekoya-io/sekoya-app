@@ -1,6 +1,7 @@
 package sekoya.back.business.organisation.model;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import igloo.hibernateconfig.api.HibernateSearchAnalyzer;
 import igloo.hibernateconfig.api.HibernateSearchNormalizer;
@@ -25,6 +26,7 @@ import org.iglooproject.jpa.business.generic.model.GenericEntity;
 import org.iglooproject.jpa.more.business.history.model.embeddable.HistoryEventSummary;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.model.comparator.SiteComparator;
+import sekoya.back.business.site.predicate.SitePredicates;
 import sekoya.back.business.user.model.UserOrganisation;
 import sekoya.back.business.user.model.comparator.UserOrganisationComparator;
 
@@ -93,6 +95,12 @@ public class Organisation extends GenericEntity<Long, Organisation> {
 
   public void setSites(SortedSet<Site> sites) {
     CollectionUtils.replaceAll(this.sites, sites);
+  }
+
+  public SortedSet<Site> getSiteEnabled() {
+    return sites.stream()
+        .filter(SitePredicates.enabled())
+        .collect(ImmutableSortedSet.toImmutableSortedSet(SiteComparator.get()));
   }
 
   public SortedSet<UserOrganisation> getUsersOrganisation() {

@@ -22,6 +22,10 @@ public class SimulationSiteOffcanvasContentPanel extends GenericPanel<Site> {
     setOutputMarkupId(true);
 
     add(
+        new SimulationSiteOffcanvasBreadcrumbPanel(
+            "breadcrumb", siteModel, processusModel, aleaModel, impactPotentielBrutModeModel));
+
+    add(
         new SimulationSiteOffcanvasSitePanel(
             "site", siteModel, processusModel, simulationSearchDtoModel),
         new SimulationSiteOffcanvasProcessusPanel(

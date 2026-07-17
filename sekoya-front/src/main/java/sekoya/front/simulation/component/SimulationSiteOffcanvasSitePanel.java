@@ -99,8 +99,6 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                               protected void onEvent(AjaxRequestTarget target) {
                                 processusModel.setObject(itemProcessusModel.getObject());
                                 target.addChildren(
-                                    getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
-                                target.addChildren(
                                     getPage(), SimulationSiteOffcanvasContentPanel.class);
                               }
                             });

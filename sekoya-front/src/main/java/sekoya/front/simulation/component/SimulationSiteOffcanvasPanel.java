@@ -1,8 +1,12 @@
 package sekoya.front.simulation.component;
 
+import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
+import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.Detachables;
+import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
@@ -12,6 +16,7 @@ import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.site.model.Site;
+import sekoya.front.navigation.page.HomePage;
 import sekoya.front.site.page.SiteDetailPage;
 
 public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
@@ -32,6 +37,8 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
     super(id, siteModel);
     setOutputMarkupId(true);
 
+    Condition homePageCondition = Condition.of(() -> getPage() instanceof HomePage);
+
     add(
         new WebMarkupContainer("offcanvas")
             .add(
@@ -39,12 +46,6 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
                     .map(siteModel)
                     .link("siteLink")
                     .add(new CoreLabel("site", siteModel).showPlaceholder()),
-                new SimulationSiteOffcanvasBreadcrumbPanel(
-                    "breadcrumb",
-                    siteModel,
-                    processusModel,
-                    aleaModel,
-                    impactPotentielBrutModeModel),
                 new SimulationSiteOffcanvasContentPanel(
                     "content",
                     siteModel,
@@ -52,14 +53,31 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
                     aleaModel,
                     impactPotentielBrutModeModel,
                     simulationSearchDtoModel))
+            .add(
+                new ClassAttributeAppender("home-offcanvas home-offcanvas-simulation") {
+                  @Override
+                  public boolean isEnabled(Component component) {
+                    return homePageCondition.applies();
+                  }
+                },
+                new AttributeModifier("data-bs-scroll", "true") {
+                  @Override
+                  public boolean isEnabled(Component component) {
+                    return homePageCondition.applies();
+                  }
+                },
+                new AttributeModifier("data-bs-backdrop", "false") {
+                  @Override
+                  public boolean isEnabled(Component component) {
+                    return homePageCondition.applies();
+                  }
+                })
             .setMarkupId("offcanvas-simulation-site"));
   }
 
   public void onShow(AjaxRequestTarget target, Site site) {
     setModelObject(site);
-    processusModel.setObject(null);
-    aleaModel.setObject(null);
-    impactPotentielBrutModeModel.setObject(null);
+    reset();
 
     target.add(SimulationSiteOffcanvasPanel.this);
     target.appendJavaScript(
@@ -68,6 +86,12 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
             .getOrCreateInstance(document.getElementById('offcanvas-simulation-site'))
             .show();
         """);
+  }
+
+  public void reset() {
+    processusModel.setObject(null);
+    aleaModel.setObject(null);
+    impactPotentielBrutModeModel.setObject(null);
   }
 
   @Override

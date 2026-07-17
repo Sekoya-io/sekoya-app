@@ -48,9 +48,16 @@ public class SimulationMapSearchPanel extends Panel {
                     MapPanel.class,
                     (MapPanel mapPanel, IVisit<Void> visit) -> {
                       mapPanel.updatePoints(target);
-                      visit.dontGoDeeper();
+                      visit.stop();
                     });
-            target.addChildren(getPage(), SimulationSiteOffcanvasPanel.class);
+            getPage()
+                .visitChildren(
+                    SimulationSiteOffcanvasPanel.class,
+                    (SimulationSiteOffcanvasPanel offcanvasPanel, IVisit<Void> visit) -> {
+                      offcanvasPanel.reset();
+                      visit.stop();
+                    });
+            target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
             FeedbackUtils.refreshFeedback(target, getPage());
           }
         });

@@ -22,7 +22,6 @@ public class SimulationSiteOffcanvasBreadcrumbPanel extends GenericPanel<Site> {
       IModel<Alea> aleaModel,
       IModel<Boolean> impactPotentielBrutModeModel) {
     super(id, siteModel);
-    setOutputMarkupPlaceholderTag(true);
 
     add(
         new AjaxLink<Void>("siteLink") {
@@ -32,7 +31,6 @@ public class SimulationSiteOffcanvasBreadcrumbPanel extends GenericPanel<Site> {
             processusModel.setObject(null);
             aleaModel.setObject(null);
             impactPotentielBrutModeModel.setObject(null);
-            target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
             target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
           }
         },
@@ -45,7 +43,6 @@ public class SimulationSiteOffcanvasBreadcrumbPanel extends GenericPanel<Site> {
                   public void onClick(AjaxRequestTarget target) {
                     aleaModel.setObject(null);
                     impactPotentielBrutModeModel.setObject(null);
-                    target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
                     target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
                   }
                 }.add(new CoreLabel("processus", processusModel).showPlaceholder())
@@ -69,7 +66,6 @@ public class SimulationSiteOffcanvasBreadcrumbPanel extends GenericPanel<Site> {
                   @Override
                   public void onClick(AjaxRequestTarget target) {
                     impactPotentielBrutModeModel.setObject(null);
-                    target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
                     target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
                   }
                 }.add(new CoreLabel("alea", aleaModel).showPlaceholder())

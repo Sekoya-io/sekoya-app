@@ -85,7 +85,6 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
                       @Override
                       protected void onEvent(AjaxRequestTarget target) {
                         aleaModel.setObject(itemAleaModel.getObject());
-                        target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
                         target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
                       }
                     });
