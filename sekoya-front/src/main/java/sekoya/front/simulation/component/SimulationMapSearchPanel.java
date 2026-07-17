@@ -1,6 +1,5 @@
 package sekoya.front.simulation.component;
 
-import igloo.wicket.condition.Condition;
 import igloo.wicket.feedback.FeedbackUtils;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Models;
@@ -25,7 +24,6 @@ import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Scenario;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 
 public class SimulationMapSearchPanel extends Panel {
@@ -116,19 +114,6 @@ public class SimulationMapSearchPanel extends Panel {
                             .setLabel(BooleanRenderer.yesNo().asModel(item.getModel())));
                   }
                 })
-            .setRenderBodyOnly(false)
-            .add(
-                Condition.isFalse(
-                        () ->
-                            SekoyaSession.get()
-                                .getOrganisationModel()
-                                .getObject()
-                                .getSites()
-                                .stream()
-                                .anyMatch(
-                                    s ->
-                                        s.getProcessus().stream()
-                                            .anyMatch(p -> !p.getAleas().isEmpty())))
-                    .thenDisable()));
+            .setRenderBodyOnly(false));
   }
 }
