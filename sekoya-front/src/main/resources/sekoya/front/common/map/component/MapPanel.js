@@ -177,7 +177,8 @@
         };
         instances.set(config.containerId, instance);
 
-        map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
+        //map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+        //map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
         map.on('load', () => {
             const attrib = map.getContainer().querySelector('.maplibregl-ctrl-attrib');

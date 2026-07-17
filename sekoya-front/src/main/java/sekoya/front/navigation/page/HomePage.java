@@ -84,7 +84,7 @@ public class HomePage extends HomeTemplate {
     SimulationSiteOffcanvasPanel offcanvasPanel =
         new SimulationSiteOffcanvasPanel("offcanvas", simulationSearchDtoModel);
 
-    MapPanel map =
+    MapPanel mapPanel =
         new MapPanel("map", pointsModel) {
           @Override
           protected void onPointClick(AjaxRequestTarget target, Long pointId) {
@@ -110,7 +110,7 @@ public class HomePage extends HomeTemplate {
 
     add(
         offcanvasPanel,
-        map,
+        mapPanel,
         SimulationListPage.linkDescriptor().link("simulationListLink"),
         search.add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
         siteAdd
