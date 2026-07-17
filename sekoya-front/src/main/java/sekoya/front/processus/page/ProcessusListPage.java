@@ -106,7 +106,7 @@ public class ProcessusListPage extends ProcessusTemplate {
                   }
                 })
             .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-250")
+            .withClass("cell-w-200")
             .addColumn(
                 new AbstractCoreColumn<Processus, ProcessusSort>(
                     new ResourceModel("business.processus.site")) {

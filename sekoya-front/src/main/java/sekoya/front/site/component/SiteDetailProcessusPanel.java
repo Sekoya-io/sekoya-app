@@ -4,6 +4,7 @@ import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
+import igloo.wicket.component.CoreLabel;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
@@ -52,20 +53,26 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
 
     DecoratedCoreDataTablePanel<Processus, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
-            .addLabelColumn(new ResourceModel("business.processus.nom"), Bindings.processus().nom())
-            .withLink(ProcessusDetailPage.MAPPER)
+            .addColumn(
+                new AbstractCoreColumn<Processus, ProcessusSort>(
+                    new ResourceModel("business.processus.nom")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Processus>> cellItem,
+                      String componentId,
+                      IModel<Processus> rowModel) {
+                    cellItem.add(new NomCellFragment(componentId, rowModel));
+                  }
+                })
             .withSort(ProcessusSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
-            .addLabelColumn(
-                new ResourceModel("business.processus.type"), Bindings.processus().type())
-            .withClass("cell-w-200")
-            .withClass(CssClassConstants.CELL_DISPLAY_XL)
             .addLabelColumn(
                 new ResourceModel("business.processus.thematique"),
                 Bindings.processus().thematique())
             .withSort(ProcessusSort.THEMATIQUE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-200")
-            .withClass(CssClassConstants.CELL_DISPLAY_XL)
             .addColumn(
                 new AbstractCoreColumn<Processus, ProcessusSort>(
                     new ResourceModel("business.processus.priorite")) {
@@ -84,7 +91,7 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
                   }
                 })
             .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
-            .withClass("cell-w-250")
+            .withClass("cell-w-200")
             .addLabelColumn(
                 new ResourceModel("business.processus.aleas"), Bindings.processus().aleas().size())
             .withClass("cell-w-100")
@@ -130,6 +137,21 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
       add(Condition.anyChildVisible(this).thenShow());
 
       add(ProcessusSiteAddPage.MAPPER.map(siteModel).link("add").hideIfInvalid());
+    }
+  }
+
+  private class NomCellFragment extends Fragment {
+    private static final long serialVersionUID = 1L;
+
+    public NomCellFragment(String id, IModel<Processus> processusModel) {
+      super(id, "nomCellFragment", SiteDetailProcessusPanel.this);
+
+      add(
+          ProcessusDetailPage.MAPPER
+              .map(processusModel)
+              .link("processusLink")
+              .add(new CoreLabel("nom", BindingModel.of(processusModel, Bindings.processus()))),
+          new CoreLabel("type", BindingModel.of(processusModel, Bindings.processus().type())));
     }
   }
 }
