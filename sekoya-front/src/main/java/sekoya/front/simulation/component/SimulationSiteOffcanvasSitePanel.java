@@ -2,6 +2,8 @@ package sekoya.front.simulation.component;
 
 import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
+import igloo.wicket.component.EnclosureContainer;
+import igloo.wicket.component.PlaceholderContainer;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
@@ -22,6 +24,7 @@ import sekoya.back.business.simulation.service.business.ISimulationCalculService
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
+import sekoya.front.processus.page.ProcessusSiteAddPage;
 
 public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
 
@@ -37,52 +40,62 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
     super(id, siteModel);
 
     add(
-        new CollectionView<>(
-            "processus",
-            BindingModel.of(siteModel, Bindings.site().processus()),
-            GenericEntityModel.factory()) {
-
-          @Override
-          protected void populateItem(Item<Processus> item) {
-            IModel<Risque> risqueModel =
-                LoadableDetachableModel.of(
-                    () ->
-                        simulationCalculService.getProcessusRisqueBrut(
-                            item.getModelObject(), simulationSearchDtoModel.getObject()));
-
-            item.add(
-                    new WebMarkupContainer("icon")
-                        .add(
-                            new ClassAttributeAppender(
-                                BindingModel.of(
-                                    item.getModel(), Bindings.processus().type().iconCssClass()))),
-                    new CoreLabel("processus", item.getModel()).showPlaceholder(),
-                    new CoreLabel(
-                            "thematique",
-                            BindingModel.of(
-                                item.getModel(), Bindings.processus().type().thematique()))
-                        .showPlaceholder(),
-                    new ScoreMonoValueRatingDisplayPanel<>("risque", risqueModel))
-                .add(
-                    new AjaxEventBehavior("click") {
-                      @Override
-                      protected void onEvent(AjaxRequestTarget target) {
-                        processusModel.setObject(item.getModelObject());
-                        target.addChildren(getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
-                        target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
-                      }
-                    });
-          }
-        }.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance())
+        new EnclosureContainer("processusContainer")
+            .condition(
+                Condition.isTrue(
+                    BindingModel.of(
+                        simulationSearchDtoModel,
+                        Bindings.simulationSearchDto().enableProcessus())))
             .add(
-                Condition.and(
+                new CollectionView<>(
+                    "processus",
+                    BindingModel.of(siteModel, Bindings.site().processus()),
+                    GenericEntityModel.factory()) {
+
+                  @Override
+                  protected void populateItem(Item<Processus> item) {
+                    IModel<Risque> risqueModel =
+                        LoadableDetachableModel.of(
+                            () ->
+                                simulationCalculService.getProcessusRisqueBrut(
+                                    item.getModelObject(), simulationSearchDtoModel.getObject()));
+
+                    item.add(
+                            new WebMarkupContainer("icon")
+                                .add(
+                                    new ClassAttributeAppender(
+                                        BindingModel.of(
+                                            item.getModel(),
+                                            Bindings.processus().type().iconCssClass()))),
+                            new CoreLabel("processus", item.getModel()).showPlaceholder(),
+                            new CoreLabel(
+                                    "thematique",
+                                    BindingModel.of(
+                                        item.getModel(), Bindings.processus().type().thematique()))
+                                .showPlaceholder(),
+                            new ScoreMonoValueRatingDisplayPanel<>("risque", risqueModel))
+                        .add(
+                            new AjaxEventBehavior("click") {
+                              @Override
+                              protected void onEvent(AjaxRequestTarget target) {
+                                processusModel.setObject(item.getModelObject());
+                                target.addChildren(
+                                    getPage(), SimulationSiteOffcanvasBreadcrumbPanel.class);
+                                target.addChildren(
+                                    getPage(), SimulationSiteOffcanvasContentPanel.class);
+                              }
+                            });
+                  }
+                }.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance())
+                    .add(
                         Condition.collectionModelNotEmpty(
-                            BindingModel.of(siteModel, Bindings.site().processus())),
-                        Condition.isTrue(
-                            BindingModel.of(
-                                simulationSearchDtoModel,
-                                Bindings.simulationSearchDto().enableProcessus())))
-                    .thenShow()));
+                                BindingModel.of(siteModel, Bindings.site().processus()))
+                            .thenShow()),
+                new PlaceholderContainer("placeholder")
+                    .condition(
+                        Condition.collectionModelNotEmpty(
+                            BindingModel.of(siteModel, Bindings.site().processus())))
+                    .add(ProcessusSiteAddPage.MAPPER.map(siteModel).link("add"))));
 
     add(
         new SimulationSiteOffcanvasSiteAleasGeographiquesPanel(

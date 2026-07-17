@@ -82,9 +82,7 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
                     });
           }
         }.setItemReuseStrategy(ReuseIfModelsEqualStrategy.getInstance())
-            .add(Condition.collectionModelNotEmpty(aleasRisqueModel).thenShow()));
-
-    add(
+            .add(Condition.collectionModelNotEmpty(aleasRisqueModel).thenShow()),
         new PlaceholderContainer("placeholder")
             .condition(Condition.collectionModelNotEmpty(aleasRisqueModel))
             .add(ProcessusEditPage.MAPPER.map(processusModel).link("add")));
