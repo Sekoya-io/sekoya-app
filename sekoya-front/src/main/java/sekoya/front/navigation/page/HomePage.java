@@ -111,8 +111,8 @@ public class HomePage extends HomeTemplate {
     add(
         offcanvasPanel,
         mapPanel,
-        SimulationListPage.linkDescriptor().link("simulationListLink"),
         search.add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
+        SimulationListPage.linkDescriptor().link("simulationListLink"),
         siteAdd
             .add(
                 new AjaxModalOpenBehavior(siteAddPopup, MouseEvent.CLICK) {
