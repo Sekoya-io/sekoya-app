@@ -11,7 +11,6 @@ import org.iglooproject.wicket.more.security.authorization.AuthorizeInstantiatio
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.template.MainTemplate;
 import sekoya.front.processus.page.ProcessusListPage;
-import sekoya.front.site.page.SiteListPage;
 
 @AuthorizeInstantiationIfPermission(permissions = GLOBAL_PROCESSUS_READ)
 public abstract class ProcessusTemplate extends MainTemplate {
@@ -24,7 +23,7 @@ public abstract class ProcessusTemplate extends MainTemplate {
 
     addBreadCrumbElement(
         new BreadCrumbElement(
-            new ResourceModel("navigation.processus"), SiteListPage.linkDescriptor()));
+            new ResourceModel("navigation.processus"), ProcessusListPage.linkDescriptor()));
   }
 
   @Override
