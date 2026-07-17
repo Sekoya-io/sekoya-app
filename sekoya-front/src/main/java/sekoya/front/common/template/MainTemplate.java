@@ -119,7 +119,7 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
         SekoyaApplication.get()
             .getHomePageLinkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.home"))
-            .iconClasses(Model.of("fa fa-fw fa-map-location-dot")),
+            .iconClasses(Model.of("fa fa-fw fa-map")),
         OrganisationListPage.linkDescriptor()
             .navigationMenuItem(new ResourceModel("navigation.organisation"))
             .iconClasses(Model.of("fa fa-fw fa-building")),
