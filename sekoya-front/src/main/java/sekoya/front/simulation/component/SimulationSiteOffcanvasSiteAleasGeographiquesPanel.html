@@ -10,12 +10,23 @@
 			</div>
 		</div>
 		<div class="col-12">
-			<ul class="list-group">
-				<li wicket:id="values" class="list-group-item d-flex justify-content-between align-items-center">
-					<span wicket:id="aleaType" />
-					<div wicket:id="risque" />
-				</li>
-			</ul>
+			<div class="list-group">
+				<div wicket:id="values" class="list-group-item">
+					<div class="row g-3 align-items-center">
+						<div class="col-auto">
+							<div class="bg-body-secondary p-1 rounded-3">
+								<span wicket:id="icon" class="fa fa-fw fa-lg text-brand" />
+							</div>
+						</div>
+						<div class="col">
+							<div wicket:id="aleaType" />
+						</div>
+						<div class="col-auto">
+							<div wicket:id="risque" />
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </wicket:panel>

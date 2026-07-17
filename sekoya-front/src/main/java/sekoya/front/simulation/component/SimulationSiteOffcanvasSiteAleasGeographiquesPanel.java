@@ -1,10 +1,12 @@
 package sekoya.front.simulation.component;
 
+import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.Models;
 import java.util.SortedSet;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.IModel;
@@ -43,6 +45,10 @@ public class SimulationSiteOffcanvasSiteAleasGeographiquesPanel extends GenericP
           protected void populateItem(Item<Pair<AleaType, Risque>> item) {
 
             item.add(
+                new WebMarkupContainer("icon")
+                    .add(
+                        new ClassAttributeAppender(
+                            item.getModel().map(Pair::getValue0).map(AleaType::getIconCssClass))),
                 new CoreLabel("aleaType", item.getModel().map(Pair::getValue0)),
                 new ScoreMonoValueRatingDisplayPanel<Risque>(
                         "risque", item.getModel().map(Pair::getValue1))
