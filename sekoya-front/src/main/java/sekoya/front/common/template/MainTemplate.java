@@ -134,7 +134,6 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
             .iconClasses(Model.of("fa fa-fw fa-list")),
         new NavigationMenuItem(new ResourceModel("navigation.administration"))
             .iconClasses(Model.of("fa fa-fw fa-cogs"))
-            .subMenuForceOpen()
             .subMenuItems(
                 UserOrganisationListPage.linkDescriptor()
                     .navigationMenuItem(
