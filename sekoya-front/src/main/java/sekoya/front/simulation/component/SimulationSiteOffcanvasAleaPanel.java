@@ -50,7 +50,6 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
                     aleaModel.getObject(), simulationSearchDtoModel.getObject()));
 
     add(
-        new CoreLabel("alea", aleaModel).showPlaceholder(),
         new ScoreRatingDisplayPanel<>("risqueBrut", risqueModel),
         new CoreLabel("risqueBrutLabel", risqueModel).showPlaceholder());
 

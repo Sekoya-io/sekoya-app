@@ -36,7 +36,6 @@ public class SimulationSiteOffcanvasImpactPotentielBrutPanel extends GenericPane
     super(id, siteModel);
 
     add(
-        new CoreLabel("alea", aleaModel).showPlaceholder(),
         new ScoreRatingDisplayPanel<>(
             "impactPotentielBrut",
             BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut())),
