@@ -5,12 +5,22 @@
 		cursor: pointer;
 		border-radius: .5rem;
 		
-		&:hover,
+		&:hover:not(:has(a:hover, button:hover)),
 		&:focus {
 			background-color: $list-group-hover-bg;
 		}
 	}
 	
+	> :focus-visible {
+		outline: none;
+		
+		.list-group-item {
+			background-color: $list-group-hover-bg;
+			border-color: $list-group-active-bg;
+			box-shadow: 0 0 0 2px $list-group-active-bg;
+		}
+	}
+
 	.form-check-input {
 		z-index: 2;
 		margin-top: -.5em;

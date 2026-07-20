@@ -9,7 +9,6 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Models;
 import java.util.Comparator;
-import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.Item;
@@ -27,6 +26,7 @@ import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.common.behavior.AjaxClickA11yEventBehavior;
 import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
 import sekoya.front.processus.page.ProcessusEditPage;
 
@@ -81,7 +81,7 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
                             "risque", () -> item.getModelObject().getValue1())
                         .small())
                 .add(
-                    new AjaxEventBehavior("click") {
+                    new AjaxClickA11yEventBehavior() {
                       @Override
                       protected void onEvent(AjaxRequestTarget target) {
                         aleaModel.setObject(itemAleaModel.getObject());

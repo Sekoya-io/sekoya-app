@@ -10,7 +10,6 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Models;
 import java.util.Comparator;
-import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.repeater.Item;
@@ -27,7 +26,9 @@ import sekoya.back.business.simulation.dto.SimulationSearchDto;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
+import sekoya.front.common.behavior.AjaxClickA11yEventBehavior;
 import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
+import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusSiteAddPage;
 
 public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
@@ -92,9 +93,10 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                                         Bindings.processus().type().thematique()))
                                 .showPlaceholder(),
                             new ScoreMonoValueRatingDisplayPanel<>(
-                                "risque", () -> item.getModelObject().getValue1()))
+                                "risque", () -> item.getModelObject().getValue1()),
+                            ProcessusDetailPage.MAPPER.map(itemProcessusModel).link("view"))
                         .add(
-                            new AjaxEventBehavior("click") {
+                            new AjaxClickA11yEventBehavior() {
                               @Override
                               protected void onEvent(AjaxRequestTarget target) {
                                 processusModel.setObject(itemProcessusModel.getObject());
