@@ -2,9 +2,12 @@ package sekoya.front.processus.component;
 
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
+import igloo.wicket.behavior.ClassAttributeAppender;
+import igloo.wicket.component.CoreLabel;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -40,7 +43,18 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
 
     DecoratedCoreDataTablePanel<Alea, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
-            .addLabelColumn(new ResourceModel("business.alea.type"), Bindings.alea().type())
+            .addColumn(
+                new AbstractCoreColumn<Alea, AleaSort>(new ResourceModel("business.alea.type")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Alea>> cellItem,
+                      String componentId,
+                      IModel<Alea> rowModel) {
+                    cellItem.add(new TypeCellFragment(componentId, rowModel));
+                  }
+                })
             .withSort(AleaSort.TYPE, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
             .addColumn(
@@ -100,6 +114,21 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(results);
+  }
+
+  private class TypeCellFragment extends Fragment {
+    private static final long serialVersionUID = 1L;
+
+    public TypeCellFragment(String id, IModel<Alea> aleaModel) {
+      super(id, "typeCellFragment", ProcessusDetailAleasPanel.this);
+
+      add(
+          new WebMarkupContainer("icon")
+              .add(
+                  new ClassAttributeAppender(
+                      BindingModel.of(aleaModel, Bindings.alea().type().iconCssClass()))),
+          new CoreLabel("type", BindingModel.of(aleaModel, Bindings.alea().type())));
+    }
   }
 
   private class SensibiliteCellFragment extends Fragment {

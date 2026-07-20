@@ -1,6 +1,7 @@
 package sekoya.front.processus.component;
 
 import com.google.common.collect.Lists;
+import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.component.PlaceholderContainer;
 import igloo.wicket.condition.Condition;
@@ -11,6 +12,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.panel.Fragment;
@@ -84,6 +86,10 @@ public class ProcessusSaveAleasPanel extends AbstractProcessusSavePanel {
       super(id, "rowFragment", ProcessusSaveAleasPanel.this, aleaBindableModel);
 
       add(
+          new WebMarkupContainer("icon")
+              .add(
+                  new ClassAttributeAppender(
+                      aleaBindableModel.bind(Bindings.alea().type().iconCssClass()))),
           new CoreLabel("type", aleaBindableModel.bind(Bindings.alea().type())),
           new RadioGroup<>("sensibilite", aleaBindableModel.bind(Bindings.alea().sensibilite()))
               .setLabel(new ResourceModel("business.alea.sensibilite"))
