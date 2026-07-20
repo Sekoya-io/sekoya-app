@@ -317,39 +317,29 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
   protected void mountApplicationResources() {
     mountStaticResourceDirectory("/application", SekoyaResourcesPackage.class);
 
-    // See favicon generator https://realfavicongenerator.net/
-    mountResource(
-        "/android-chrome-192x192.png",
-        new PackageResourceReference(
-            ApplicationFaviconPackage.class, "android-chrome-192x192.png"));
-    mountResource(
-        "/android-chrome-256x256.png",
-        new PackageResourceReference(
-            ApplicationFaviconPackage.class, "android-chrome-256x256.png"));
     mountResource(
         "/apple-touch-icon.png",
         new PackageResourceReference(ApplicationFaviconPackage.class, "apple-touch-icon.png"));
     mountResource(
-        "/browserconfig.xml",
-        new PackageResourceReference(ApplicationFaviconPackage.class, "browserconfig.xml"));
-    mountResource(
         "/favicon.ico",
         new PackageResourceReference(ApplicationFaviconPackage.class, "favicon.ico"));
     mountResource(
-        "/favicon-16x16.png",
-        new PackageResourceReference(ApplicationFaviconPackage.class, "favicon-16x16.png"));
+        "/favicon.svg",
+        new PackageResourceReference(ApplicationFaviconPackage.class, "favicon.svg"));
     mountResource(
-        "/favicon-32x32.png",
-        new PackageResourceReference(ApplicationFaviconPackage.class, "favicon-32x32.png"));
-    mountResource(
-        "/mstile-150x150.png",
-        new PackageResourceReference(ApplicationFaviconPackage.class, "mstile-150x150.png"));
-    mountResource(
-        "/safari-pinned-tab.svg",
-        new PackageResourceReference(ApplicationFaviconPackage.class, "safari-pinned-tab.svg"));
+        "/favicon-96x96.png",
+        new PackageResourceReference(ApplicationFaviconPackage.class, "favicon-96x96.png"));
     mountResource(
         "/site.webmanifest",
         new PackageResourceReference(ApplicationFaviconPackage.class, "site.webmanifest"));
+    mountResource(
+        "/web-app-manifest-192x192.png",
+        new PackageResourceReference(
+            ApplicationFaviconPackage.class, "web-app-manifest-192x192.png"));
+    mountResource(
+        "/web-app-manifest-512x512.png",
+        new PackageResourceReference(
+            ApplicationFaviconPackage.class, "web-app-manifest-512x512.png"));
   }
 
   @Override

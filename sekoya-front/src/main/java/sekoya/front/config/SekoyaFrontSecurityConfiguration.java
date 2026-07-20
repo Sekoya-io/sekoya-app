@@ -109,16 +109,13 @@ public class SekoyaFrontSecurityConfiguration {
       "/static/**",
       "/monitoring/**",
       "/webjars/**",
-      "/android-chrome-192x192.png",
-      "/android-chrome-512x512.png",
       "/apple-touch-icon.png",
-      "/browserconfig.xml",
       "/favicon.ico",
-      "/favicon-16x16.png",
-      "/favicon-32x32.png",
-      "/mstile-150x150.png",
-      "/safari-pinned-tab.svg",
-      "/site.webmanifest"
+      "/favicon.svg",
+      "/favicon-96x96.png",
+      "/site.webmanifest",
+      "/web-app-manifest-192x192.png",
+      "/web-app-manifest-512x512.png"
     };
   }
 }
