@@ -8,7 +8,6 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.PROCESSUS_WRI
 import igloo.bootstrap.confirm.AjaxConfirmLink;
 import igloo.bootstrap5.markup.html.bootstrap.component.BootstrapBadge;
 import igloo.wicket.action.IAjaxAction;
-import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
@@ -18,7 +17,6 @@ import igloo.wicket.model.Detachables;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
@@ -37,6 +35,7 @@ import sekoya.back.business.processus.service.controller.IProcessusControllerSer
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.processus.component.ProcessusDetailAleasPanel;
 import sekoya.front.processus.component.ProcessusDetailDescriptionPanel;
+import sekoya.front.processus.component.ProcessusThematiqueIconPanel;
 import sekoya.front.processus.renderer.ProcessusBootstrapRenderer;
 import sekoya.front.processus.template.ProcessusTemplate;
 import sekoya.front.user.page.UserAdministrateurFonctionnelListPage;
@@ -73,11 +72,8 @@ public class ProcessusDetailPage extends ProcessusTemplate {
         new BreadCrumbElement(BindingModel.of(processusModel, Bindings.processus().nom())));
 
     add(
-        new WebMarkupContainer("icon")
-            .add(
-                new ClassAttributeAppender(
-                    BindingModel.of(
-                        processusModel, Bindings.processus().thematique().iconCssClass()))),
+        new ProcessusThematiqueIconPanel(
+            "thematique", BindingModel.of(processusModel, Bindings.processus().thematique())),
         new CoreLabel("title", BindingModel.of(processusModel, Bindings.processus().nom())));
 
     EnclosureContainer headerElementsSection = new EnclosureContainer("headerElementsSection");

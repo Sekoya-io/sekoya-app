@@ -4,13 +4,11 @@ import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
-import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.component.CoreLabel;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -32,6 +30,7 @@ import sekoya.front.SekoyaSession;
 import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
+import sekoya.front.processus.component.ProcessusThematiqueIconPanel;
 import sekoya.front.processus.model.ProcessusDataProvider;
 import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusEditPage;
@@ -146,11 +145,8 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
       super(id, "nomCellFragment", SiteDetailProcessusPanel.this);
 
       add(
-          new WebMarkupContainer("icon")
-              .add(
-                  new ClassAttributeAppender(
-                      BindingModel.of(
-                          processusModel, Bindings.processus().thematique().iconCssClass()))),
+          new ProcessusThematiqueIconPanel(
+              "thematique", BindingModel.of(processusModel, Bindings.processus().thematique())),
           ProcessusDetailPage.MAPPER
               .map(processusModel)
               .link("link")

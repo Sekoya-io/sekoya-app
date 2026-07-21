@@ -11,6 +11,7 @@ import sekoya.back.business.history.search.HistoryLogSearchQueryDataBinding;
 import sekoya.back.business.organisation.model.OrganisationBinding;
 import sekoya.back.business.organisation.search.OrganisationSearchQueryDataBinding;
 import sekoya.back.business.processus.model.ProcessusBinding;
+import sekoya.back.business.processus.model.atomic.ProcessusThematiqueBinding;
 import sekoya.back.business.processus.search.ProcessusSearchQueryDataBinding;
 import sekoya.back.business.referencedata.model.CommuneBinding;
 import sekoya.back.business.referencedata.model.DepartementBinding;
@@ -41,6 +42,8 @@ public final class Bindings {
       new SiteSearchQueryDataBinding();
 
   private static final ProcessusBinding PROCESSUS = new ProcessusBinding();
+  private static final ProcessusThematiqueBinding PROCESSUS_THEMATIQUE =
+      new ProcessusThematiqueBinding();
   private static final ProcessusSearchQueryDataBinding PROCESSUS_SEARCH_QUERY_DATA =
       new ProcessusSearchQueryDataBinding();
 
@@ -105,6 +108,10 @@ public final class Bindings {
 
   public static ProcessusBinding processus() {
     return PROCESSUS;
+  }
+
+  public static ProcessusThematiqueBinding processusThematique() {
+    return PROCESSUS_THEMATIQUE;
   }
 
   public static ProcessusSearchQueryDataBinding processusSearchQueryData() {
