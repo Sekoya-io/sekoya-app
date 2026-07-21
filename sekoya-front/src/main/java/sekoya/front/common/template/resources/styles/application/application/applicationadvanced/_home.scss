@@ -67,6 +67,8 @@
 	
 	.home-offcanvas {
 		@include bg-glass();
+		border: 1px solid rgba(var(--bs-emphasis-color-rgb), .18) !important;
+		box-shadow: var(--glass-shadow) !important;
 	}
 	
 	@include media-breakpoint-down(md) {
