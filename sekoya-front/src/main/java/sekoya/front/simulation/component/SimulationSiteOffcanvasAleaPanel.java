@@ -10,6 +10,7 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.service.IAleaService;
@@ -17,6 +18,7 @@ import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
@@ -35,7 +37,7 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
       IModel<Site> siteModel,
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
-      IModel<Boolean> impactPotentielBrutModeModel,
+      IModel<SimulationEtape> simulationEtapeModel,
       IModel<SimulationSearchDto> simulationSearchDtoModel) {
     super(id, siteModel);
 
@@ -74,8 +76,9 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
 
                   @Override
                   public void onClick(AjaxRequestTarget target) {
-                    impactPotentielBrutModeModel.setObject(true);
-                    target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
+                    simulationEtapeModel.setObject(SimulationEtape.IMPACT_POTENTIEL);
+                    target.addChildren(getPage(), SimulationSiteOffcanvasHeaderPanel.class);
+                    target.addChildren(getPage(), SimulationSiteOffcanvasBodyPanel.class);
                   }
                 })
             .add(
@@ -96,10 +99,6 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
                         "rating-card-evolution-%s"
                             .formatted(evolutionModel.getObject().getScore()))));
 
-    add(
-        Condition.and(
-                Condition.modelNotNull(aleaModel),
-                Condition.isTrue(impactPotentielBrutModeModel).negate())
-            .thenShowInternal());
+    add(Condition.isEqual(simulationEtapeModel, Model.of(SimulationEtape.ALEA)).thenShowInternal());
   }
 }

@@ -16,6 +16,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
 import org.javatuples.Pair;
@@ -23,12 +24,12 @@ import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.service.IProcessusService;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.behavior.AjaxClickA11yEventBehavior;
 import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
-import sekoya.front.processus.page.ProcessusDetailPage;
 import sekoya.front.processus.page.ProcessusSiteAddPage;
 
 public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
@@ -43,6 +44,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
       String id,
       IModel<Site> siteModel,
       IModel<Processus> processusModel,
+      IModel<SimulationEtape> simulationEtapeModel,
       IModel<SimulationSearchDto> simulationSearchDtoModel) {
     super(id, siteModel);
 
@@ -93,15 +95,17 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                                         Bindings.processus().type().thematique()))
                                 .showPlaceholder(),
                             new ScoreMonoValueRatingDisplayPanel<>(
-                                "risque", () -> item.getModelObject().getValue1()),
-                            ProcessusDetailPage.MAPPER.map(itemProcessusModel).link("view"))
+                                "risque", () -> item.getModelObject().getValue1()))
                         .add(
                             new AjaxClickA11yEventBehavior() {
                               @Override
                               protected void onEvent(AjaxRequestTarget target) {
                                 processusModel.setObject(itemProcessusModel.getObject());
+                                simulationEtapeModel.setObject(SimulationEtape.PROCESSUS);
                                 target.addChildren(
-                                    getPage(), SimulationSiteOffcanvasContentPanel.class);
+                                    getPage(), SimulationSiteOffcanvasHeaderPanel.class);
+                                target.addChildren(
+                                    getPage(), SimulationSiteOffcanvasBodyPanel.class);
                               }
                             });
                   }
@@ -115,9 +119,6 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
         new SimulationSiteOffcanvasSiteAleasGeographiquesPanel(
             "aleasGeographiques", siteModel, simulationSearchDtoModel));
 
-    add(
-        Condition.and(
-                Condition.modelNotNull(siteModel), Condition.modelNotNull(processusModel).negate())
-            .thenShowInternal());
+    add(Condition.isEqual(simulationEtapeModel, Model.of(SimulationEtape.SITE)).thenShowInternal());
   }
 }

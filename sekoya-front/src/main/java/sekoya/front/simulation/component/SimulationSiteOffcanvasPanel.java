@@ -1,7 +1,6 @@
 package sekoya.front.simulation.component;
 
 import igloo.wicket.behavior.ClassAttributeAppender;
-import igloo.wicket.component.CoreLabel;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.Detachables;
@@ -15,9 +14,9 @@ import org.iglooproject.wicket.more.model.GenericEntityModel;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.site.model.Site;
 import sekoya.front.navigation.page.HomePage;
-import sekoya.front.site.page.SiteDetailPage;
 
 public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
 
@@ -25,7 +24,7 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
 
   private final IModel<Processus> processusModel = new GenericEntityModel<>();
   private final IModel<Alea> aleaModel = new GenericEntityModel<>();
-  private final IModel<Boolean> impactPotentielBrutModeModel = Model.of();
+  private final IModel<SimulationEtape> simulationEtapeModel = Model.of(SimulationEtape.SITE);
 
   public SimulationSiteOffcanvasPanel(
       String id, IModel<SimulationSearchDto> simulationSearchDtoModel) {
@@ -42,16 +41,19 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
     add(
         new WebMarkupContainer("offcanvas")
             .add(
-                SiteDetailPage.MAPPER
-                    .map(siteModel)
-                    .link("siteLink")
-                    .add(new CoreLabel("site", siteModel).showPlaceholder()),
-                new SimulationSiteOffcanvasContentPanel(
-                    "content",
+                new SimulationSiteOffcanvasHeaderPanel(
+                    "header",
                     siteModel,
                     processusModel,
                     aleaModel,
-                    impactPotentielBrutModeModel,
+                    simulationEtapeModel,
+                    simulationSearchDtoModel),
+                new SimulationSiteOffcanvasBodyPanel(
+                    "body",
+                    siteModel,
+                    processusModel,
+                    aleaModel,
+                    simulationEtapeModel,
                     simulationSearchDtoModel))
             .add(
                 new ClassAttributeAppender("home-offcanvas home-offcanvas-simulation") {
@@ -91,12 +93,12 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
   public void reset() {
     processusModel.setObject(null);
     aleaModel.setObject(null);
-    impactPotentielBrutModeModel.setObject(null);
+    simulationEtapeModel.setObject(SimulationEtape.SITE);
   }
 
   @Override
   protected void onDetach() {
     super.onDetach();
-    Detachables.detach(processusModel, aleaModel);
+    Detachables.detach(processusModel, aleaModel, simulationEtapeModel);
   }
 }

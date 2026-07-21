@@ -5,25 +5,27 @@
 	<nav aria-label="breadcrumb">
 		<ol class="breadcrumb m-0">
 			<li class="breadcrumb-item">
-				<a wicket:id="siteLink">
-					<wicket:message key="simulation.common.offcanvas.breadcrumb.simulation" />
-				</a>
+				<span class="fa fa-fw fa-signs-post text-secondary" />
+			</li>
+			<li wicket:id="siteContainer" class="breadcrumb-item">
+				<a wicket:id="navigationLink" class="link-body-emphasis"><span wicket:id="site" /></a>
+				<span wicket:id="site" class="fw-bold" />
+				<a wicket:id="siteLink"><span class="fa fa-fw fa-arrow-up-right-from-square" /></a>
 			</li>
 			<li wicket:id="processusContainer" class="breadcrumb-item">
-				<a wicket:id="processusLink">
-					<span wicket:id="processus" />
-				</a>
-				<span wicket:id="processus" />
+				<a wicket:id="navigationLink" class="link-body-emphasis"><span wicket:id="processus" /></a>
+				<span wicket:id="processus" class="fw-bold" />
+				<a wicket:id="processusLink"><span class="fa fa-fw fa-arrow-up-right-from-square" /></a>
 			</li>
 			<li wicket:id="aleaContainer" class="breadcrumb-item">
-				<a wicket:id="aleaLink">
-					<span wicket:id="alea" />
-				</a>
-				<span wicket:id="alea" />
+				<a wicket:id="navigationLink" class="link-body-emphasis"><span wicket:id="alea" /></a>
+				<span wicket:id="alea" class="fw-bold" />
 			</li>
 			<li wicket:id="impactPotentielBrutContainer" class="breadcrumb-item">
-				<span>
-					<wicket:message key="business.alea.impactPotentielBrut" />
+				<span class="fw-bold">
+					<wicket:message key="business.alea.impactPotentiel" />
+					·
+					<wicket:message wicket:id="impactPotentielBrut" />
 				</span>
 			</li>
 		</ol>

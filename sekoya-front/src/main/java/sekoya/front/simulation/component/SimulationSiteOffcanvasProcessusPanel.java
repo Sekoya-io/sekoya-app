@@ -15,6 +15,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.ReuseIfModelsEqualStrategy;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
 import org.javatuples.Pair;
@@ -23,6 +24,7 @@ import sekoya.back.business.alea.service.IAleaService;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
@@ -43,6 +45,7 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
       IModel<Site> siteModel,
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
+      IModel<SimulationEtape> simulationEtapeModel,
       IModel<SimulationSearchDto> simulationSearchDtoModel) {
     super(id, siteModel);
 
@@ -85,7 +88,9 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
                       @Override
                       protected void onEvent(AjaxRequestTarget target) {
                         aleaModel.setObject(itemAleaModel.getObject());
-                        target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
+                        simulationEtapeModel.setObject(SimulationEtape.ALEA);
+                        target.addChildren(getPage(), SimulationSiteOffcanvasHeaderPanel.class);
+                        target.addChildren(getPage(), SimulationSiteOffcanvasBodyPanel.class);
                       }
                     });
           }
@@ -96,8 +101,7 @@ public class SimulationSiteOffcanvasProcessusPanel extends GenericPanel<Site> {
             .add(ProcessusEditPage.MAPPER.map(processusModel).link("add")));
 
     add(
-        Condition.and(
-                Condition.modelNotNull(processusModel), Condition.modelNotNull(aleaModel).negate())
+        Condition.isEqual(simulationEtapeModel, Model.of(SimulationEtape.PROCESSUS))
             .thenShowInternal());
   }
 }

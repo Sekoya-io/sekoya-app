@@ -5,7 +5,7 @@
 		cursor: pointer;
 		border-radius: .5rem;
 		
-		&:hover:not(:has(a:hover, button:hover)),
+		&:hover,
 		&:focus {
 			background-color: $list-group-hover-bg;
 		}
@@ -20,7 +20,7 @@
 			box-shadow: 0 0 0 2px $list-group-active-bg;
 		}
 	}
-
+	
 	.form-check-input {
 		z-index: 2;
 		margin-top: -.5em;

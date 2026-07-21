@@ -34,9 +34,6 @@ public abstract class AjaxClickA11yEventBehavior extends AjaxEventBehavior {
                 .onPrecondition(
                     """
                     var e = attrs.event;
-                    if (e.target.closest('a, button')) {
-                      return false;
-                    }
                     if (e.type === 'keydown') {
                       if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
                         e.preventDefault();

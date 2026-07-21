@@ -57,7 +57,8 @@ public class SimulationMapSearchPanel extends Panel {
                       offcanvasPanel.reset();
                       visit.stop();
                     });
-            target.addChildren(getPage(), SimulationSiteOffcanvasContentPanel.class);
+            target.addChildren(getPage(), SimulationSiteOffcanvasHeaderPanel.class);
+            target.addChildren(getPage(), SimulationSiteOffcanvasBodyPanel.class);
             FeedbackUtils.refreshFeedback(target, getPage());
           }
         });

@@ -7,12 +7,14 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.service.IAleaService;
 import sekoya.back.business.donneeclimatique.service.IDonneeClimatiqueService;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
@@ -33,7 +35,7 @@ public class SimulationSiteOffcanvasImpactPotentielBrutPanel extends GenericPane
       IModel<Site> siteModel,
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
-      IModel<Boolean> impactPotentielBrutModeModel,
+      IModel<SimulationEtape> simulationEtapeModel,
       IModel<SimulationSearchDto> simulationSearchDtoModel) {
     super(id, siteModel);
 
@@ -85,6 +87,8 @@ public class SimulationSiteOffcanvasImpactPotentielBrutPanel extends GenericPane
                         "rating-card-alea-sensibilite-%s"
                             .formatted(aleaModel.getObject().getSensibilite().getScore()))));
 
-    add(Condition.isTrue(impactPotentielBrutModeModel).thenShowInternal());
+    add(
+        Condition.isEqual(simulationEtapeModel, Model.of(SimulationEtape.IMPACT_POTENTIEL))
+            .thenShowInternal());
   }
 }

@@ -60,6 +60,7 @@ import sekoya.back.business.referencedata.model.Departement;
 import sekoya.back.business.referencedata.model.Region;
 import sekoya.back.business.referencedata.model.atomic.CommuneTypeInsee;
 import sekoya.back.business.role.model.Role;
+import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.model.atomic.SiteTypologie;
 import sekoya.back.business.user.model.User;
@@ -214,6 +215,7 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
     converterLocator.set(Alea.class, AleaRenderer.get());
     converterLocator.set(AleaType.class, EnumRenderer.get());
     converterLocator.set(AleaSensibilite.class, EnumRenderer.get());
+    converterLocator.set(SimulationEtape.class, EnumRenderer.get());
 
     converterLocator.set(User.class, UserRenderer.get());
     converterLocator.set(Role.class, RoleRenderer.get());
