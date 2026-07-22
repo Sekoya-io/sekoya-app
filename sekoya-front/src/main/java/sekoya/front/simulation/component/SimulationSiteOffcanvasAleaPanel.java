@@ -17,7 +17,7 @@ import sekoya.back.business.alea.service.IAleaService;
 import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
@@ -38,20 +38,20 @@ public class SimulationSiteOffcanvasAleaPanel extends GenericPanel<Site> {
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
       IModel<SimulationEtape> simulationEtapeModel,
-      IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
 
     IModel<Risque> risqueModel =
         LoadableDetachableModel.of(
             () ->
                 simulationCalculService.getAleaRisqueBrut(
-                    aleaModel.getObject(), simulationSearchDtoModel.getObject()));
+                    aleaModel.getObject(), simulationParametresDtoModel.getObject()));
 
     IModel<Evolution> evolutionModel =
         LoadableDetachableModel.of(
             () ->
                 simulationCalculService.getAleaEvolution(
-                    aleaModel.getObject(), simulationSearchDtoModel.getObject()));
+                    aleaModel.getObject(), simulationParametresDtoModel.getObject()));
 
     add(
         new WebMarkupContainer("risqueBrutContainer")

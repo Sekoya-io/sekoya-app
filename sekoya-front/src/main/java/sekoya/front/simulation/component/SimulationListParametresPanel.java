@@ -1,13 +1,13 @@
 package sekoya.front.simulation.component;
 
 import igloo.wicket.feedback.FeedbackUtils;
+import igloo.wicket.markup.html.form.PageableSearchForm;
 import igloo.wicket.model.BindingModel;
 import igloo.wicket.model.Models;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.Radio;
 import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -15,26 +15,30 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.util.visit.IVisit;
 import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
+import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.rendering.BooleanRenderer;
 import org.iglooproject.wicket.more.rendering.EnumRenderer;
 import org.wicketstuff.wiquery.core.events.StateEvent;
 import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Scenario;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
+import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
-import sekoya.front.common.map.component.MapPanel;
+import sekoya.front.site.model.SiteDataProvider;
 
-public class SimulationMapSearchPanel extends Panel {
+public class SimulationListParametresPanel extends Panel {
 
   private static final long serialVersionUID = 1L;
 
-  public SimulationMapSearchPanel(String id, IModel<SimulationSearchDto> simulationSearchDtoModel) {
+  public SimulationListParametresPanel(
+      String id,
+      SiteDataProvider dataProvider,
+      DecoratedCoreDataTablePanel<Site, ?> table,
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id);
-    setOutputMarkupId(true);
 
-    Form<Void> form = new Form<>("form");
+    PageableSearchForm<Void> form = new PageableSearchForm<>("form", table);
     add(form);
 
     form.add(
@@ -43,22 +47,10 @@ public class SimulationMapSearchPanel extends Panel {
 
           @Override
           protected void onSubmit(AjaxRequestTarget target) {
-            getPage()
-                .visitChildren(
-                    MapPanel.class,
-                    (MapPanel mapPanel, IVisit<Void> visit) -> {
-                      mapPanel.updatePoints(target);
-                      visit.stop();
-                    });
-            getPage()
-                .visitChildren(
-                    SimulationSiteOffcanvasPanel.class,
-                    (SimulationSiteOffcanvasPanel offcanvasPanel, IVisit<Void> visit) -> {
-                      offcanvasPanel.reset();
-                      visit.stop();
-                    });
-            target.addChildren(getPage(), SimulationSiteOffcanvasHeaderPanel.class);
-            target.addChildren(getPage(), SimulationSiteOffcanvasBodyPanel.class);
+            // Just in case the dataProvider's content was loaded before search parameters changed
+            dataProvider.detach();
+            target.add(table);
+            target.addChildren(getPage(), SimulationSiteOffcanvasPanel.class);
             FeedbackUtils.refreshFeedback(target, getPage());
           }
         });
@@ -67,7 +59,7 @@ public class SimulationMapSearchPanel extends Panel {
         new RadioGroup<>(
                 "scenario",
                 BindingModel.of(
-                    simulationSearchDtoModel, Bindings.simulationSearchDto().scenario()))
+                    simulationParametresDtoModel, Bindings.simulationParametresDto().scenario()))
             .setLabel(new ResourceModel("business.common.scenario"))
             .setRequired(true)
             .add(
@@ -86,7 +78,8 @@ public class SimulationMapSearchPanel extends Panel {
             .setRenderBodyOnly(false),
         new RadioGroup<>(
                 "horizon",
-                BindingModel.of(simulationSearchDtoModel, Bindings.simulationSearchDto().horizon()))
+                BindingModel.of(
+                    simulationParametresDtoModel, Bindings.simulationParametresDto().horizon()))
             .setLabel(new ResourceModel("business.common.horizon"))
             .setRequired(true)
             .add(
@@ -106,7 +99,8 @@ public class SimulationMapSearchPanel extends Panel {
         new RadioGroup<>(
                 "enableProcessus",
                 BindingModel.of(
-                    simulationSearchDtoModel, Bindings.simulationSearchDto().enableProcessus()))
+                    simulationParametresDtoModel,
+                    Bindings.simulationParametresDto().enableProcessus()))
             .setLabel(new ResourceModel("simulation.common.wording.enableProcessus"))
             .setRequired(true)
             .add(

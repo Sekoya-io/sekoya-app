@@ -5,7 +5,7 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.site.model.Site;
 
@@ -19,7 +19,7 @@ public class SimulationSiteOffcanvasHeaderPanel extends GenericPanel<Site> {
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
       IModel<SimulationEtape> simulationEtapeModel,
-      IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
     setOutputMarkupId(true);
 

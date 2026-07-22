@@ -36,13 +36,14 @@ import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuild
 import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.common.model.atomic.Risque;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
 import sekoya.front.common.component.ScoreRatingDisplayPanel;
+import sekoya.front.simulation.component.SimulationListParametresPanel;
 import sekoya.front.simulation.component.SimulationListSearchPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
 import sekoya.front.simulation.template.SimulationTemplate;
@@ -55,8 +56,8 @@ public class SimulationListPage extends SimulationTemplate {
 
   @SpringBean private ISimulationCalculControllerService simulationCalculControllerService;
 
-  private IModel<SimulationSearchDto> simulationSearchDtoModel =
-      Model.of(new SimulationSearchDto());
+  private IModel<SimulationParametresDto> simulationParametresDtoModel =
+      Model.of(new SimulationParametresDto());
 
   public static IPageLinkDescriptor linkDescriptor() {
     return LinkDescriptorBuilder.start()
@@ -110,7 +111,7 @@ public class SimulationListPage extends SimulationTemplate {
                     .add(Condition.permission(GLOBAL_SITE_WRITE).thenShow())));
 
     SimulationSiteOffcanvasPanel offcanvasPanel =
-        new SimulationSiteOffcanvasPanel("offcanvas", simulationSearchDtoModel);
+        new SimulationSiteOffcanvasPanel("offcanvas", simulationParametresDtoModel);
 
     DecoratedCoreDataTablePanel<Site, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
@@ -145,7 +146,8 @@ public class SimulationListPage extends SimulationTemplate {
                       String componentId,
                       IModel<Site> rowModel) {
                     cellItem.add(
-                        new RisqueCellFragment(componentId, rowModel, simulationSearchDtoModel));
+                        new RisqueCellFragment(
+                            componentId, rowModel, simulationParametresDtoModel));
                   }
                 })
             .withClass("cell-w-250")
@@ -157,7 +159,9 @@ public class SimulationListPage extends SimulationTemplate {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(
-        new SimulationListSearchPanel("search", dataProvider, results, simulationSearchDtoModel),
+        new SimulationListParametresPanel(
+            "parametres", dataProvider, results, simulationParametresDtoModel),
+        new SimulationListSearchPanel("search", dataProvider, results),
         results,
         offcanvasPanel);
   }
@@ -190,14 +194,16 @@ public class SimulationListPage extends SimulationTemplate {
     private static final long serialVersionUID = 1L;
 
     public RisqueCellFragment(
-        String id, IModel<Site> siteModel, IModel<SimulationSearchDto> simulationSearchDtoModel) {
+        String id,
+        IModel<Site> siteModel,
+        IModel<SimulationParametresDto> simulationParametresDtoModel) {
       super(id, "risqueCellFragment", SimulationListPage.this);
 
       IModel<Risque> risqueModel =
           LoadableDetachableModel.of(
               () ->
                   simulationCalculControllerService.getSiteRisqueBrut(
-                      siteModel.getObject(), simulationSearchDtoModel.getObject()));
+                      siteModel.getObject(), simulationParametresDtoModel.getObject()));
 
       add(new ScoreRatingDisplayPanel<>("risque", risqueModel).small());
     }
@@ -206,6 +212,6 @@ public class SimulationListPage extends SimulationTemplate {
   @Override
   protected void onDetach() {
     super.onDetach();
-    Detachables.detach(simulationSearchDtoModel);
+    Detachables.detach(simulationParametresDtoModel);
   }
 }

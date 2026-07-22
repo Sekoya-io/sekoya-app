@@ -4,13 +4,13 @@ import java.util.SortedSet;
 import org.javatuples.Pair;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Risque;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.site.model.Site;
 
 public interface ISimulationCalculControllerService {
 
-  Risque getSiteRisqueBrut(Site site, SimulationSearchDto simulationSearchDto);
+  Risque getSiteRisqueBrut(Site site, SimulationParametresDto simulationParametresDto);
 
   SortedSet<Pair<AleaType, Risque>> listAleaRisqueGeographiqueBySite(
-      Site site, SimulationSearchDto simulationSearchDto);
+      Site site, SimulationParametresDto simulationParametresDto);
 }

@@ -13,7 +13,7 @@ import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.alea.service.IAleaService;
 import sekoya.back.business.donneeclimatique.service.IDonneeClimatiqueService;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
@@ -36,7 +36,7 @@ public class SimulationSiteOffcanvasImpactPotentielBrutPanel extends GenericPane
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
       IModel<SimulationEtape> simulationEtapeModel,
-      IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
 
     add(

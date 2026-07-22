@@ -16,7 +16,7 @@ import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.donneeclimatique.model.DonneeClimatique;
 import sekoya.back.business.donneeclimatique.service.IDonneeClimatiqueService;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.site.model.Site;
 
 @Service
@@ -30,16 +30,16 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
   }
 
   @Override
-  public Risque getSiteRisqueBrut(Site site, SimulationSearchDto simulationSearchDto) {
+  public Risque getSiteRisqueBrut(Site site, SimulationParametresDto simulationParametresDto) {
     Objects.requireNonNull(site);
 
     SortedSet<Processus> processus = site.getProcessusEnabled();
 
-    if (simulationSearchDto.isEnableProcessus()) {
+    if (simulationParametresDto.isEnableProcessus()) {
       if (!processus.isEmpty()) {
         List<Risque> processusRisques = Lists.newArrayList();
         for (Processus p : processus) {
-          processusRisques.add(getProcessusRisqueBrut(p, simulationSearchDto));
+          processusRisques.add(getProcessusRisqueBrut(p, simulationParametresDto));
         }
         return processusRisques.stream()
             .max(Comparator.comparingInt(Risque::getScore))
@@ -61,8 +61,8 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
           donneeClimatiqueService
               .getPlusDefavorableByPointGeographique(
                   site.getPointGeographique(),
-                  simulationSearchDto.getScenario(),
-                  simulationSearchDto.getHorizon())
+                  simulationParametresDto.getScenario(),
+                  simulationParametresDto.getHorizon())
               .getEvolution()
               .getRisque();
       return Risque.fromScore(
@@ -74,7 +74,7 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
 
   @Override
   public Risque getProcessusRisqueBrut(
-      Processus processus, SimulationSearchDto simulationSearchDto) {
+      Processus processus, SimulationParametresDto simulationParametresDto) {
     Objects.requireNonNull(processus);
 
     if (processus.getAleas().isEmpty()) {
@@ -91,8 +91,8 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
           donneeClimatiqueService
               .getPlusDefavorableByPointGeographique(
                   processus.getSite().getPointGeographique(),
-                  simulationSearchDto.getScenario(),
-                  simulationSearchDto.getHorizon())
+                  simulationParametresDto.getScenario(),
+                  simulationParametresDto.getHorizon())
               .getEvolution()
               .getRisque();
       return Risque.fromScore(
@@ -102,14 +102,14 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
     } else {
       List<Risque> aleasRisques = Lists.newArrayList();
       for (Alea alea : processus.getAleas()) {
-        aleasRisques.add(getAleaRisqueBrut(alea, simulationSearchDto));
+        aleasRisques.add(getAleaRisqueBrut(alea, simulationParametresDto));
       }
       return aleasRisques.stream().max(Comparator.comparingInt(Risque::getScore)).orElseThrow();
     }
   }
 
   @Override
-  public Evolution getAleaEvolution(Alea alea, SimulationSearchDto simulationSearchDto) {
+  public Evolution getAleaEvolution(Alea alea, SimulationParametresDto simulationParametresDto) {
     Objects.requireNonNull(alea);
 
     if (Objects.equals(alea.getType(), AleaType.INONDATION_COTIERE)) {
@@ -119,22 +119,22 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
     } else {
       DonneeClimatique donneeClimatique =
           donneeClimatiqueService.getByAlea(
-              alea, simulationSearchDto.getScenario(), simulationSearchDto.getHorizon());
+              alea, simulationParametresDto.getScenario(), simulationParametresDto.getHorizon());
       return donneeClimatique != null ? donneeClimatique.getEvolution() : Evolution.FAVORABLE;
     }
   }
 
   @Override
-  public Risque getAleaRisqueBrut(Alea alea, SimulationSearchDto simulationSearchDto) {
+  public Risque getAleaRisqueBrut(Alea alea, SimulationParametresDto simulationParametresDto) {
     Objects.requireNonNull(alea);
 
     return AleaRisqueBrutCalculator.generer(
-        alea.getImpactPotentielBrut(), getAleaEvolution(alea, simulationSearchDto));
+        alea.getImpactPotentielBrut(), getAleaEvolution(alea, simulationParametresDto));
   }
 
   @Override
   public SortedSet<Pair<AleaType, Risque>> listAleaRisqueGeographiqueBySite(
-      Site site, SimulationSearchDto simulationSearchDto) {
+      Site site, SimulationParametresDto simulationParametresDto) {
     SortedSet<Pair<AleaType, Risque>> aleasRisques =
         Sets.newTreeSet(
             Comparator.comparing((Pair<AleaType, Risque> p) -> p.getValue1().getScore())
@@ -156,8 +156,8 @@ public class SimulationCalculServiceImpl implements ISimulationCalculService {
                 donneeClimatiqueService.getRisqueByAleaTypeAndPointGeographique(
                     aleaType,
                     site.getPointGeographique(),
-                    simulationSearchDto.getScenario(),
-                    simulationSearchDto.getHorizon())));
+                    simulationParametresDto.getScenario(),
+                    simulationParametresDto.getHorizon())));
       }
     }
 

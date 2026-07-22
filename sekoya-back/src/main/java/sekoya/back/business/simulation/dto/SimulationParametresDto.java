@@ -6,7 +6,7 @@ import sekoya.back.business.common.model.atomic.Horizon;
 import sekoya.back.business.common.model.atomic.Scenario;
 
 @Bindable
-public class SimulationSearchDto implements Serializable {
+public class SimulationParametresDto implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -16,7 +16,7 @@ public class SimulationSearchDto implements Serializable {
 
   private boolean enableProcessus;
 
-  public SimulationSearchDto() {
+  public SimulationParametresDto() {
     super();
     this.scenario = Scenario.RCP_4_5;
     this.horizon = Horizon.ANNEE_2055;

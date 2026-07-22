@@ -8,20 +8,21 @@ import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Evolution;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.site.model.Site;
 
 @Transactional(readOnly = true)
 public interface ISimulationCalculService {
 
-  Risque getSiteRisqueBrut(Site site, SimulationSearchDto simulationSearchDto);
+  Risque getSiteRisqueBrut(Site site, SimulationParametresDto simulationParametresDto);
 
-  Risque getProcessusRisqueBrut(Processus processus, SimulationSearchDto simulationSearchDto);
+  Risque getProcessusRisqueBrut(
+      Processus processus, SimulationParametresDto simulationParametresDto);
 
-  Evolution getAleaEvolution(Alea alea, SimulationSearchDto simulationSearchDto);
+  Evolution getAleaEvolution(Alea alea, SimulationParametresDto simulationParametresDto);
 
-  Risque getAleaRisqueBrut(Alea alea, SimulationSearchDto simulationSearchDto);
+  Risque getAleaRisqueBrut(Alea alea, SimulationParametresDto simulationParametresDto);
 
   SortedSet<Pair<AleaType, Risque>> listAleaRisqueGeographiqueBySite(
-      Site site, SimulationSearchDto simulationSearchDto);
+      Site site, SimulationParametresDto simulationParametresDto);
 }

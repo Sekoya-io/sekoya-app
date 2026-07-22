@@ -5,7 +5,7 @@ import igloo.wicket.markup.html.panel.GenericPanel;
 import org.apache.wicket.model.IModel;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.site.model.Site;
 
@@ -19,7 +19,7 @@ public class SimulationSiteOffcanvasBodyPanel extends GenericPanel<Site> {
       IModel<Processus> processusModel,
       IModel<Alea> aleaModel,
       IModel<SimulationEtape> simulationEtapeModel,
-      IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
     setOutputMarkupPlaceholderTag(true);
 
@@ -29,28 +29,28 @@ public class SimulationSiteOffcanvasBodyPanel extends GenericPanel<Site> {
 
     add(
         new SimulationSiteOffcanvasSitePanel(
-            "site", siteModel, processusModel, simulationEtapeModel, simulationSearchDtoModel),
+            "site", siteModel, processusModel, simulationEtapeModel, simulationParametresDtoModel),
         new SimulationSiteOffcanvasProcessusPanel(
             "processus",
             siteModel,
             processusModel,
             aleaModel,
             simulationEtapeModel,
-            simulationSearchDtoModel),
+            simulationParametresDtoModel),
         new SimulationSiteOffcanvasAleaPanel(
             "alea",
             siteModel,
             processusModel,
             aleaModel,
             simulationEtapeModel,
-            simulationSearchDtoModel),
+            simulationParametresDtoModel),
         new SimulationSiteOffcanvasImpactPotentielBrutPanel(
             "impactPotentielBrut",
             siteModel,
             processusModel,
             aleaModel,
             simulationEtapeModel,
-            simulationSearchDtoModel));
+            simulationParametresDtoModel));
 
     add(Condition.modelNotNull(siteModel).thenShowInternal());
   }

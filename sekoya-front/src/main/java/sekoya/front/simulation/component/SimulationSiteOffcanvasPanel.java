@@ -13,7 +13,7 @@ import org.apache.wicket.model.Model;
 import org.iglooproject.wicket.more.model.GenericEntityModel;
 import sekoya.back.business.alea.model.Alea;
 import sekoya.back.business.processus.model.Processus;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.site.model.Site;
 import sekoya.front.navigation.page.HomePage;
@@ -27,12 +27,14 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
   private final IModel<SimulationEtape> simulationEtapeModel = Model.of(SimulationEtape.SITE);
 
   public SimulationSiteOffcanvasPanel(
-      String id, IModel<SimulationSearchDto> simulationSearchDtoModel) {
-    this(id, new GenericEntityModel<>(), simulationSearchDtoModel);
+      String id, IModel<SimulationParametresDto> simulationParametresDtoModel) {
+    this(id, new GenericEntityModel<>(), simulationParametresDtoModel);
   }
 
   public SimulationSiteOffcanvasPanel(
-      String id, IModel<Site> siteModel, IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      String id,
+      IModel<Site> siteModel,
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
     setOutputMarkupId(true);
 
@@ -47,14 +49,14 @@ public class SimulationSiteOffcanvasPanel extends GenericPanel<Site> {
                     processusModel,
                     aleaModel,
                     simulationEtapeModel,
-                    simulationSearchDtoModel),
+                    simulationParametresDtoModel),
                 new SimulationSiteOffcanvasBodyPanel(
                     "body",
                     siteModel,
                     processusModel,
                     aleaModel,
                     simulationEtapeModel,
-                    simulationSearchDtoModel))
+                    simulationParametresDtoModel))
             .add(
                 new ClassAttributeAppender("home-offcanvas home-offcanvas-simulation") {
                   @Override

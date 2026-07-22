@@ -22,7 +22,7 @@ import org.iglooproject.wicket.more.markup.html.link.BlankLink;
 import org.iglooproject.wicket.more.markup.html.template.model.BreadCrumbElement;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.organisation.model.Organisation;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.service.business.ISiteService;
@@ -30,7 +30,7 @@ import sekoya.front.SekoyaSession;
 import sekoya.front.common.map.component.MapPanel;
 import sekoya.front.common.map.model.MapPoint;
 import sekoya.front.navigation.template.HomeTemplate;
-import sekoya.front.simulation.component.SimulationMapSearchPanel;
+import sekoya.front.simulation.component.SimulationMapParametresPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
 import sekoya.front.simulation.page.SimulationListPage;
 import sekoya.front.site.popup.SiteSavePopup;
@@ -47,8 +47,8 @@ public class HomePage extends HomeTemplate {
 
   @SpringBean private ISiteService siteService;
 
-  private IModel<SimulationSearchDto> simulationSearchDtoModel =
-      Model.of(new SimulationSearchDto());
+  private IModel<SimulationParametresDto> simulationParametresDtoModel =
+      Model.of(new SimulationParametresDto());
 
   public HomePage(PageParameters parameters) {
     super(parameters);
@@ -73,13 +73,13 @@ public class HomePage extends HomeTemplate {
                           MapPoint.of(
                               s,
                               simulationCalculControllerService.getSiteRisqueBrut(
-                                  s, simulationSearchDtoModel.getObject())))
+                                  s, simulationParametresDtoModel.getObject())))
                   .flatMap(Optional::stream)
                   .toList();
             });
 
     SimulationSiteOffcanvasPanel offcanvasPanel =
-        new SimulationSiteOffcanvasPanel("offcanvas", simulationSearchDtoModel);
+        new SimulationSiteOffcanvasPanel("offcanvas", simulationParametresDtoModel);
 
     MapPanel mapPanel =
         new MapPanel("map", pointsModel) {
@@ -91,8 +91,8 @@ public class HomePage extends HomeTemplate {
           }
         };
 
-    SimulationMapSearchPanel search =
-        new SimulationMapSearchPanel("search", simulationSearchDtoModel);
+    SimulationMapParametresPanel parametres =
+        new SimulationMapParametresPanel("parametres", simulationParametresDtoModel);
 
     BlankLink siteAdd = new BlankLink("siteAdd");
 
@@ -108,7 +108,7 @@ public class HomePage extends HomeTemplate {
     add(
         offcanvasPanel,
         mapPanel,
-        search.add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
+        parametres.add(Condition.collectionModelNotEmpty(pointsModel).thenShow()),
         SimulationListPage.linkDescriptor().link("simulationListLink"),
         siteAdd
             .add(
@@ -131,6 +131,6 @@ public class HomePage extends HomeTemplate {
   @Override
   protected void onDetach() {
     super.onDetach();
-    Detachables.detach(simulationSearchDtoModel);
+    Detachables.detach(simulationParametresDtoModel);
   }
 }

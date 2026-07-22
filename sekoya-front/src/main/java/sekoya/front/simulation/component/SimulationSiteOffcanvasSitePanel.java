@@ -23,7 +23,7 @@ import org.javatuples.Pair;
 import sekoya.back.business.common.model.atomic.Risque;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.business.processus.service.IProcessusService;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.model.atomic.SimulationEtape;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
@@ -45,7 +45,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
       IModel<Site> siteModel,
       IModel<Processus> processusModel,
       IModel<SimulationEtape> simulationEtapeModel,
-      IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
 
     var processusRisqueModel =
@@ -57,7 +57,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
                             Pair.with(
                                 processus.getId(),
                                 simulationCalculService.getProcessusRisqueBrut(
-                                    processus, simulationSearchDtoModel.getObject())))
+                                    processus, simulationParametresDtoModel.getObject())))
                     .sorted(
                         Comparator.comparingInt((Pair<Long, Risque> p) -> p.getValue1().getScore())
                             .reversed())
@@ -68,8 +68,8 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
             .condition(
                 Condition.isTrue(
                     BindingModel.of(
-                        simulationSearchDtoModel,
-                        Bindings.simulationSearchDto().enableProcessus())))
+                        simulationParametresDtoModel,
+                        Bindings.simulationParametresDto().enableProcessus())))
             .add(
                 new CollectionView<>(
                     "processus", processusRisqueModel, Models.serializableModelFactory()) {
@@ -117,7 +117,7 @@ public class SimulationSiteOffcanvasSitePanel extends GenericPanel<Site> {
 
     add(
         new SimulationSiteOffcanvasSiteAleasGeographiquesPanel(
-            "aleasGeographiques", siteModel, simulationSearchDtoModel));
+            "aleasGeographiques", siteModel, simulationParametresDtoModel));
 
     add(Condition.isEqual(simulationEtapeModel, Model.of(SimulationEtape.SITE)).thenShowInternal());
   }

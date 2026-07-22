@@ -5,7 +5,7 @@ import org.javatuples.Pair;
 import org.springframework.stereotype.Service;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Risque;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.service.business.ISimulationCalculService;
 import sekoya.back.business.site.model.Site;
 
@@ -19,13 +19,13 @@ public class SimulationCalculControllerServiceImpl implements ISimulationCalculC
   }
 
   @Override
-  public Risque getSiteRisqueBrut(Site site, SimulationSearchDto simulationSearchDto) {
-    return simulationCalculService.getSiteRisqueBrut(site, simulationSearchDto);
+  public Risque getSiteRisqueBrut(Site site, SimulationParametresDto simulationParametresDto) {
+    return simulationCalculService.getSiteRisqueBrut(site, simulationParametresDto);
   }
 
   @Override
   public SortedSet<Pair<AleaType, Risque>> listAleaRisqueGeographiqueBySite(
-      Site site, SimulationSearchDto simulationSearchDto) {
-    return simulationCalculService.listAleaRisqueGeographiqueBySite(site, simulationSearchDto);
+      Site site, SimulationParametresDto simulationParametresDto) {
+    return simulationCalculService.listAleaRisqueGeographiqueBySite(site, simulationParametresDto);
   }
 }

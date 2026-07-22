@@ -16,7 +16,7 @@ import org.iglooproject.wicket.more.markup.repeater.collection.CollectionView;
 import org.javatuples.Pair;
 import sekoya.back.business.alea.model.atomic.AleaType;
 import sekoya.back.business.common.model.atomic.Risque;
-import sekoya.back.business.simulation.dto.SimulationSearchDto;
+import sekoya.back.business.simulation.dto.SimulationParametresDto;
 import sekoya.back.business.simulation.service.controller.ISimulationCalculControllerService;
 import sekoya.back.business.site.model.Site;
 import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
@@ -28,7 +28,9 @@ public class SimulationSiteOffcanvasSiteAleasGeographiquesPanel extends GenericP
   @SpringBean private ISimulationCalculControllerService simulationCalculControllerService;
 
   public SimulationSiteOffcanvasSiteAleasGeographiquesPanel(
-      String id, IModel<Site> siteModel, IModel<SimulationSearchDto> simulationSearchDtoModel) {
+      String id,
+      IModel<Site> siteModel,
+      IModel<SimulationParametresDto> simulationParametresDtoModel) {
     super(id, siteModel);
 
     add(Condition.modelNotNull(siteModel).thenShow());
@@ -37,7 +39,7 @@ public class SimulationSiteOffcanvasSiteAleasGeographiquesPanel extends GenericP
         LoadableDetachableModel.of(
             () ->
                 simulationCalculControllerService.listAleaRisqueGeographiqueBySite(
-                    siteModel.getObject(), simulationSearchDtoModel.getObject()));
+                    siteModel.getObject(), simulationParametresDtoModel.getObject()));
 
     add(
         new CollectionView<>("values", aleasRisquesModel, Models.serializableModelFactory()) {
