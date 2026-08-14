@@ -52,6 +52,7 @@ build:
   stage: build
   image: $DOCKER_IMAGE
   script: ./ci/build.sh
+  interruptible: true
   services:
   - name: $DOCKER_DIND_IMAGE
     alias: docker
@@ -83,6 +84,7 @@ deploy:
     name: alpine/kubectl
     entrypoint: [""]
   script: ./ci/kubernetes.sh
+  interruptible: false
   rules:
     - if: '"$[[ inputs.deploy ]]" == "true"'
   variables:
