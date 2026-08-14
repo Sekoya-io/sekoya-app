@@ -108,7 +108,8 @@ public class SimulationMapParametresPanel extends Panel {
         new RadioGroup<>(
                 "enableProcessus",
                 BindingModel.of(
-                    simulationParametresDtoModel, Bindings.simulationParametresDto().enableProcessus()))
+                    simulationParametresDtoModel,
+                    Bindings.simulationParametresDto().enableProcessus()))
             .setLabel(new ResourceModel("simulation.common.wording.enableProcessus"))
             .setRequired(true)
             .add(
