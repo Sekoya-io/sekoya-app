@@ -1,19 +1,19 @@
 package sekoya.back.api.common;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import tools.jackson.core.json.JsonReadFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 public final class JsonMapperUtils {
 
   public static final ObjectMapper DEFAULT_JSON_MAPPER =
-      new ObjectMapper()
-          .setDefaultPropertyInclusion(Include.NON_EMPTY)
-          .configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true)
+      JsonMapper.builder()
+          .changeDefaultPropertyInclusion(v -> v.withValueInclusion(JsonInclude.Include.NON_EMPTY))
+          .enable(JsonReadFeature.ALLOW_SINGLE_QUOTES)
           .enable(SerializationFeature.INDENT_OUTPUT)
-          .registerModule(new JavaTimeModule());
+          .build();
 
   private JsonMapperUtils() {}
 }

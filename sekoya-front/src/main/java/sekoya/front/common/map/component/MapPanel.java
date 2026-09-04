@@ -1,7 +1,7 @@
 package sekoya.front.common.map.component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.model.Detachables;
@@ -125,7 +125,7 @@ public class MapPanel extends Panel {
   private static String serialize(Object value) {
     try {
       return JSON.writeValueAsString(value);
-    } catch (JsonProcessingException e) {
+    } catch (JacksonException e) {
       throw new WicketRuntimeException("Map panel JSON serialization failed", e);
     }
   }

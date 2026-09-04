@@ -1,7 +1,7 @@
 package sekoya.back.api.common;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JavaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -15,7 +15,7 @@ public final class RestClientJsonUtils {
     }
     try {
       return JsonMapperUtils.DEFAULT_JSON_MAPPER.readerFor(beanClass).readValue(json);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new IOException(
           String.format(
               "Erreur de désérialisation d'un bean %1$s:\n %2$s", beanClass.getSimpleName(), json),
@@ -34,7 +34,7 @@ public final class RestClientJsonUtils {
             .constructCollectionType(List.class, beanClass);
     try {
       return JsonMapperUtils.DEFAULT_JSON_MAPPER.readerFor(listJavaType).readValue(json);
-    } catch (IOException e) {
+    } catch (JacksonException e) {
       throw new IOException(
           String.format("Erreur de désérialisation d'un bean %1$s", beanClass.getSimpleName()), e);
     }
@@ -49,7 +49,7 @@ public final class RestClientJsonUtils {
 
     try {
       return JsonMapperUtils.DEFAULT_JSON_MAPPER.writeValueAsString(serilizableBean);
-    } catch (JsonProcessingException e) {
+    } catch (JacksonException e) {
       throw new IOException(
           String.format(
               "Erreur de sérialisation d'un bean %1$s", serilizableBean.getClass().getSimpleName()),

@@ -1,7 +1,7 @@
 package sekoya.back.api.geocodage.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.util.List;
 import sekoya.back.api.geocodage.bean.atomic.GeocodageGeometryType;
