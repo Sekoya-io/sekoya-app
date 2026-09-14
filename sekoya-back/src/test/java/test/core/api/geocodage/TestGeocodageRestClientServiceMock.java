@@ -129,7 +129,9 @@ class TestGeocodageRestClientServiceMock {
   @BeforeEach
   @SuppressWarnings("unchecked")
   void setUp() throws IOException, InterruptedException {
-    Mockito.lenient().when(propertyService.get(API_COMMON_RESPONSE_CONNECT_TIMEOUT)).thenReturn(30L);
+    Mockito.lenient()
+        .when(propertyService.get(API_COMMON_RESPONSE_CONNECT_TIMEOUT))
+        .thenReturn(30L);
     Mockito.lenient().when(propertyService.get(API_COMMON_REQUEST_TIMEOUT)).thenReturn(30L);
     Mockito.lenient().when(propertyService.get(API_REST_CLIENT_GEOCODAGE_URL)).thenReturn(BASE_URL);
 
@@ -192,12 +194,13 @@ class TestGeocodageRestClientServiceMock {
 
     @Test
     void testGetSearch_emptyFeaturesArray_returnsEmptyList() throws Exception {
-      mockHttpResponse(200, """
+      mockHttpResponse(
+          200,
+          """
           {"features":[],"query":"adresse inexistante"}
           """);
 
-      GeocodageResponseBean result =
-          geocodageRestClientService.getSearch("adresse inexistante");
+      GeocodageResponseBean result = geocodageRestClientService.getSearch("adresse inexistante");
 
       Assertions.assertThat(result.getFeatures()).isEmpty();
       Assertions.assertThat(result.getQuery()).isEqualTo("adresse inexistante");
@@ -285,8 +288,9 @@ class TestGeocodageRestClientServiceMock {
 
     @Test
     @SuppressWarnings("unchecked")
-    void testGetSearch_interruptedException_throwRestClientCommunicationExceptionAndInterruptThread()
-        throws Exception {
+    void
+        testGetSearch_interruptedException_throwRestClientCommunicationExceptionAndInterruptThread()
+            throws Exception {
       Mockito.when(
               httpClient.send(
                   Mockito.any(HttpRequest.class), Mockito.any(HttpResponse.BodyHandler.class)))

@@ -112,8 +112,7 @@ class TestRestClientJsonUtils {
 
       // Geometry
       Assertions.assertThat(feature.getGeometry().getType()).isEqualTo(GeocodageGeometryType.POINT);
-      Assertions.assertThat(feature.getGeometry().getCoordinates())
-          .containsExactly(2.347, 48.859);
+      Assertions.assertThat(feature.getGeometry().getCoordinates()).containsExactly(2.347, 48.859);
 
       // Properties
       GeocodageAddressPropertiesBean props = feature.getProperties();
@@ -128,8 +127,7 @@ class TestRestClientJsonUtils {
       Assertions.assertThat(props.getCity()).isEqualTo("Amiens");
       Assertions.assertThat(props.getDistrict()).isEqualTo("Amiens");
       Assertions.assertThat(props.getContext()).isEqualTo("80, Somme, Hauts-de-France");
-      Assertions.assertThat(props.getType())
-          .isEqualTo(GeocodageAddressPropertiesType.HOUSENUMBER);
+      Assertions.assertThat(props.getType()).isEqualTo(GeocodageAddressPropertiesType.HOUSENUMBER);
       Assertions.assertThat(props.getStreet()).isEqualTo("Boulevard du Port");
       Assertions.assertThat(props.getDepcode()).isEqualTo("80");
     }
@@ -269,8 +267,7 @@ class TestRestClientJsonUtils {
               """,
               GeocodageAddressPropertiesBean.class);
 
-      Assertions.assertThat(result.getType())
-          .isEqualTo(GeocodageAddressPropertiesType.HOUSENUMBER);
+      Assertions.assertThat(result.getType()).isEqualTo(GeocodageAddressPropertiesType.HOUSENUMBER);
     }
 
     @Test
@@ -298,7 +295,8 @@ class TestRestClientJsonUtils {
     }
 
     @Test
-    void testDeserialize_addressPropertiesTypeMunicipality_returnsMunicipality() throws IOException {
+    void testDeserialize_addressPropertiesTypeMunicipality_returnsMunicipality()
+        throws IOException {
       GeocodageAddressPropertiesBean result =
           RestClientJsonUtils.deserialize(
               """

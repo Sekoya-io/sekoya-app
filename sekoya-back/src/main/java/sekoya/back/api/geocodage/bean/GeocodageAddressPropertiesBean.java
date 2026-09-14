@@ -1,11 +1,11 @@
 package sekoya.back.api.geocodage.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import tools.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import sekoya.back.api.geocodage.bean.atomic.GeocodageAddressPropertiesType;
 import sekoya.back.api.geocodage.deserializer.GeocodageAddressPropertiesTypeDeserializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GeocodageAddressPropertiesBean implements Serializable {

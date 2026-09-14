@@ -1,11 +1,11 @@
 package sekoya.back.api.common;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.JavaType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import org.iglooproject.spring.util.StringUtils;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JavaType;
 
 public final class RestClientJsonUtils {
 

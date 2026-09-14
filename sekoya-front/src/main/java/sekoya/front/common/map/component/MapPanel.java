@@ -1,7 +1,5 @@
 package sekoya.front.common.map.component;
 
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.json.JsonMapper;
 import igloo.wicket.behavior.ClassAttributeAppender;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.model.Detachables;
@@ -21,6 +19,8 @@ import org.apache.wicket.request.resource.JavaScriptResourceReference;
 import sekoya.front.common.map.model.MapConfig;
 import sekoya.front.common.map.model.MapPoint;
 import sekoya.front.common.map.resource.MapLibreJavaScriptResourceReference;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 public class MapPanel extends Panel {
 
