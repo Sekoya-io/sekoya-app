@@ -4,11 +4,6 @@ set -e -o pipefail
 
 source "$(dirname $0)/common.inc"
 
-if [ "$STAGE_DEPLOY" == "true" ]; then
-    stage_enabled deploy
-else
-    stage_disabled deploy
-fi
 if [ "$STAGE_RESET" == "true" ]; then
     stage_enabled reset
 else

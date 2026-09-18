@@ -1,28 +1,12 @@
 spec:
   inputs:
-    build:
-      description: Exécution du build
+    publish:
+      description: Ne pas publier d'image
       default: true
-      type: boolean
-    build-test:
-      description: Exécution des tests pendant le build
-      default: true
-      type: boolean
-    build-spotless:
-      description: Vérification du format pendant le build
-      default: true
-      type: boolean
-    build-image:
-      description: Construction de l'image container pendant le build
-      default: true
-      type: boolean
-    build-publish:
-      description: Publication de l'image container pendant le build
-      default: false
       type: boolean
     deploy:
-      description: Déploiement de l'application
-      default: false
+      description: Ne pas déployer l'application
+      default: true
       type: boolean
     deploy-reset:
       description: Reset des données applicatives lors du déploiement
@@ -30,71 +14,23 @@ spec:
       type: boolean
 
 ---
+
+include:
+ - project: kobalt/gitlab-ci
+   file: igloo-standard.yml
+   ref: ft-kubernetes
+
 variables:
-  ##
-  ## A Configurer dans les gitlab CI/CD variables:
-  ## REGISTRY_USERNAME
-  ## REGISTRY_PASSWORD
-  ##
   DOCKER_IMAGE: igloo-containers.tools.kobalt.fr/containers/maven-igloo:3.9-eclipse-temurin-25
-  DOCKER_DIND_IMAGE: docker:29-dind
-  DOCKER_DRIVER: overlay2
-  MAVEN_CLI_OPTS: -Dstyle.color=always
-  LC_ALL: fr_FR.UTF-8
-  LANG: fr_FR.UTF-8
-  TZ: Europe/Paris
+  DOCKER_POSTGRESQL_IMAGE: hello-world
+  SKIP_igloo_delivery_preproduction: "true"
+  SKIP_igloo_delivery_production: "true"
+  SKIP_igloo_delivery_recette: "true"
+  SKIP_igloo_delivery_qualification: "true"
+  SKIP_igloo_build_war: "true"
 
-stages:
-- build
-- deploy
-
-build:
-  stage: build
-  image: $DOCKER_IMAGE
-  script: ./ci/build.sh
-  interruptible: true
-  services:
-  - name: $DOCKER_DIND_IMAGE
-    alias: docker
-  artifacts:
-    when: always
-    paths:
-      - '*/target/surefire-reports/TEST-*.xml'
-    reports:
-      junit:
-        - '*/target/surefire-reports/TEST-*.xml'
-  rules:
-    - if: '"$[[ inputs.build ]]" == "true"'
-  variables:
-    # build stages
-    STAGE_SPOTLESS: $[[ inputs.build-spotless ]]
-    STAGE_TEST: $[[ inputs.build-test ]]
-    STAGE_IMAGE: $[[ inputs.build-image ]]
-    STAGE_PUBLISH: $[[ inputs.build-publish ]]
-    # docker dind connection
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
-    # gitlab CI/CD
-    # REGISTRY_USERNAME
-    # REGISTRY_PASSWORD
-
-deploy:
-  stage: deploy
-  image:
-    name: alpine/kubectl
-    entrypoint: [""]
-  script: ./ci/kubernetes.sh
-  interruptible: false
-  rules:
-    - if: '"$[[ inputs.deploy ]]" == "true"'
-  variables:
-    STAGE_DEPLOY: $[[ inputs.deploy ]]
-    STAGE_RESET: $[[ inputs.deploy-reset ]]
-    # gitlab CI/CD
-    # KUBE_CLUSTER_NAME
-    # KUBE_CLUSTER_CERTIFICATE_AUTHORITY_DATA
-    # KUBE_CLUSTER_SERVER
-    # KUBE_CREDENTIAL_TOKEN
-    # KUBE_NAMESPACE
-  
+  SKIP_kubernetes: "false"
+  SKIP_kubernetes_publish: "$[[ inputs.publish ]]"
+  SKIP_kubernetes_deploy: "$[[ inputs.deploy ]]"
+  STAGE_RESET: "$[[ inputs.deploy-reset ]]"
 
