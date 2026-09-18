@@ -14,6 +14,12 @@ services:
       - TZ=Europe/Paris
       - PGTZ=Europe/Paris
 
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "127.0.0.1:2085:8025"
+      - "127.0.0.1:2025:1025"
+
   app-init:
     profiles:
       - app
@@ -28,6 +34,7 @@ services:
   app:
     profiles:
       - app
+    # Le dépôt est privé ; lancer le build mvn permet de construire l'image pour une disponibilité locale
     image: "nexus.tools.kobalt.fr/sekoya-registry/sekoya-app:latest"
     ports:
       - "127.0.0.1:8080:8080"
@@ -37,12 +44,17 @@ services:
       app-init:
         condition: service_completed_successfully
     environment:
-      SPRING_PROFILES_ACTIVE: qualification
+      SPRING_PROFILES_ACTIVE: development
       DB_HOST: bdd
       DB_PORT: 5432
       DB_USERNAME: sekoya
       DB_PASSWORD: sekoya
-      JDK_JAVA_OPTIONS: -Duser.language=fr -Duser.country=FR -Duser.timezone=Europe/Paris
+      # Les espaces sont nécessaires pour éviter un fusion avec BPE_PREPEND_JDK_JAVA_OPTIONS
+      JDK_JAVA_OPTIONS: " -Duser.language=fr -Duser.country=FR -Duser.timezone=Europe/Paris "
+      SPRING_MAIL_HOST: mailpit
+      SPRING_MAIL_PORT: 1025
+      # Le container ne peut pas faire tourner dartsass (tar indisponible)
+      SCSS_STATIC_ENABLED: true
 
 volumes:
   sekoya-bdd:
