@@ -31,7 +31,7 @@ Le message suivant indique la fin du démarrage :
 app-1       | [2026-09-18T10:00:30,441] INFO  - SekoyaApplicationMain      - userId: - host: -  - Started SekoyaApplicationMain in 43.676 seconds (process running for 44.155)
 ```
 
-L'application est disponible sur http://localhost:8080 (identifiant/mot de passe : admin/sekoya).
+L'application est disponible sur http://localhost:8080 (identifiant/mot de passe : `admin/sekoya`).
 
 Les mails envoyés par l'application sont disponibles sur http://localhost:2085
 
@@ -43,7 +43,7 @@ docker compose -f docker/docker-compose.yml up
 # Initialisation d'un répertoire applicatif
 sudo mkdir /data/services/sekoya
 sudo chown $USER: /data/services/sekoya
-# L'application peut ensuite être lancée via la class main *SekoyaApplicationMain* (module sekoya-app)
+# L'application peut ensuite être lancée via la classe main *SekoyaApplicationMain* (module sekoya-app)
 # (via Eclipse, Intellij, vscode, ...)
 # Exemple de lancement maven
 mvn -pl sekoya-app spring-boot:run
