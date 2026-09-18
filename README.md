@@ -2,8 +2,9 @@
 
 ## Présentation
 
-Voir le site https://sekoya.io
-
+* Plus d'informations sur le site de [Sekoya](https://sekoya.io)
+* Les données utilisées sont issues de la [DRIAS](https://www.drias-climat.fr/)
+* La méthodologique de l'application repose sur [OCARA pour PME](https://librairie.ademe.fr/changement-climatique/7870-ocara-pour-pme-analyser-la-resilience-climatique-et-developper-un-premier-plan-d-adaptation-a-l-echelle-de-l-entreprise.html) développée par l'ADEME, BPI France et Carbone4
 
 ## Prérequis
 
