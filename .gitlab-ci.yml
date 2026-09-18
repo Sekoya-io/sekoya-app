@@ -1,10 +1,10 @@
 spec:
   inputs:
-    publish:
+    skip-publish:
       description: Ne pas publier d'image
       default: true
       type: boolean
-    deploy:
+    skip-deploy:
       description: Ne pas déployer l'application
       default: true
       type: boolean
@@ -30,7 +30,7 @@ variables:
   SKIP_igloo_build_war: "true"
 
   SKIP_kubernetes: "false"
-  SKIP_kubernetes_publish: "$[[ inputs.publish ]]"
-  SKIP_kubernetes_deploy: "$[[ inputs.deploy ]]"
+  SKIP_kubernetes_publish: "$[[ inputs.skip-publish ]]"
+  SKIP_kubernetes_deploy: "$[[ inputs.skip-deploy ]]"
   STAGE_RESET: "$[[ inputs.deploy-reset ]]"
 
