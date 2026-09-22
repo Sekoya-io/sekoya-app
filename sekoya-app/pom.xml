@@ -103,7 +103,7 @@
           </docker>
           <image>
             <!-- <verboseLogging>true</verboseLogging> -->
-            <name>nexus.tools.kobalt.fr/sekoya-registry/${project.artifactId}:latest</name>
+            <name>nexus.tools.kobalt.fr/sekoya-registry/${project.artifactId}:${project.version}</name>
             <env>
               <!-- see manifestEntries/Add-Opens -->
               <!-- image launch an exploded JAR, so it does not read MANIFEST.MF for Add-Opens -->
