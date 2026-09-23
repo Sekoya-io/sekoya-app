@@ -8,7 +8,7 @@ KUBE_CLUSTER_NAME=sekoya-kube
 KUBE_CLUSTER_CERTIFICATE_AUTHORITY_DATA="$( rbw get -f password Sekoya/k8s/server )"
 KUBE_CLUSTER_SERVER="$( rbw get -f username "Sekoya/k8s/server" )"
 KUBE_CREDENTIAL_TOKEN="$( rbw get -f password "Sekoya/k8s/$USER" )"
-KUBE_NAMESPACE=qualification
+KUBE_NAMESPACE=sekoya-qualification
 
 kubectl config set "clusters.${KUBE_CLUSTER_NAME}.certificate-authority-data" "${KUBE_CLUSTER_CERTIFICATE_AUTHORITY_DATA}"
 kubectl config set "clusters.${KUBE_CLUSTER_NAME}.server" "${KUBE_CLUSTER_SERVER}"
