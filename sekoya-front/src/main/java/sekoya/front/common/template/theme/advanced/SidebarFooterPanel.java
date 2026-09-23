@@ -29,7 +29,7 @@ public class SidebarFooterPanel extends Panel {
                         Condition.modelNotNull(
                                 ApplicationPropertyModel.of(SekoyaBackPropertyIds.BUILD_DATE))
                             .then(
-                                Renderer.fromDateTimePattern(DateTimePattern.DATE)
+                                Renderer.fromDateTimePattern(DateTimePattern.DATE_SHORT)
                                     .asModel(
                                         ApplicationPropertyModel.of(
                                             SekoyaBackPropertyIds.BUILD_DATE)))

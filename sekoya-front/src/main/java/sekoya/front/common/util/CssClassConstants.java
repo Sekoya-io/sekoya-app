@@ -8,6 +8,8 @@ public final class CssClassConstants {
   public static final String CELL_DISPLAY_MD = "d-none d-md-table-cell";
   public static final String CELL_DISPLAY_SM = "d-none d-sm-table-cell";
 
+  public static final String CELL_HIDDEN_MD = "d-table-cell d-md-none";
+
   public static final String TABLE_ROW_DISABLED = "table-row-disabled";
 
   public static final String BTN_TABLE_ROW_ACTION = "btn-table-row-action";

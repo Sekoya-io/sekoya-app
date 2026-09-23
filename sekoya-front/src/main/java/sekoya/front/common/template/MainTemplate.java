@@ -42,6 +42,7 @@ import sekoya.front.common.template.resources.styles.application.application.app
 import sekoya.front.common.template.theme.advanced.NavbarPanel;
 import sekoya.front.common.template.theme.advanced.SidebarPanel;
 import sekoya.front.common.template.theme.common.BootstrapBreakpointPanel;
+import sekoya.front.navigation.page.AboutPage;
 import sekoya.front.organisation.page.OrganisationListPage;
 import sekoya.front.processus.page.ProcessusListPage;
 import sekoya.front.referencedata.page.ReferenceDataPage;
@@ -145,6 +146,9 @@ public abstract class MainTemplate extends AbstractWebPageTemplate {
                 AnnouncementListPage.linkDescriptor()
                     .navigationMenuItem(
                         new ResourceModel("navigation.administration.announcement"))),
+        AboutPage.linkDescriptor()
+            .navigationMenuItem(new ResourceModel("navigation.about"))
+            .iconClasses(Model.of("fa fa-fw fa-bullhorn")),
         LinkDescriptorBuilder.start()
             .validator(Condition.role(SekoyaAuthorityConstants.ROLE_ADMIN))
             .page(ConsoleMaintenanceSearchPage.class)

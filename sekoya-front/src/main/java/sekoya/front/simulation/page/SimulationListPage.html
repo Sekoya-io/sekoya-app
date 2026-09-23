@@ -46,6 +46,22 @@
 		</div>
 	</div>
 	
+	<wicket:fragment wicket:id="responsiveCellFragment">
+		<div>
+			<a wicket:id="link">
+				<span wicket:id="nom" />
+			</a>
+		</div>
+		<div wicket:id="typologie" />
+		<hr class="separator-dotted">
+		<div wicket:id="adresse" />
+		<hr class="separator-dotted">
+		<div>
+			<span class="description-label"><wicket:message key="business.site.risque" /></span>
+			<span wicket:id="risque" />
+		</div>
+	</wicket:fragment>
+	
 	<wicket:fragment wicket:id="nomCellFragment">
 		<a wicket:id="offcanvasLink" role="button" aria-controls="offcanvas-simulation-site">
 			<span wicket:id="nom" />

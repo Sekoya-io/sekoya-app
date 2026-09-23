@@ -39,5 +39,21 @@
 			</div>
 		</div>
 	</div>
+	
+	<wicket:fragment wicket:id="responsiveCellFragment">
+		<div>
+			<a wicket:id="link">
+				<span wicket:id="nom" />
+			</a>
+		</div>
+		<div wicket:id="typologie" />
+		<hr class="separator-dotted">
+		<div wicket:id="adresse" />
+		<div class="mt-2">
+			<button wicket:id="edit" class="btn btn-primary btn-sm" type="button">
+				<span class="fa fa-fw fa-pencil-alt" />
+			</button>
+		</div>
+	</wicket:fragment>
 </wicket:extend>
 </html>

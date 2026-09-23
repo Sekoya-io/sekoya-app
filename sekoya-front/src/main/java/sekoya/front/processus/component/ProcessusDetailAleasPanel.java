@@ -1,5 +1,7 @@
 package sekoya.front.processus.component;
 
+import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_MD;
+import static sekoya.front.common.util.CssClassConstants.CELL_HIDDEN_MD;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.wicket.behavior.ClassAttributeAppender;
@@ -26,6 +28,7 @@ import sekoya.back.business.alea.search.AleaSort;
 import sekoya.back.business.processus.model.Processus;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.common.component.HistoryEventSummaryPanel;
+import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
 import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.processus.model.AleaDataProvider;
 
@@ -44,6 +47,19 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
     DecoratedCoreDataTablePanel<Alea, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
             .addColumn(
+                new AbstractCoreColumn<>(new ResourceModel("business.alea")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Alea>> cellItem,
+                      String componentId,
+                      IModel<Alea> rowModel) {
+                    cellItem.add(new ResponsiveCellFragment(componentId, rowModel));
+                  }
+                })
+            .withClass(CELL_HIDDEN_MD)
+            .addColumn(
                 new AbstractCoreColumn<Alea, AleaSort>(new ResourceModel("business.alea.type")) {
                   private static final long serialVersionUID = 1L;
 
@@ -57,6 +73,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
                 })
             .withSort(AleaSort.TYPE, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addColumn(
                 new AbstractCoreColumn<Alea, AleaSort>(
                     new ResourceModel("business.alea.sensibilite")) {
@@ -71,6 +88,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
                   }
                 })
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addColumn(
                 new AbstractCoreColumn<Alea, AleaSort>(
                     new ResourceModel("business.alea.impactPotentielBrut")) {
@@ -87,6 +105,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
             .withSort(
                 AleaSort.IMPACT_POTENTIEL_BRUT, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addColumn(
                 new AbstractCoreColumn<Alea, AleaSort>(Model.of()) {
                   private static final long serialVersionUID = 1L;
@@ -104,6 +123,7 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
                   }
                 })
             .withClass("cell-w-80 cell-w-fit text-center")
+            .withClass(CELL_DISPLAY_MD)
             .bootstrapCard()
             .addIn(
                 AddInPlacement.HEADING_MAIN,
@@ -114,6 +134,29 @@ public class ProcessusDetailAleasPanel extends GenericPanel<Processus> {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(results);
+  }
+
+  private class ResponsiveCellFragment extends Fragment {
+
+    private static final long serialVersionUID = 1L;
+
+    public ResponsiveCellFragment(String id, IModel<Alea> aleaModel) {
+      super(id, "responsiveCellFragment", ProcessusDetailAleasPanel.this, aleaModel);
+
+      add(
+          new WebMarkupContainer("icon")
+              .add(
+                  new ClassAttributeAppender(
+                      BindingModel.of(aleaModel, Bindings.alea().type().iconCssClass()))),
+          new CoreLabel("type", BindingModel.of(aleaModel, Bindings.alea().type())),
+          new ScoreMonoValueRatingDisplayPanel<>(
+                  "sensibilite", BindingModel.of(aleaModel, Bindings.alea().sensibilite()))
+              .small(),
+          new ScoreMonoValueRatingDisplayPanel<>(
+                  "impactPotentielBrut",
+                  BindingModel.of(aleaModel, Bindings.alea().impactPotentielBrut()))
+              .small());
+    }
   }
 
   private class TypeCellFragment extends Fragment {

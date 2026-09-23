@@ -2,6 +2,8 @@ package sekoya.front.simulation.page;
 
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_READ;
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
+import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_MD;
+import static sekoya.front.common.util.CssClassConstants.CELL_HIDDEN_MD;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
@@ -42,12 +44,14 @@ import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.search.SiteSort;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
+import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
 import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.simulation.component.SimulationListParametresPanel;
 import sekoya.front.simulation.component.SimulationListSearchPanel;
 import sekoya.front.simulation.component.SimulationSiteOffcanvasPanel;
 import sekoya.front.simulation.template.SimulationTemplate;
 import sekoya.front.site.model.SiteDataProvider;
+import sekoya.front.site.page.SiteDetailPage;
 import sekoya.front.site.popup.SiteSavePopup;
 
 public class SimulationListPage extends SimulationTemplate {
@@ -116,6 +120,19 @@ public class SimulationListPage extends SimulationTemplate {
     DecoratedCoreDataTablePanel<Site, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
             .addColumn(
+                new AbstractCoreColumn<>(new ResourceModel("business.site")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Site>> cellItem,
+                      String componentId,
+                      IModel<Site> rowModel) {
+                    cellItem.add(new ResponsiveCellFragment(componentId, rowModel));
+                  }
+                })
+            .withClass(CELL_HIDDEN_MD)
+            .addColumn(
                 new AbstractCoreColumn<Site, SiteSort>(new ResourceModel("business.site.nom")) {
                   private static final long serialVersionUID = 1L;
 
@@ -129,12 +146,15 @@ public class SimulationListPage extends SimulationTemplate {
                 })
             .withSort(SiteSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(
                 new ResourceModel("business.site.typologie"), Bindings.site().typologie())
             .withClass("cell-w-200")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(new ResourceModel("business.site.adresse"), Bindings.site().adresse())
             .multiline()
             .withClass("cell-w-300")
+            .withClass(CELL_DISPLAY_MD)
             // TODO : sort risque desc
             .addColumn(
                 new AbstractCoreColumn<Site, SiteSort>(new ResourceModel("business.site.risque")) {
@@ -151,6 +171,7 @@ public class SimulationListPage extends SimulationTemplate {
                   }
                 })
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .rows()
             .end()
             .bootstrapCard()
@@ -166,9 +187,33 @@ public class SimulationListPage extends SimulationTemplate {
         offcanvasPanel);
   }
 
-  @Override
-  protected Class<? extends WebPage> getSecondMenuPage() {
-    return SimulationListPage.class;
+  private class ResponsiveCellFragment extends Fragment {
+
+    private static final long serialVersionUID = 1L;
+
+    public ResponsiveCellFragment(String id, IModel<Site> siteModel) {
+      super(id, "responsiveCellFragment", SimulationListPage.this, siteModel);
+
+      IModel<Risque> risqueModel =
+          LoadableDetachableModel.of(
+              () ->
+                  simulationCalculControllerService.getSiteRisqueBrut(
+                      siteModel.getObject(), simulationParametresDtoModel.getObject()));
+
+      add(
+          SiteDetailPage.MAPPER
+              .map(siteModel)
+              .link("link")
+              .add(
+                  new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom()))
+                      .showPlaceholder()),
+          new CoreLabel("typologie", BindingModel.of(siteModel, Bindings.site().typologie()))
+              .showPlaceholder(),
+          new CoreLabel("adresse", BindingModel.of(siteModel, Bindings.site().adresse()))
+              .showPlaceholder()
+              .multiline(),
+          new ScoreMonoValueRatingDisplayPanel<>("risque", risqueModel).small());
+    }
   }
 
   private class NomCellFragment extends Fragment {
@@ -207,6 +252,11 @@ public class SimulationListPage extends SimulationTemplate {
 
       add(new ScoreRatingDisplayPanel<>("risque", risqueModel).small());
     }
+  }
+
+  @Override
+  protected Class<? extends WebPage> getSecondMenuPage() {
+    return SimulationListPage.class;
   }
 
   @Override

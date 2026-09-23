@@ -15,6 +15,25 @@
 		</div>
 	</wicket:fragment>
 	
+	<wicket:fragment wicket:id="responsiveCellFragment">
+		<span wicket:id="thematique" />
+		<a wicket:id="link"><span wicket:id="nom" /></a>
+		<div wicket:id="type" class="text-secondary" />
+		<div>
+			<span class="description-label"><wicket:message key="business.processus.priorite" /></span>
+			<span wicket:id="priorite" />
+		</div>
+		<div>
+			<span class="description-label"><wicket:message key="business.processus.aleas" /></span>
+			<span wicket:id="aleas" />
+		</div>
+		<div class="mt-2">
+			<a wicket:id="edit" class="btn btn-primary btn-sm">
+				<span class="fa fa-fw fa-pencil-alt" />
+			</a>
+		</div>
+	</wicket:fragment>
+	
 	<wicket:fragment wicket:id="nomCellFragment">
 		<span wicket:id="thematique" />
 		<a wicket:id="link"><span wicket:id="nom" /></a>

@@ -5,3 +5,8 @@
 .border-dashed {
 	--bs-border-style: dashed;
 }
+
+.separator-dotted {
+	margin: $spacer * .25 0;
+	border-style: dotted;
+}

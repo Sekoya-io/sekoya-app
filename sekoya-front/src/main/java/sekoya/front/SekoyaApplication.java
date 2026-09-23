@@ -91,6 +91,7 @@ import sekoya.front.console.common.component.ConsoleHeaderAdditionalContentPanel
 import sekoya.front.console.common.component.ConsoleHeaderEnvironmentPanel;
 import sekoya.front.console.notification.demo.page.ConsoleNotificationDemoListPage;
 import sekoya.front.history.renderer.IHistoryValueRenderer;
+import sekoya.front.navigation.page.AboutPage;
 import sekoya.front.navigation.page.HomePage;
 import sekoya.front.navigation.page.MaintenancePage;
 import sekoya.front.organisation.page.OrganisationListPage;
@@ -281,6 +282,9 @@ public class SekoyaApplication extends CoreWicketAuthenticatedApplication {
         "/administration/administrateur/${" + CommonParameters.ID + "}/",
         UserAdministrateurFonctionnelDetailPage.class);
     mountPage("/administration/annonce/", AnnouncementListPage.class);
+
+    // About
+    mountPage("/a-propos/", AboutPage.class);
 
     // Console sign in
     mountPage("/console/login/", ConsoleSignInPage.class);

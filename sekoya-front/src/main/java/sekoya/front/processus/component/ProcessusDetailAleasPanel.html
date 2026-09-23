@@ -4,6 +4,20 @@
 <wicket:panel>
 	<div wicket:id="results" class="card card-main" />
 	
+	<wicket:fragment wicket:id="responsiveCellFragment">
+		<span wicket:id="icon" class="fa fa-fw text-secondary" />
+		<span wicket:id="type" />
+		<hr class="separator-dotted">
+		<div>
+			<span class="description-label"><wicket:message key="business.alea.sensibilite" /></span>
+			<span wicket:id="sensibilite" />
+		</div>
+		<div>
+			<span class="description-label"><wicket:message key="business.alea.impactPotentielBrut" /></span>
+			<span wicket:id="impactPotentielBrut" />
+		</div>
+	</wicket:fragment>
+	
 	<wicket:fragment wicket:id="typeCellFragment">
 		<span wicket:id="icon" class="fa fa-fw text-secondary" />
 		<span wicket:id="type" />

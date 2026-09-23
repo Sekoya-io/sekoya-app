@@ -39,5 +39,18 @@
 			</div>
 		</div>
 	</div>
+	
+	<wicket:fragment wicket:id="responsiveCellFragment">
+		<div wicket:id="nom" />
+		<div>
+			<span class="description-label"><wicket:message key="business.organisation.chiffreAffaires" /></span>
+			<wicket:container wicket:id="chiffreAffaires" />
+		</div>
+		<div class="mt-2">
+			<button wicket:id="edit" class="btn btn-primary btn-sm" type="button">
+				<span class="fa fa-fw fa-pencil-alt" />
+			</button>
+		</div>
+	</wicket:fragment>
 </wicket:extend>
 </html>

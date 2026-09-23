@@ -4,15 +4,22 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_R
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_SITE_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.SITE_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_MD;
+import static sekoya.front.common.util.CssClassConstants.CELL_HIDDEN_MD;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.bootstrap.modal.OneParameterModalOpenAjaxAction;
+import igloo.wicket.component.CoreLabel;
 import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
+import igloo.wicket.model.BindingModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.panel.Fragment;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
@@ -26,6 +33,7 @@ import org.iglooproject.wicket.more.markup.html.sort.SortIconStyle;
 import org.iglooproject.wicket.more.markup.html.sort.TableSortLink.CycleMode;
 import org.iglooproject.wicket.more.markup.repeater.table.DecoratedCoreDataTablePanel;
 import org.iglooproject.wicket.more.markup.repeater.table.builder.DataTableBuilder;
+import org.iglooproject.wicket.more.markup.repeater.table.column.AbstractCoreColumn;
 import org.wicketstuff.wiquery.core.events.MouseEvent;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.business.site.predicate.SitePredicates;
@@ -90,18 +98,34 @@ public class SiteListPage extends SiteTemplate {
 
     DecoratedCoreDataTablePanel<Site, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
+            .addColumn(
+                new AbstractCoreColumn<>(new ResourceModel("business.site")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Site>> cellItem,
+                      String componentId,
+                      IModel<Site> rowModel) {
+                    cellItem.add(new ResponsiveCellFragment(componentId, rowModel, savePopup));
+                  }
+                })
+            .withClass(CELL_HIDDEN_MD)
             .addLabelColumn(new ResourceModel("business.site.nom"), Bindings.site().nom())
             .withLink(SiteDetailPage.MAPPER)
             .withSort(SiteSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(
                 new ResourceModel("business.site.typologie"), Bindings.site().typologie())
             .withClass("cell-w-200")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(new ResourceModel("business.site.adresse"), Bindings.site().adresse())
             .withSort(
                 SiteSort.ADRESSE_COMMUNE_LABEL, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .multiline()
             .withClass("cell-w-300")
+            .withClass(CELL_DISPLAY_MD)
             .addActionColumn()
             .addAction(
                 ActionRenderers.edit(),
@@ -118,6 +142,7 @@ public class SiteListPage extends SiteTemplate {
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
+            .withClass(CELL_DISPLAY_MD)
             .rows()
             .withClass(
                 itemModel ->
@@ -131,6 +156,36 @@ public class SiteListPage extends SiteTemplate {
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(new SiteListSearchPanel("search", dataProvider, results), results);
+  }
+
+  private class ResponsiveCellFragment extends Fragment {
+
+    private static final long serialVersionUID = 1L;
+
+    public ResponsiveCellFragment(String id, IModel<Site> siteModel, SiteSavePopup savePopup) {
+      super(id, "responsiveCellFragment", SiteListPage.this, siteModel);
+
+      add(
+          SiteDetailPage.MAPPER
+              .map(siteModel)
+              .link("link")
+              .add(
+                  new CoreLabel("nom", BindingModel.of(siteModel, Bindings.site().nom()))
+                      .showPlaceholder()),
+          new CoreLabel("typologie", BindingModel.of(siteModel, Bindings.site().typologie()))
+              .showPlaceholder(),
+          new CoreLabel("adresse", BindingModel.of(siteModel, Bindings.site().adresse()))
+              .showPlaceholder()
+              .multiline(),
+          new BlankLink("edit")
+              .add(
+                  new AjaxModalOpenBehavior(savePopup, MouseEvent.CLICK) {
+                    @Override
+                    protected void onShow(AjaxRequestTarget target) {
+                      savePopup.setUpEdit(siteModel.getObject());
+                    }
+                  }));
+    }
   }
 
   @Override

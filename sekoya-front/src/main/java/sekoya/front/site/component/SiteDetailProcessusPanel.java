@@ -1,6 +1,8 @@
 package sekoya.front.site.component;
 
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_MD;
+import static sekoya.front.common.util.CssClassConstants.CELL_HIDDEN_MD;
 import static sekoya.front.common.util.CssClassConstants.TABLE_ROW_DISABLED;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
@@ -27,6 +29,7 @@ import sekoya.back.business.processus.search.ProcessusSort;
 import sekoya.back.business.site.model.Site;
 import sekoya.back.util.binding.Bindings;
 import sekoya.front.SekoyaSession;
+import sekoya.front.common.component.ScoreMonoValueRatingDisplayPanel;
 import sekoya.front.common.component.ScoreRatingDisplayPanel;
 import sekoya.front.common.renderer.ActionRenderers;
 import sekoya.front.common.util.CssClassConstants;
@@ -55,6 +58,19 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
     DecoratedCoreDataTablePanel<Processus, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
             .addColumn(
+                new AbstractCoreColumn<>(new ResourceModel("business.processus")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Processus>> cellItem,
+                      String componentId,
+                      IModel<Processus> rowModel) {
+                    cellItem.add(new ResponsiveCellFragment(componentId, rowModel));
+                  }
+                })
+            .withClass(CELL_HIDDEN_MD)
+            .addColumn(
                 new AbstractCoreColumn<Processus, ProcessusSort>(
                     new ResourceModel("business.processus.nom")) {
                   private static final long serialVersionUID = 1L;
@@ -69,11 +85,13 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
                 })
             .withSort(ProcessusSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(
                 new ResourceModel("business.processus.thematique"),
                 Bindings.processus().thematique())
             .withSort(ProcessusSort.THEMATIQUE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-200")
+            .withClass(CELL_DISPLAY_MD)
             .addColumn(
                 new AbstractCoreColumn<Processus, ProcessusSort>(
                     new ResourceModel("business.processus.priorite")) {
@@ -93,6 +111,7 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
                 })
             .withSort(ProcessusSort.PRIORITE, SortIconStyle.DEFAULT, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-200")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(
                 new ResourceModel("business.processus.aleas"), Bindings.processus().aleas().size())
             .withClass("cell-w-100")
@@ -103,6 +122,7 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
+            .withClass(CELL_DISPLAY_MD)
             .rows()
             .withClass(
                 itemModel ->
@@ -135,6 +155,33 @@ public class SiteDetailProcessusPanel extends GenericPanel<Site> {
       add(Condition.anyChildVisible(this).thenShow());
 
       add(ProcessusSiteAddPage.MAPPER.map(siteModel).link("add").hideIfInvalid());
+    }
+  }
+
+  private class ResponsiveCellFragment extends Fragment {
+
+    private static final long serialVersionUID = 1L;
+
+    public ResponsiveCellFragment(String id, IModel<Processus> processusModel) {
+      super(id, "responsiveCellFragment", SiteDetailProcessusPanel.this, processusModel);
+
+      add(
+          new ProcessusThematiqueIconPanel(
+              "thematique", BindingModel.of(processusModel, Bindings.processus().thematique())),
+          ProcessusDetailPage.MAPPER
+              .map(processusModel)
+              .link("link")
+              .add(
+                  new CoreLabel(
+                      "nom", BindingModel.of(processusModel, Bindings.processus().nom()))),
+          new CoreLabel("type", BindingModel.of(processusModel, Bindings.processus().type())),
+          new ScoreMonoValueRatingDisplayPanel<>(
+                  "priorite", BindingModel.of(processusModel, Bindings.processus().priorite()))
+              .small(),
+          new CoreLabel(
+                  "aleas", BindingModel.of(processusModel, Bindings.processus().aleas().size()))
+              .showPlaceholder(),
+          ProcessusEditPage.MAPPER.map(processusModel).link("edit").hideIfInvalid());
     }
   }
 

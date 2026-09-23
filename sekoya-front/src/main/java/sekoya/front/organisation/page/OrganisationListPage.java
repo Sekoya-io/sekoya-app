@@ -4,16 +4,20 @@ import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANI
 import static sekoya.back.security.model.SekoyaPermissionConstants.GLOBAL_ORGANISATION_WRITE;
 import static sekoya.back.security.model.SekoyaPermissionConstants.ORGANISATION_WRITE;
 import static sekoya.front.common.util.CssClassConstants.BTN_TABLE_ROW_ACTION;
+import static sekoya.front.common.util.CssClassConstants.CELL_DISPLAY_MD;
+import static sekoya.front.common.util.CssClassConstants.CELL_HIDDEN_MD;
 import static sekoya.front.property.SekoyaFrontPropertyIds.PORTFOLIO_ITEMS_PER_PAGE;
 
 import igloo.bootstrap.modal.AjaxModalOpenBehavior;
 import igloo.bootstrap.modal.OneParameterModalOpenAjaxAction;
+import igloo.wicket.component.CoreLabel;
 import igloo.wicket.component.EnclosureContainer;
 import igloo.wicket.condition.Condition;
 import igloo.wicket.model.BindingModel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulator;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -85,15 +89,30 @@ public class OrganisationListPage extends OrganisationTemplate {
 
     DecoratedCoreDataTablePanel<Organisation, ?> results =
         DataTableBuilder.start(dataProvider, dataProvider.getSortModel())
+            .addColumn(
+                new AbstractCoreColumn<>(new ResourceModel("business.organisation")) {
+                  private static final long serialVersionUID = 1L;
+
+                  @Override
+                  public void populateItem(
+                      Item<ICellPopulator<Organisation>> cellItem,
+                      String componentId,
+                      IModel<Organisation> rowModel) {
+                    cellItem.add(new ResponsiveCellFragment(componentId, rowModel, savePopup));
+                  }
+                })
+            .withClass(CELL_HIDDEN_MD)
             .addLabelColumn(
                 new ResourceModel("business.organisation.nom"), Bindings.organisation().nom())
             .withSort(OrganisationSort.NOM, SortIconStyle.ALPHABET, CycleMode.DEFAULT_REVERSE)
             .withClass("cell-w-250")
+            .withClass(CELL_DISPLAY_MD)
             .addLabelColumn(
                 new ResourceModel("business.organisation.chiffreAffaires"),
                 Bindings.organisation().chiffreAffaires(),
                 CommonRenderers.kiloEuros())
             .withClass("cell-w-100")
+            .withClass(CELL_DISPLAY_MD)
             .addColumn(
                 new AbstractCoreColumn<Organisation, OrganisationSort>(Model.of()) {
                   private static final long serialVersionUID = 1L;
@@ -111,6 +130,7 @@ public class OrganisationListPage extends OrganisationTemplate {
                   }
                 })
             .withClass("cell-w-80 cell-w-fit text-center")
+            .withClass(CELL_DISPLAY_MD)
             .addActionColumn()
             .addAction(
                 ActionRenderers.edit(),
@@ -128,12 +148,42 @@ public class OrganisationListPage extends OrganisationTemplate {
             .withClassOnElements(BTN_TABLE_ROW_ACTION)
             .end()
             .withClass("cell-w-actions-1x cell-w-fit")
+            .withClass(CELL_DISPLAY_MD)
             .bootstrapCard()
             .ajaxPagers()
             .count("organisation.common.count")
             .build("results", propertyService.get(PORTFOLIO_ITEMS_PER_PAGE));
 
     add(new OrganisationListSearchPanel("search", dataProvider, results), results);
+  }
+
+  private class ResponsiveCellFragment extends Fragment {
+
+    private static final long serialVersionUID = 1L;
+
+    public ResponsiveCellFragment(
+        String id, IModel<Organisation> organisationModel, OrganisationSavePopup savePopup) {
+      super(id, "responsiveCellFragment", OrganisationListPage.this, organisationModel);
+
+      add(
+          new CoreLabel("nom", BindingModel.of(organisationModel, Bindings.organisation().nom()))
+              .showPlaceholder(),
+          new CoreLabel(
+                  "chiffreAffaires",
+                  CommonRenderers.kiloEuros()
+                      .asModel(
+                          BindingModel.of(
+                              organisationModel, Bindings.organisation().chiffreAffaires())))
+              .showPlaceholder(),
+          new BlankLink("edit")
+              .add(
+                  new AjaxModalOpenBehavior(savePopup, MouseEvent.CLICK) {
+                    @Override
+                    protected void onShow(AjaxRequestTarget target) {
+                      savePopup.setUpEdit(organisationModel.getObject());
+                    }
+                  }));
+    }
   }
 
   @Override
