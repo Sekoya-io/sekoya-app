@@ -14,8 +14,13 @@ spec:
       type: boolean
     tags:
       description: "Mettre à jour les tags d'environnement (exemple: qualification production) (séparateur espace)"
-      default: ""
-      type: string
+      default:
+      - latest
+      options:
+      - qualification
+      - production
+      - latest
+      type: array
 
 ---
 
@@ -23,6 +28,10 @@ include:
  - project: kobalt/gitlab-ci
    file: igloo-standard.yml
    ref: ft-kubernetes
+   inputs:
+     kubernetes_environments:
+     - qualification
+     - production
 
 variables:
   DOCKER_IMAGE: igloo-containers.tools.kobalt.fr/containers/maven-igloo:3.9-eclipse-temurin-25
@@ -32,8 +41,6 @@ variables:
   SKIP_igloo_delivery_recette: "true"
   SKIP_igloo_delivery_qualification: "true"
   SKIP_igloo_build_war: "true"
-  # TODO LAL: réactiver
-  SKIP_igloo_maven_test: "true"
 
   SKIP_kubernetes: "false"
   SKIP_kubernetes_publish: "$[[ inputs.skip-publish ]]"
@@ -41,5 +48,9 @@ variables:
   STAGE_RESET: "$[[ inputs.deploy-reset ]]"
   KUBERNETES_REGISTRY: "nexus.tools.kobalt.fr/sekoya-registry"
   KUBERNETES_ARTIFACT_ID: "sekoya-app"
-  KUBERNETES_TAGS: "$[[ inputs.tags ]]"
+  # Les espaces sont nécessaires pour effectuer un rendu en string
+  KUBERNETES_TAGS: " $[[ inputs.tags ]] "
+  KUBE_DEPLOYMENT: "sekoya-igloo"
+  KUBE_RESET_CRONJOB: "sekoya-igloo-reset"
+  #KUBE_NAMESPACE: défini par environnement dans gitlab-ci
 

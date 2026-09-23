@@ -4,7 +4,10 @@ set -e -o pipefail
 
 source "$(dirname $0)/common.inc"
 
-read -a KUBERNETES_TAGS_ARR <<< "${KUBERNETES_TAGS}"
+# space-separated from json
+KUBERNETES_TAGS_SPACE=$( echo "${KUBERNETES_TAGS}" | jq -r '. | join(" ")' )
+# bash array from space-separated
+read -a KUBERNETES_TAGS_ARR <<< "${KUBERNETES_TAGS_SPACE}"
 
 if [ "${#KUBERNETES_TAGS_ARR[@]}" -gt 0 -a -z "${KUBERNETES_REGISTRY}" ]; then
     echo -e "\e[31mKUBERNETES_REGISTRY needed\e[0m"
