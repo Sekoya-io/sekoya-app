@@ -27,7 +27,6 @@ spec:
 include:
  - project: kobalt/gitlab-ci
    file: igloo-standard.yml
-   ref: ft-kubernetes
    inputs:
      kubernetes_environments:
      - qualification
