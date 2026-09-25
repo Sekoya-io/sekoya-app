@@ -22,7 +22,7 @@ Elles sont adaptables à tout environnement fournissant les outils docker,
 java et maven.
 
 ```shell
-mvn clean install -DskipTests
+mvn clean install -DskipTests -Dspring-boot.build-image.skip=false
 docker compose --profile app -f docker/docker-compose.yml up
 ```
 
